@@ -1,0 +1,1416 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-white text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-32">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <button id="back-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-arrow-left text-dark text-lg"></i>
+            </button>
+            
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-route text-primary text-xl"></i>
+                <span class="font-bold text-lg text-dark">Search Stays</span>
+            </div>
+            
+            <button id="clear-btn" class="text-sm font-medium text-primary active:scale-95 transition-transform">
+                Clear
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="search-form-container" class="px-4 pt-4">
+            
+            <div id="destination-module" class="mb-4">
+                <label class="block text-sm font-semibold text-dark mb-2">
+                    <i class="fa-solid fa-location-dot text-primary mr-1"></i>
+                    Where are you going?
+                </label>
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="destination-input" 
+                        placeholder="Search destinations, cities, landmarks..."
+                        class="w-full px-4 py-4 pr-12 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none text-base transition-colors"
+                        autocomplete="off"
+                    />
+                    <button id="destination-clear" class="absolute right-4 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-gray-200 flex items-center justify-center active:scale-95 transition-transform hidden">
+                        <i class="fa-solid fa-xmark text-gray-500 text-sm"></i>
+                    </button>
+                </div>
+                <div id="destination-error" class="mt-2 text-xs text-primary font-medium hidden">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i>
+                    Please enter a destination
+                </div>
+                
+                <div id="destination-dropdown" class="mt-3 rounded-xl border border-gray-200 bg-white shadow-lg overflow-hidden hidden">
+                    <div class="p-3 bg-gray-50 border-b border-gray-100">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Recent Searches</h3>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-clock-rotate-left text-gray-400"></i>
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Paris, France</div>
+                                <div class="text-xs text-gray-400">Apr 15 - Apr 22 • 2 guests</div>
+                            </div>
+                        </button>
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-clock-rotate-left text-gray-400"></i>
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Barcelona, Spain</div>
+                                <div class="text-xs text-gray-400">Mar 10 - Mar 17 • 1 guest</div>
+                            </div>
+                        </button>
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-clock-rotate-left text-gray-400"></i>
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Tokyo, Japan</div>
+                                <div class="text-xs text-gray-400">Feb 5 - Feb 12 • 3 guests</div>
+                            </div>
+                        </button>
+                    </div>
+                    
+                    <div class="p-3 bg-gray-50 border-t border-b border-gray-100">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Popular Destinations</h3>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/ed5f2a34ab-3eddee8bba3694a1dcc8.png" alt="Paris" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Paris, France</div>
+                                <div class="text-xs text-gray-400">1,847 properties</div>
+                            </div>
+                            <i class="fa-solid fa-fire text-accent"></i>
+                        </button>
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/05377817b0-9ea39a169b671e85afea.png" alt="Rome" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Rome, Italy</div>
+                                <div class="text-xs text-gray-400">1,523 properties</div>
+                            </div>
+                            <i class="fa-solid fa-fire text-accent"></i>
+                        </button>
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d96cb5ad81-385942140d23d0657f0d.png" alt="London" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">London, UK</div>
+                                <div class="text-xs text-gray-400">2,134 properties</div>
+                            </div>
+                            <i class="fa-solid fa-fire text-accent"></i>
+                        </button>
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/ccaf449834-3aab7b9b5bab77df634b.png" alt="Barcelona" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Barcelona, Spain</div>
+                                <div class="text-xs text-gray-400">1,678 properties</div>
+                            </div>
+                            <i class="fa-solid fa-fire text-accent"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-3 bg-gray-50 border-t border-gray-100">
+                        <h3 class="text-xs font-bold text-gray-500 uppercase tracking-wide">Suggested for You</h3>
+                    </div>
+                    <div class="divide-y divide-gray-100">
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-umbrella-beach text-primary"></i>
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Santorini, Greece</div>
+                                <div class="text-xs text-gray-400">Based on your recent searches</div>
+                            </div>
+                        </button>
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-mountain text-secondary"></i>
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Zermatt, Switzerland</div>
+                                <div class="text-xs text-gray-400">Popular for your travel style</div>
+                            </div>
+                        </button>
+                        <button class="w-full px-4 py-3 flex items-center gap-3 active:bg-gray-50 transition-colors">
+                            <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent/20 to-secondary/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-city text-accent"></i>
+                            </div>
+                            <div class="flex-1 text-left">
+                                <div class="font-semibold text-sm text-dark">Dubai, UAE</div>
+                                <div class="text-xs text-gray-400">Trending this month</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="dates-module" class="mb-4">
+                <label class="block text-sm font-semibold text-dark mb-2">
+                    <i class="fa-solid fa-calendar-days text-primary mr-1"></i>
+                    When are you traveling?
+                </label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button id="check-in-btn" class="px-4 py-4 rounded-xl border-2 border-gray-200 text-left active:border-primary transition-colors">
+                        <div class="text-xs text-gray-400 mb-1">Check-in</div>
+                        <div id="check-in-display" class="font-semibold text-base text-dark">Add date</div>
+                    </button>
+                    <button id="check-out-btn" class="px-4 py-4 rounded-xl border-2 border-gray-200 text-left active:border-primary transition-colors">
+                        <div class="text-xs text-gray-400 mb-1">Check-out</div>
+                        <div id="check-out-display" class="font-semibold text-base text-dark">Add date</div>
+                    </button>
+                </div>
+                <div id="dates-error" class="mt-2 text-xs text-primary font-medium hidden">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i>
+                    Please select valid dates
+                </div>
+            </div>
+
+            <div id="guests-rooms-module" class="mb-4">
+                <label class="block text-sm font-semibold text-dark mb-2">
+                    <i class="fa-solid fa-user-group text-primary mr-1"></i>
+                    Who's traveling?
+                </label>
+                
+                <div class="rounded-xl border-2 border-gray-200 divide-y divide-gray-200">
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Adults</div>
+                            <div class="text-xs text-gray-400">Ages 13+</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button id="adults-minus" class="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center active:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-minus text-gray-500 text-sm"></i>
+                            </button>
+                            <span id="adults-count" class="font-bold text-base text-dark w-8 text-center">2</span>
+                            <button id="adults-plus" class="w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center active:bg-primary/10 transition-colors">
+                                <i class="fa-solid fa-plus text-primary text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Children</div>
+                            <div class="text-xs text-gray-400">Ages 2-12</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button id="children-minus" class="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center active:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-minus text-gray-500 text-sm"></i>
+                            </button>
+                            <span id="children-count" class="font-bold text-base text-dark w-8 text-center">0</span>
+                            <button id="children-plus" class="w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center active:bg-primary/10 transition-colors">
+                                <i class="fa-solid fa-plus text-primary text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Infants</div>
+                            <div class="text-xs text-gray-400">Under 2</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button id="infants-minus" class="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center active:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-minus text-gray-500 text-sm"></i>
+                            </button>
+                            <span id="infants-count" class="font-bold text-base text-dark w-8 text-center">0</span>
+                            <button id="infants-plus" class="w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center active:bg-primary/10 transition-colors">
+                                <i class="fa-solid fa-plus text-primary text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 flex items-center justify-between">
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Rooms</div>
+                            <div class="text-xs text-gray-400">Number of rooms needed</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button id="rooms-minus" class="w-9 h-9 rounded-full border-2 border-gray-300 flex items-center justify-center active:bg-gray-100 transition-colors disabled:opacity-30 disabled:cursor-not-allowed">
+                                <i class="fa-solid fa-minus text-gray-500 text-sm"></i>
+                            </button>
+                            <span id="rooms-count" class="font-bold text-base text-dark w-8 text-center">1</span>
+                            <button id="rooms-plus" class="w-9 h-9 rounded-full border-2 border-primary flex items-center justify-center active:bg-primary/10 transition-colors">
+                                <i class="fa-solid fa-plus text-primary text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="guests-warning" class="mt-2 p-3 rounded-lg bg-accent/10 border border-accent/20 hidden">
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-triangle-exclamation text-accent text-sm mt-0.5"></i>
+                        <div class="flex-1">
+                            <div class="text-xs font-semibold text-accent mb-1">Consider adding more rooms</div>
+                            <div class="text-xs text-gray-500">For 5+ guests, we recommend booking multiple rooms for comfort.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="quick-filters-module" class="mb-4">
+                <label class="block text-sm font-semibold text-dark mb-3">
+                    <i class="fa-solid fa-sliders text-primary mr-1"></i>
+                    Quick Filters
+                </label>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between p-4 rounded-xl border-2 border-gray-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-star text-accent"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Rating 4.0+</div>
+                                <div class="text-xs text-gray-400">Highly rated properties</div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="rating-toggle" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                    
+                    <div class="flex items-center justify-between p-4 rounded-xl border-2 border-gray-200">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                                <i class="fa-solid fa-rotate-left text-secondary"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Free Cancellation</div>
+                                <div class="text-xs text-gray-400">Cancel anytime before check-in</div>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="cancellation-toggle" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                    
+                    <div id="price-range-filter" class="p-4 rounded-xl border-2 border-gray-200">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                                    <i class="fa-solid fa-dollar-sign text-primary"></i>
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-sm text-dark">Price Range</div>
+                                    <div class="text-xs text-gray-400">Per night</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-bold text-sm text-primary">$50 - $500</div>
+                            </div>
+                        </div>
+                        
+                        <div class="flex gap-2 flex-wrap">
+                            <button class="price-chip px-3 py-1.5 rounded-full text-xs font-medium border-2 border-gray-200 text-gray-500 active:border-primary active:bg-primary/10 active:text-primary transition-colors">
+                                Under $100
+                            </button>
+                            <button class="price-chip px-3 py-1.5 rounded-full text-xs font-medium border-2 border-gray-200 text-gray-500 active:border-primary active:bg-primary/10 active:text-primary transition-colors">
+                                $100 - $250
+                            </button>
+                            <button class="price-chip px-3 py-1.5 rounded-full text-xs font-medium border-2 border-gray-200 text-gray-500 active:border-primary active:bg-primary/10 active:text-primary transition-colors">
+                                $250 - $500
+                            </button>
+                            <button class="price-chip px-3 py-1.5 rounded-full text-xs font-medium border-2 border-gray-200 text-gray-500 active:border-primary active:bg-primary/10 active:text-primary transition-colors">
+                                $500+
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="advanced-filters-section" class="mb-4">
+                <button id="more-filters-toggle" class="w-full p-4 rounded-xl border-2 border-dashed border-gray-300 flex items-center justify-center gap-2 active:border-primary active:bg-primary/5 transition-colors">
+                    <i class="fa-solid fa-filter text-primary"></i>
+                    <span class="font-semibold text-sm text-primary">More Filters</span>
+                    <span class="px-2 py-0.5 rounded-full bg-primary/10 text-primary text-xs font-bold">12+</span>
+                </button>
+                
+                <div id="advanced-filters-content" class="hidden mt-4 space-y-4">
+                    <div class="bg-white rounded-xl border border-gray-200 p-4">
+                        <h4 class="font-semibold text-sm text-dark mb-3">Property Type</h4>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 cursor-pointer active:border-primary active:bg-primary/5 transition-colors">
+                                <input type="checkbox" id="filter-apartment" class="w-5 h-5 rounded border-gray-300 text-primary">
+                                <span class="text-sm text-dark">Apartment</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 cursor-pointer active:border-primary active:bg-primary/5 transition-colors">
+                                <input type="checkbox" id="filter-house" class="w-5 h-5 rounded border-gray-300 text-primary">
+                                <span class="text-sm text-dark">House</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 cursor-pointer active:border-primary active:bg-primary/5 transition-colors">
+                                <input type="checkbox" id="filter-hotel" class="w-5 h-5 rounded border-gray-300 text-primary">
+                                <span class="text-sm text-dark">Hotel</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 cursor-pointer active:border-primary active:bg-primary/5 transition-colors">
+                                <input type="checkbox" id="filter-villa" class="w-5 h-5 rounded border-gray-300 text-primary">
+                                <span class="text-sm text-dark">Villa</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 cursor-pointer active:border-primary active:bg-primary/5 transition-colors">
+                                <input type="checkbox" id="filter-cabin" class="w-5 h-5 rounded border-gray-300 text-primary">
+                                <span class="text-sm text-dark">Cabin</span>
+                            </label>
+                            <label class="flex items-center gap-2 p-3 rounded-xl border-2 border-gray-200 cursor-pointer active:border-primary active:bg-primary/5 transition-colors">
+                                <input type="checkbox" id="filter-unique" class="w-5 h-5 rounded border-gray-300 text-primary">
+                                <span class="text-sm text-dark">Unique</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl border border-gray-200 p-4">
+                        <h4 class="font-semibold text-sm text-dark mb-3">Bedrooms & Bathrooms</h4>
+                        <div class="space-y-3">
+                            <div>
+                                <label class="text-xs text-gray-400 mb-2 block">Bedrooms</label>
+                                <div class="flex gap-2">
+                                    <button class="bedroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-beds="1">1+</button>
+                                    <button class="bedroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-beds="2">2+</button>
+                                    <button class="bedroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-beds="3">3+</button>
+                                    <button class="bedroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-beds="4">4+</button>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="text-xs text-gray-400 mb-2 block">Bathrooms</label>
+                                <div class="flex gap-2">
+                                    <button class="bathroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-baths="1">1+</button>
+                                    <button class="bathroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-baths="2">2+</button>
+                                    <button class="bathroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-baths="3">3+</button>
+                                    <button class="bathroom-btn flex-1 px-3 py-2 rounded-lg border-2 border-gray-200 text-sm font-medium text-dark active:border-primary active:bg-primary/5 transition-colors" data-baths="4">4+</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl border border-gray-200 p-4">
+                        <h4 class="font-semibold text-sm text-dark mb-3">Amenities</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-swimming-pool text-secondary"></i>
+                                    <span class="text-sm font-medium text-dark">Pool</span>
+                                </div>
+                                <input type="checkbox" id="filter-pool" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-hot-tub text-accent"></i>
+                                    <span class="text-sm font-medium text-dark">Hot Tub</span>
+                                </div>
+                                <input type="checkbox" id="filter-hottub" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-fire text-accent"></i>
+                                    <span class="text-sm font-medium text-dark">Fireplace</span>
+                                </div>
+                                <input type="checkbox" id="filter-fireplace" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-tv text-primary"></i>
+                                    <span class="text-sm font-medium text-dark">TV</span>
+                                </div>
+                                <input type="checkbox" id="filter-tv" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-dumbbell text-secondary"></i>
+                                    <span class="text-sm font-medium text-dark">Gym</span>
+                                </div>
+                                <input type="checkbox" id="filter-gym" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-washer text-primary"></i>
+                                    <span class="text-sm font-medium text-dark">Washer/Dryer</span>
+                                </div>
+                                <input type="checkbox" id="filter-washer" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-car text-secondary"></i>
+                                    <span class="text-sm font-medium text-dark">Free Parking</span>
+                                </div>
+                                <input type="checkbox" id="filter-parking" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <div class="flex items-center gap-3">
+                                    <i class="fa-solid fa-elevator text-gray-400"></i>
+                                    <span class="text-sm font-medium text-dark">Elevator</span>
+                                </div>
+                                <input type="checkbox" id="filter-elevator" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl border border-gray-200 p-4">
+                        <h4 class="font-semibold text-sm text-dark mb-3">Booking Options</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <span class="text-sm font-medium text-dark">Instant Booking</span>
+                                <input type="checkbox" id="filter-instant-booking" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <span class="text-sm font-medium text-dark">Superhost</span>
+                                <input type="checkbox" id="filter-superhost" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                            <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <span class="text-sm font-medium text-dark">Self Check-in</span>
+                                <input type="checkbox" id="filter-self-checkin" class="w-5 h-5 rounded border-gray-300 text-primary">
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl border border-gray-200 p-4">
+                        <h4 class="font-semibold text-sm text-dark mb-3">Guest Rating</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <input type="radio" name="rating-filter" value="4.5" class="w-5 h-5 border-gray-300 text-primary">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-star text-accent"></i>
+                                    <span class="text-sm font-medium text-dark">4.5+ Excellent</span>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <input type="radio" name="rating-filter" value="4.0" class="w-5 h-5 border-gray-300 text-primary">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-star text-accent"></i>
+                                    <span class="text-sm font-medium text-dark">4.0+ Very Good</span>
+                                </div>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <input type="radio" name="rating-filter" value="3.5" class="w-5 h-5 border-gray-300 text-primary">
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-star text-accent"></i>
+                                    <span class="text-sm font-medium text-dark">3.5+ Good</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl border border-gray-200 p-4">
+                        <h4 class="font-semibold text-sm text-dark mb-3">Distance from City Center</h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <input type="radio" name="distance-filter" value="2" class="w-5 h-5 border-gray-300 text-primary">
+                                <span class="text-sm font-medium text-dark">Within 2 km</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <input type="radio" name="distance-filter" value="5" class="w-5 h-5 border-gray-300 text-primary">
+                                <span class="text-sm font-medium text-dark">Within 5 km</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <input type="radio" name="distance-filter" value="10" class="w-5 h-5 border-gray-300 text-primary">
+                                <span class="text-sm font-medium text-dark">Within 10 km</span>
+                            </label>
+                            <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 cursor-pointer active:bg-gray-100 transition-colors">
+                                <input type="radio" name="distance-filter" value="any" class="w-5 h-5 border-gray-300 text-primary">
+                                <span class="text-sm font-medium text-dark">Any distance</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="search-suggestions" class="mb-4">
+                <h3 class="text-sm font-semibold text-dark mb-3">
+                    <i class="fa-solid fa-lightbulb text-accent mr-1"></i>
+                    Search Suggestions
+                </h3>
+                <div class="space-y-2">
+                    <button class="w-full p-3 rounded-xl bg-gradient-to-r from-primary/5 to-accent/5 border border-primary/20 flex items-center gap-3 active:scale-98 transition-transform">
+                        <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-plane-departure text-primary"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <div class="font-semibold text-sm text-dark">Weekend Getaway in Paris</div>
+                            <div class="text-xs text-gray-400">Apr 12-14 • 2 adults • From $180/night</div>
+                        </div>
+                        <i class="fa-solid fa-arrow-right text-primary"></i>
+                    </button>
+                    
+                    <button class="w-full p-3 rounded-xl bg-gradient-to-r from-secondary/5 to-primary/5 border border-secondary/20 flex items-center gap-3 active:scale-98 transition-transform">
+                        <div class="w-10 h-10 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-umbrella-beach text-secondary"></i>
+                        </div>
+                        <div class="flex-1 text-left">
+                            <div class="font-semibold text-sm text-dark">Beach Vacation in Bali</div>
+                            <div class="text-xs text-gray-400">May 1-8 • 2 adults • From $120/night</div>
+                        </div>
+                        <i class="fa-solid fa-arrow-right text-secondary"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div id="recent-searches-section" class="mb-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-semibold text-dark">
+                        <i class="fa-solid fa-clock-rotate-left text-gray-400 mr-1"></i>
+                        Recent Searches
+                    </h3>
+                    <button class="text-xs text-primary font-medium">Clear all</button>
+                </div>
+                <div class="space-y-2">
+                    <div class="p-3 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/ed5f2a34ab-3eddee8bba3694a1dcc8.png" alt="Paris" class="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Paris, France</div>
+                                <div class="text-xs text-gray-400">Apr 15-22 • 2 guests • 1 room</div>
+                            </div>
+                        </div>
+                        <button class="w-7 h-7 rounded-full bg-white flex items-center justify-center active:bg-gray-100 transition-colors">
+                            <i class="fa-solid fa-xmark text-gray-400 text-sm"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-3 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/ccaf449834-3aab7b9b5bab77df634b.png" alt="Barcelona" class="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Barcelona, Spain</div>
+                                <div class="text-xs text-gray-400">Mar 10-17 • 1 guest • 1 room</div>
+                            </div>
+                        </div>
+                        <button class="w-7 h-7 rounded-full bg-white flex items-center justify-center active:bg-gray-100 transition-colors">
+                            <i class="fa-solid fa-xmark text-gray-400 text-sm"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-3 rounded-xl bg-gray-50 border border-gray-100 flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
+                                <i class="fa-solid fa-city text-primary text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Tokyo, Japan</div>
+                                <div class="text-xs text-gray-400">Feb 5-12 • 3 guests • 2 rooms</div>
+                            </div>
+                        </div>
+                        <button class="w-7 h-7 rounded-full bg-white flex items-center justify-center active:bg-gray-100 transition-colors">
+                            <i class="fa-solid fa-xmark text-gray-400 text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="popular-destinations-quick" class="mb-4">
+                <h3 class="text-sm font-semibold text-dark mb-3">
+                    <i class="fa-solid fa-fire text-accent mr-1"></i>
+                    Trending Now
+                </h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="trending-card rounded-xl overflow-hidden shadow-md active:scale-98 transition-transform">
+                        <div class="h-28 overflow-hidden relative">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/2f5715a318-967f0cdd794dff5ef7d4.png" alt="Santorini" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2">
+                                <div class="text-white font-bold text-xs mb-0.5">Santorini</div>
+                                <div class="text-white/80 text-xs">From $224/night</div>
+                            </div>
+                            <div class="absolute top-2 right-2 bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">
+                                HOT
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="trending-card rounded-xl overflow-hidden shadow-md active:scale-98 transition-transform">
+                        <div class="h-28 overflow-hidden relative">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/8389112696-9591732ea558fd5dffe5.png" alt="Bali" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2">
+                                <div class="text-white font-bold text-xs mb-0.5">Bali</div>
+                                <div class="text-white/80 text-xs">From $156/night</div>
+                            </div>
+                            <div class="absolute top-2 right-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-md">
+                                NEW
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="trending-card rounded-xl overflow-hidden shadow-md active:scale-98 transition-transform">
+                        <div class="h-28 overflow-hidden relative">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/95f5932267-ddbb7f777a4a4055cb4c.png" alt="Tokyo" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2">
+                                <div class="text-white font-bold text-xs mb-0.5">Tokyo</div>
+                                <div class="text-white/80 text-xs">From $198/night</div>
+                            </div>
+                        </div>
+                    </button>
+                    
+                    <button class="trending-card rounded-xl overflow-hidden shadow-md active:scale-98 transition-transform">
+                        <div class="h-28 overflow-hidden relative">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/1a16e79045-dc3cf5c0f202e455343d.png" alt="Iceland" />
+                            <div class="absolute inset-0 bg-gradient-to-t from-dark/70 to-transparent"></div>
+                            <div class="absolute bottom-2 left-2">
+                                <div class="text-white font-bold text-xs mb-0.5">Iceland</div>
+                                <div class="text-white/80 text-xs">From $312/night</div>
+                            </div>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div id="travel-tips-banner" class="rounded-xl overflow-hidden shadow-lg bg-gradient-to-br from-secondary/10 to-primary/10 p-4 border border-secondary/20">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-lightbulb text-secondary text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm text-dark mb-1">Pro Tip: Book Early</h3>
+                        <p class="text-xs text-gray-500 mb-2">Properties in popular destinations fill up fast. Book 2-3 months in advance for the best selection and prices.</p>
+                        <button class="text-xs font-semibold text-secondary">Learn more <i class="fa-solid fa-arrow-right ml-1"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <div id="calendar-modal" class="fixed inset-0 bg-dark/50 backdrop-blur-sm z-50 hidden">
+        <div class="absolute inset-x-0 bottom-0 bg-white rounded-t-3xl shadow-2xl max-h-[85vh] overflow-y-auto">
+            <div class="sticky top-0 bg-white border-b border-gray-100 px-4 py-3 flex items-center justify-between z-10">
+                <h2 class="font-bold text-lg text-dark">Select Dates</h2>
+                <button id="calendar-close" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                    <i class="fa-solid fa-xmark text-dark"></i>
+                </button>
+            </div>
+            
+            <div class="p-4">
+                <div id="calendar-navigation" class="flex items-center justify-between mb-4 px-2">
+                    <button id="prev-month-btn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                        <i class="fa-solid fa-chevron-left text-dark"></i>
+                    </button>
+                    <div id="current-month-year" class="font-bold text-lg text-dark"></div>
+                    <button id="next-month-btn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                        <i class="fa-solid fa-chevron-right text-dark"></i>
+                    </button>
+                </div>
+                <div id="calendar-months" class="space-y-6">
+                </div>
+                
+                <div class="sticky bottom-0 bg-white border-t border-gray-100 pt-4 mt-6">
+                    <div class="flex items-center justify-between mb-3">
+                        <div>
+                            <div class="text-xs text-gray-400">Selected dates</div>
+                            <div id="selected-range-display" class="font-semibold text-sm text-dark">Select check-in and check-out</div>
+                        </div>
+                        <button id="clear-dates-btn" class="text-xs font-medium text-primary">Clear</button>
+                    </div>
+                    <button id="apply-dates-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg active:scale-98 transition-transform">
+                        Apply Dates
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="sticky-cta-bar" class="fixed bottom-16 left-0 right-0 z-30 px-4 pb-4 safe-area-bottom">
+        <button id="search-stays-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-2xl active:scale-98 transition-transform flex items-center justify-center gap-2">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>Search Stays</span>
+        </button>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='index.html'">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform" onclick="window.location.href='search.html'">
+                <i class="fa-solid fa-bed text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='my-trips.html'">
+                <i class="fa-solid fa-suitcase-rolling text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='map-explorer.html'">
+                <i class="fa-solid fa-map-location-dot text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='budget-dashboard.html'">
+                <i class="fa-solid fa-chart-pie text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='profile.html'">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="toast-container" class="fixed top-20 left-1/2 -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+<script>
+window.addEventListener('load', function() {
+    let adultsCount = 2;
+    let childrenCount = 0;
+    let infantsCount = 0;
+    let roomsCount = 1;
+    let checkInDate = null;
+    let checkOutDate = null;
+    let selectingCheckIn = true;
+    
+    const destinationInput = document.getElementById('destination-input');
+    const destinationClear = document.getElementById('destination-clear');
+    const destinationDropdown = document.getElementById('destination-dropdown');
+    const destinationError = document.getElementById('destination-error');
+    
+    const checkInBtn = document.getElementById('check-in-btn');
+    const checkOutBtn = document.getElementById('check-out-btn');
+    const checkInDisplay = document.getElementById('check-in-display');
+    const checkOutDisplay = document.getElementById('check-out-display');
+    const datesError = document.getElementById('dates-error');
+    
+    const adultsMinusBtn = document.getElementById('adults-minus');
+    const adultsPlusBtn = document.getElementById('adults-plus');
+    const adultsCountEl = document.getElementById('adults-count');
+    
+    const childrenMinusBtn = document.getElementById('children-minus');
+    const childrenPlusBtn = document.getElementById('children-plus');
+    const childrenCountEl = document.getElementById('children-count');
+    
+    const infantsMinusBtn = document.getElementById('infants-minus');
+    const infantsPlusBtn = document.getElementById('infants-plus');
+    const infantsCountEl = document.getElementById('infants-count');
+    
+    const roomsMinusBtn = document.getElementById('rooms-minus');
+    const roomsPlusBtn = document.getElementById('rooms-plus');
+    const roomsCountEl = document.getElementById('rooms-count');
+    
+    const guestsWarning = document.getElementById('guests-warning');
+    
+    const calendarModal = document.getElementById('calendar-modal');
+    const calendarClose = document.getElementById('calendar-close');
+    const applyDatesBtn = document.getElementById('apply-dates-btn');
+    const clearDatesBtn = document.getElementById('clear-dates-btn');
+    const selectedRangeDisplay = document.getElementById('selected-range-display');
+    
+    const searchStaysBtn = document.getElementById('search-stays-btn');
+    const clearBtn = document.getElementById('clear-btn');
+    const backBtn = document.getElementById('back-btn');
+    
+    const toastContainer = document.getElementById('toast-container');
+    
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `pointer-events-auto px-4 py-3 rounded-xl shadow-lg flex items-center gap-2 transform transition-all duration-300 translate-y-0 opacity-100 ${
+            type === 'error' ? 'bg-primary text-white' : 
+            type === 'success' ? 'bg-secondary text-white' : 
+            'bg-dark text-white'
+        }`;
+        
+        const icon = type === 'error' ? 'fa-circle-exclamation' : 
+                     type === 'success' ? 'fa-circle-check' : 
+                     'fa-circle-info';
+        
+        toast.innerHTML = `
+            <i class="fa-solid ${icon}"></i>
+            <span class="text-sm font-medium">${message}</span>
+        `;
+        
+        toastContainer.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.transform = 'translateY(-10px)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    if (destinationInput) {
+        destinationInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                if (destinationClear) destinationClear.classList.remove('hidden');
+                if (destinationDropdown) destinationDropdown.classList.remove('hidden');
+                if (destinationError) destinationError.classList.add('hidden');
+            } else {
+                if (destinationClear) destinationClear.classList.add('hidden');
+                if (destinationDropdown) destinationDropdown.classList.remove('hidden');
+            }
+        });
+        
+        destinationInput.addEventListener('focus', function() {
+            if (destinationDropdown) {
+                destinationDropdown.classList.remove('hidden');
+            }
+        });
+    }
+    
+    document.addEventListener('click', function(e) {
+        if (destinationInput && destinationDropdown && 
+            !destinationInput.contains(e.target) && 
+            !destinationDropdown.contains(e.target) && 
+            (!destinationClear || !destinationClear.contains(e.target))) {
+            destinationDropdown.classList.add('hidden');
+        }
+    });
+    
+    destinationClear.addEventListener('click', function() {
+        destinationInput.value = '';
+        destinationClear.classList.add('hidden');
+        destinationDropdown.classList.add('hidden');
+        destinationInput.focus();
+    });
+    
+    const destinationButtons = destinationDropdown.querySelectorAll('button');
+    destinationButtons.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const destinationName = this.querySelector('.font-semibold').textContent;
+            destinationInput.value = destinationName;
+            destinationDropdown.classList.add('hidden');
+            destinationError.classList.add('hidden');
+        });
+    });
+    
+    function updateGuestsCount() {
+        adultsCountEl.textContent = adultsCount;
+        childrenCountEl.textContent = childrenCount;
+        infantsCountEl.textContent = infantsCount;
+        roomsCountEl.textContent = roomsCount;
+        
+        adultsMinusBtn.disabled = adultsCount <= 1;
+        childrenMinusBtn.disabled = childrenCount <= 0;
+        infantsMinusBtn.disabled = infantsCount <= 0;
+        roomsMinusBtn.disabled = roomsCount <= 1;
+        
+        const totalGuests = adultsCount + childrenCount;
+        if (totalGuests >= 5 && roomsCount === 1) {
+            guestsWarning.classList.remove('hidden');
+        } else {
+            guestsWarning.classList.add('hidden');
+        }
+    }
+    
+    if (adultsPlusBtn) {
+        adultsPlusBtn.addEventListener('click', () => {
+            adultsCount++;
+            updateGuestsCount();
+        });
+    }
+    
+    if (adultsMinusBtn) {
+        adultsMinusBtn.addEventListener('click', () => {
+            if (adultsCount > 1) {
+                adultsCount--;
+                updateGuestsCount();
+            }
+        });
+    }
+    
+    if (childrenPlusBtn) {
+        childrenPlusBtn.addEventListener('click', () => {
+            childrenCount++;
+            updateGuestsCount();
+        });
+    }
+    
+    if (childrenMinusBtn) {
+        childrenMinusBtn.addEventListener('click', () => {
+            if (childrenCount > 0) {
+                childrenCount--;
+                updateGuestsCount();
+            }
+        });
+    }
+    
+    if (infantsPlusBtn) {
+        infantsPlusBtn.addEventListener('click', () => {
+            infantsCount++;
+            updateGuestsCount();
+        });
+    }
+    
+    if (infantsMinusBtn) {
+        infantsMinusBtn.addEventListener('click', () => {
+            if (infantsCount > 0) {
+                infantsCount--;
+                updateGuestsCount();
+            }
+        });
+    }
+    
+    if (roomsPlusBtn) {
+        roomsPlusBtn.addEventListener('click', () => {
+            roomsCount++;
+            updateGuestsCount();
+        });
+    }
+    
+    if (roomsMinusBtn) {
+        roomsMinusBtn.addEventListener('click', () => {
+            if (roomsCount > 1) {
+                roomsCount--;
+                updateGuestsCount();
+            }
+        });
+    }
+    
+    function formatDate(date) {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        return `${months[date.getMonth()]} ${date.getDate()}`;
+    }
+    
+    function updateDateDisplay() {
+        if (checkInDate) {
+            checkInDisplay.textContent = formatDate(checkInDate);
+            checkInBtn.classList.add('border-primary', 'bg-primary/5');
+        } else {
+            checkInDisplay.textContent = 'Add date';
+            checkInBtn.classList.remove('border-primary', 'bg-primary/5');
+        }
+        
+        if (checkOutDate) {
+            checkOutDisplay.textContent = formatDate(checkOutDate);
+            checkOutBtn.classList.add('border-primary', 'bg-primary/5');
+        } else {
+            checkOutDisplay.textContent = 'Add date';
+            checkOutBtn.classList.remove('border-primary', 'bg-primary/5');
+        }
+        
+        if (selectedRangeDisplay) {
+            if (checkInDate && checkOutDate) {
+                const nights = Math.ceil((checkOutDate - checkInDate) / (1000 * 60 * 60 * 24));
+                selectedRangeDisplay.textContent = `${formatDate(checkInDate)} - ${formatDate(checkOutDate)} (${nights} nights)`;
+            } else if (checkInDate) {
+                selectedRangeDisplay.textContent = `Check-in: ${formatDate(checkInDate)} - Select check-out`;
+            } else {
+                selectedRangeDisplay.textContent = 'Select check-in and check-out';
+            }
+        }
+        
+        if (checkInDate && checkOutDate && typeof SEARCH_DATES !== 'undefined') {
+            SEARCH_DATES.save(checkInDate, checkOutDate);
+        }
+    }
+    
+    if (checkInBtn && calendarModal) {
+        checkInBtn.addEventListener('click', () => {
+            selectingCheckIn = true;
+            currentCalendarMonth = new Date().getMonth();
+            currentCalendarYear = new Date().getFullYear();
+            generateCalendar(currentCalendarMonth, currentCalendarYear);
+            calendarModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    if (checkOutBtn && calendarModal) {
+        checkOutBtn.addEventListener('click', () => {
+            selectingCheckIn = false;
+            if (checkInDate) {
+                currentCalendarMonth = checkInDate.getMonth();
+                currentCalendarYear = checkInDate.getFullYear();
+            } else {
+                currentCalendarMonth = new Date().getMonth();
+                currentCalendarYear = new Date().getFullYear();
+            }
+            generateCalendar(currentCalendarMonth, currentCalendarYear);
+            calendarModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+    
+    calendarClose.addEventListener('click', () => {
+        calendarModal.classList.add('hidden');
+        document.body.style.overflow = '';
+    });
+    
+    calendarModal.addEventListener('click', (e) => {
+        if (e.target === calendarModal) {
+            calendarModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+    });
+    
+    let currentCalendarMonth = new Date().getMonth();
+    let currentCalendarYear = new Date().getFullYear();
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                        'July', 'August', 'September', 'October', 'November', 'December'];
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    
+    function generateCalendar(month, year) {
+        const calendarMonths = document.getElementById('calendar-months');
+        const currentMonthYear = document.getElementById('current-month-year');
+        
+        if (!calendarMonths || !currentMonthYear) return;
+        
+        currentMonthYear.textContent = `${monthNames[month]} ${year}`;
+        
+        calendarMonths.innerHTML = '';
+        
+        const monthDiv = document.createElement('div');
+        monthDiv.className = 'calendar-month';
+        
+        const dayNamesGrid = document.createElement('div');
+        dayNamesGrid.className = 'grid grid-cols-7 gap-1 mb-2';
+        dayNames.forEach(day => {
+            const dayDiv = document.createElement('div');
+            dayDiv.className = 'text-center text-xs font-semibold text-gray-400 py-2';
+            dayDiv.textContent = day;
+            dayNamesGrid.appendChild(dayDiv);
+        });
+        monthDiv.appendChild(dayNamesGrid);
+        
+        const daysGrid = document.createElement('div');
+        daysGrid.className = 'grid grid-cols-7 gap-1';
+        
+        const firstDay = new Date(year, month, 1);
+        const lastDay = new Date(year, month + 1, 0);
+        const daysInMonth = lastDay.getDate();
+        const startingDayOfWeek = firstDay.getDay();
+        
+        for (let i = 0; i < startingDayOfWeek; i++) {
+            const emptyDiv = document.createElement('div');
+            emptyDiv.className = 'aspect-square';
+            daysGrid.appendChild(emptyDiv);
+        }
+        
+        for (let day = 1; day <= daysInMonth; day++) {
+            const dayDate = new Date(year, month, day);
+            dayDate.setHours(0, 0, 0, 0);
+            
+            const dayButton = document.createElement('button');
+            dayButton.className = 'calendar-day aspect-square rounded-lg flex items-center justify-center text-sm font-medium transition-colors';
+            dayButton.textContent = day;
+            dayButton.dataset.date = dayDate.toISOString();
+            
+            if (dayDate < today) {
+                dayButton.classList.add('text-gray-300', 'cursor-not-allowed');
+                dayButton.disabled = true;
+            } else {
+                dayButton.classList.add('text-dark', 'active:bg-primary/10');
+                dayButton.addEventListener('click', function() {
+                    handleDateSelection(dayDate);
+                });
+            }
+            
+            if (checkInDate && dayDate.getTime() === checkInDate.getTime()) {
+                dayButton.classList.add('bg-primary', 'text-white');
+            } else if (checkOutDate && dayDate.getTime() === checkOutDate.getTime()) {
+                dayButton.classList.add('bg-primary', 'text-white');
+            } else if (checkInDate && checkOutDate && 
+                      dayDate > checkInDate && dayDate < checkOutDate) {
+                dayButton.classList.add('bg-primary/20');
+            }
+            
+            daysGrid.appendChild(dayButton);
+        }
+        
+        monthDiv.appendChild(daysGrid);
+        calendarMonths.appendChild(monthDiv);
+    }
+    
+    function handleDateSelection(selectedDate) {
+        if (selectingCheckIn) {
+            checkInDate = selectedDate;
+            checkOutDate = null;
+            selectingCheckIn = false;
+            generateCalendar(currentCalendarMonth, currentCalendarYear);
+            updateDateDisplay();
+        } else {
+            if (selectedDate > checkInDate) {
+                checkOutDate = selectedDate;
+                generateCalendar(currentCalendarMonth, currentCalendarYear);
+                updateDateDisplay();
+            } else {
+                showToast('Check-out must be after check-in', 'error');
+            }
+        }
+    }
+    
+    const prevMonthBtn = document.getElementById('prev-month-btn');
+    const nextMonthBtn = document.getElementById('next-month-btn');
+    
+    if (prevMonthBtn) {
+        prevMonthBtn.addEventListener('click', () => {
+            const currentDate = new Date();
+            const minMonth = currentDate.getMonth();
+            const minYear = currentDate.getFullYear();
+            
+            currentCalendarMonth--;
+            if (currentCalendarMonth < 0) {
+                currentCalendarMonth = 11;
+                currentCalendarYear--;
+            }
+            
+            if (currentCalendarYear < minYear || 
+                (currentCalendarYear === minYear && currentCalendarMonth < minMonth)) {
+                currentCalendarMonth = minMonth;
+                currentCalendarYear = minYear;
+            }
+            
+            generateCalendar(currentCalendarMonth, currentCalendarYear);
+        });
+    }
+    
+    if (nextMonthBtn) {
+        nextMonthBtn.addEventListener('click', () => {
+            currentCalendarMonth++;
+            if (currentCalendarMonth > 11) {
+                currentCalendarMonth = 0;
+                currentCalendarYear++;
+            }
+            generateCalendar(currentCalendarMonth, currentCalendarYear);
+        });
+    }
+    
+    applyDatesBtn.addEventListener('click', () => {
+        if (checkInDate && checkOutDate) {
+            calendarModal.classList.add('hidden');
+            document.body.style.overflow = '';
+            datesError.classList.add('hidden');
+            showToast('Dates selected successfully', 'success');
+        } else {
+            showToast('Please select both check-in and check-out dates', 'error');
+        }
+    });
+    
+    const moreFiltersToggle = document.getElementById('more-filters-toggle');
+    const advancedFiltersContent = document.getElementById('advanced-filters-content');
+    
+    if (moreFiltersToggle && advancedFiltersContent) {
+        moreFiltersToggle.addEventListener('click', () => {
+            advancedFiltersContent.classList.toggle('hidden');
+            const icon = moreFiltersToggle.querySelector('i');
+            if (advancedFiltersContent.classList.contains('hidden')) {
+                icon.className = 'fa-solid fa-filter text-primary';
+            } else {
+                icon.className = 'fa-solid fa-filter text-primary';
+                moreFiltersToggle.classList.add('border-primary', 'bg-primary/5');
+            }
+        });
+    }
+    
+    document.querySelectorAll('.bedroom-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.bedroom-btn').forEach(b => {
+                b.classList.remove('border-primary', 'bg-primary/5', 'text-primary');
+                b.classList.add('border-gray-200', 'text-dark');
+            });
+            this.classList.remove('border-gray-200', 'text-dark');
+            this.classList.add('border-primary', 'bg-primary/5', 'text-primary');
+        });
+    });
+    
+    document.querySelectorAll('.bathroom-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.bathroom-btn').forEach(b => {
+                b.classList.remove('border-primary', 'bg-primary/5', 'text-primary');
+                b.classList.add('border-gray-200', 'text-dark');
+            });
+            this.classList.remove('border-gray-200', 'text-dark');
+            this.classList.add('border-primary', 'bg-primary/5', 'text-primary');
+        });
+    });
+    
+    clearDatesBtn.addEventListener('click', () => {
+        checkInDate = null;
+        checkOutDate = null;
+        checkInDisplay.textContent = 'Add date';
+        checkOutDisplay.textContent = 'Add date';
+        checkInBtn.classList.remove('border-primary', 'bg-primary/5');
+        checkOutBtn.classList.remove('border-primary', 'bg-primary/5');
+        
+        if (calendarModal && !calendarModal.classList.contains('hidden')) {
+            generateCalendar(currentCalendarMonth, currentCalendarYear);
+        }
+        
+        updateDateDisplay();
+        showToast('Dates cleared', 'info');
+    });
+    
+    const priceChips = document.querySelectorAll('.price-chip');
+    priceChips.forEach(chip => {
+        chip.addEventListener('click', function() {
+            priceChips.forEach(c => {
+                c.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+                c.classList.add('border-gray-200', 'text-gray-500');
+            });
+            this.classList.remove('border-gray-200', 'text-gray-500');
+            this.classList.add('border-primary', 'bg-primary/10', 'text-primary');
+            showToast(`Price range selected: ${this.textContent}`, 'success');
+        });
+    });
+    
+    const ratingToggle = document.getElementById('rating-toggle');
+    const cancellationToggle = document.getElementById('cancellation-toggle');
+    
+    ratingToggle.addEventListener('change', function() {
+        if (this.checked) {
+            showToast('Filter: Rating 4.0+ enabled', 'success');
+        } else {
+            showToast('Filter: Rating 4.0+ disabled', 'info');
+        }
+    });
+    
+    cancellationToggle.addEventListener('change', function() {
+        if (this.checked) {
+            showToast('Filter: Free cancellation enabled', 'success');
+        } else {
+            showToast('Filter: Free cancellation disabled', 'info');
+        }
+    });
+    
+    searchStaysBtn.addEventListener('click', () => {
+        let hasError = false;
+        
+        if (destinationInput.value.trim() === '') {
+            destinationError.classList.remove('hidden');
+            hasError = true;
+        } else {
+            destinationError.classList.add('hidden');
+        }
+        
+        if (!checkInDate || !checkOutDate) {
+            datesError.classList.remove('hidden');
+            hasError = true;
+        } else if (checkOutDate <= checkInDate) {
+            datesError.classList.remove('hidden');
+            hasError = true;
+        } else {
+            datesError.classList.add('hidden');
+        }
+        
+        if (hasError) {
+            showToast('Please complete all required fields', 'error');
+            return;
+        }
+        
+        showToast('Searching stays...', 'success');
+        setTimeout(() => {
+            const destination = destinationInput.value || 'Paris';
+            window.location.href = `search-results.html?destination=${encodeURIComponent(destination)}`;
+        }, 1000);
+    });
+    
+    clearBtn.addEventListener('click', () => {
+        destinationInput.value = '';
+        destinationClear.classList.add('hidden');
+        checkInDate = null;
+        checkOutDate = null;
+        checkInDisplay.textContent = 'Add date';
+        checkOutDisplay.textContent = 'Add date';
+        checkInBtn.classList.remove('border-primary', 'bg-primary/5');
+        checkOutBtn.classList.remove('border-primary', 'bg-primary/5');
+        adultsCount = 2;
+        childrenCount = 0;
+        infantsCount = 0;
+        roomsCount = 1;
+        updateGuestsCount();
+        
+        priceChips.forEach(c => {
+            c.classList.remove('border-primary', 'bg-primary/10', 'text-primary');
+            c.classList.add('border-gray-200', 'text-gray-500');
+        });
+        
+        ratingToggle.checked = false;
+        cancellationToggle.checked = false;
+        
+        destinationError.classList.add('hidden');
+        datesError.classList.add('hidden');
+        
+        showToast('Search cleared', 'info');
+    });
+    
+    backBtn.addEventListener('click', () => {
+        window.location.href = 'index.html';
+    });
+    
+    if (adultsPlusBtn && adultsMinusBtn && adultsCountEl) {
+        updateGuestsCount();
+    }
+    
+    if (checkInBtn && checkOutBtn && calendarModal) {
+        if (typeof SEARCH_DATES !== 'undefined') {
+            const savedDates = SEARCH_DATES.get();
+            if (savedDates) {
+                checkInDate = savedDates.checkIn;
+                checkOutDate = savedDates.checkOut;
+            }
+        }
+        updateDateDisplay();
+    }
+});
+</script>
+<script src="js/app.js"></script>
+</body>
+</html>

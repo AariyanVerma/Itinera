@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-white text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-20">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3">
+            <button id="search-summary-pill" class="w-full bg-gray-50 rounded-full px-4 py-3 flex items-center justify-between shadow-sm border border-gray-200 active:scale-98 transition-transform mb-3">
+                <div class="flex items-center gap-2 flex-1">
+                    <i class="fa-solid fa-location-dot text-primary text-sm"></i>
+                    <div class="text-left flex-1">
+                        <div class="text-sm font-semibold text-dark">Paris, France</div>
+                        <div class="text-xs text-gray-400" data-date="range">Dec 20-27 • 2 guests</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-pen text-gray-400 text-sm"></i>
+            </button>
+            
+            <div class="flex items-center gap-2">
+                <button id="filter-btn" class="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white active:scale-95 transition-transform">
+                    <i class="fa-solid fa-sliders text-dark text-sm"></i>
+                    <span class="text-sm font-medium text-dark">Filters</span>
+                    <span class="w-5 h-5 rounded-full bg-primary text-white text-xs font-bold flex items-center justify-center">3</span>
+                </button>
+                
+                <button id="sort-btn" class="flex items-center gap-2 px-4 py-2 rounded-full border border-gray-200 bg-white active:scale-95 transition-transform">
+                    <i class="fa-solid fa-arrow-down-short-wide text-dark text-sm"></i>
+                    <span class="text-sm font-medium text-dark">Sort</span>
+                </button>
+                
+                <button id="view-toggle" class="w-10 h-10 rounded-full border border-gray-200 bg-white flex items-center justify-center active:scale-95 transition-transform">
+                    <i class="fa-solid fa-grid-2 text-dark text-sm"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div id="active-filters" class="px-4 pb-3 flex gap-2 overflow-x-auto">
+            <div class="filter-chip flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium whitespace-nowrap">
+                <span>Under $300</span>
+                <button class="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center active:scale-90 transition-transform">
+                    <i class="fa-solid fa-xmark text-primary text-xs"></i>
+                </button>
+            </div>
+            <div class="filter-chip flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium whitespace-nowrap">
+                <span>Free cancellation</span>
+                <button class="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center active:scale-90 transition-transform">
+                    <i class="fa-solid fa-xmark text-primary text-xs"></i>
+                </button>
+            </div>
+            <div class="filter-chip flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-xs font-medium whitespace-nowrap">
+                <span>Wifi</span>
+                <button class="w-4 h-4 rounded-full bg-primary/20 flex items-center justify-center active:scale-90 transition-transform">
+                    <i class="fa-solid fa-xmark text-primary text-xs"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        
+        <section id="results-header" class="px-4 py-3 bg-gray-50 border-b border-gray-100">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-base font-bold text-dark">342 stays in Paris</h1>
+                    <p class="text-xs text-gray-400 mt-0.5" data-date="range-year">Dec 20-27, 2024</p>
+                </div>
+                <button id="map-pill-btn" class="flex items-center gap-2 px-4 py-2 rounded-full bg-dark text-white active:scale-95 transition-transform shadow-lg">
+                    <i class="fa-solid fa-map text-sm"></i>
+                    <span class="text-sm font-medium">Map</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="results-list" class="px-4 py-4 space-y-4">
+            
+            <div class="stay-result-card rounded-2xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="if(!event.target.closest('button')) window.location.href='stay-detail.html'">
+                <div class="relative">
+                    <div class="image-carousel-container h-56 overflow-hidden relative">
+                        <div class="image-carousel flex transition-transform duration-300">
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d384fe0771-8e6e1235180c127dee7c.png" alt="Paris apartment Eiffel Tower view balcony elegant French interior" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/9de77d85ab-10dd49d350979f042024.png" alt="Parisian apartment living room classic French design chandeliers" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/efb2b29ddf-2189d70b52ce185c24e7.png" alt="Paris apartment bedroom elegant French style city view windows" />
+                        </div>
+                        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                            <div class="img-dot w-2 h-2 rounded-full bg-white shadow-md"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 flex gap-2">
+                        <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-regular fa-heart text-dark"></i>
+                        </button>
+                        <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-code-compare text-dark"></i>
+                        </button>
+                    </div>
+                    <div class="absolute top-3 left-3 flex flex-col gap-2">
+                        <span class="bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">25% OFF</span>
+                        <span class="bg-secondary text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">REFUNDABLE</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Elegant Apartment Near Eiffel Tower</h3>
+                            <p class="text-sm text-gray-400 mb-1">7th Arrondissement • Entire apartment</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    4 guests
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bed"></i>
+                                    2 beds
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bath"></i>
+                                    1 bath
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent text-sm"></i>
+                            <span class="text-sm font-semibold text-dark">4.91</span>
+                        </div>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs text-gray-400">142 reviews</span>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs font-medium text-primary">Superhost</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-wifi"></i>
+                            Wifi
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-kitchen-set"></i>
+                            Kitchen
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-snowflake"></i>
+                            AC
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-secondary/10 text-secondary text-xs font-medium">
+                            Only 2 left!
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-sm line-through text-gray-300">$340</span>
+                                <span class="text-lg font-bold text-dark">$255</span>
+                            </div>
+                            <span class="text-xs text-gray-400">per night • $1,785 total</span>
+                        </div>
+                        <button class="quick-view-btn text-sm text-white font-semibold px-5 py-2.5 rounded-xl bg-primary active:bg-primaryDark shadow-md">
+                            Quick view
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stay-result-card rounded-2xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="if(!event.target.closest('button')) window.location.href='stay-detail.html'">
+                <div class="relative">
+                    <div class="image-carousel-container h-56 overflow-hidden relative">
+                        <div class="image-carousel flex transition-transform duration-300">
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/431f669cce-9d0d11f9a9d58754a1f7.png" alt="Parisian boutique hotel room luxury design Louvre museum view" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/accd08cb5b-58cdd354991015cc5d67.png" alt="Paris hotel suite marble bathroom luxury amenities elegant design" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/6d98b5aa3d-d55c801c5f206d731261.png" alt="Paris hotel rooftop terrace city view sunset dining area" />
+                        </div>
+                        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                            <div class="img-dot w-2 h-2 rounded-full bg-white shadow-md"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 flex gap-2">
+                        <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-heart text-primary"></i>
+                        </button>
+                        <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-code-compare text-dark"></i>
+                        </button>
+                    </div>
+                    <div class="absolute top-3 left-3 flex flex-col gap-2">
+                        <span class="bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">30% OFF</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Boutique Hotel Suite with Louvre View</h3>
+                            <p class="text-sm text-gray-400 mb-1">1st Arrondissement • Hotel room</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    2 guests
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bed"></i>
+                                    1 king bed
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bath"></i>
+                                    1 bath
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent text-sm"></i>
+                            <span class="text-sm font-semibold text-dark">4.89</span>
+                        </div>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs text-gray-400">89 reviews</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-wifi"></i>
+                            Wifi
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-concierge-bell"></i>
+                            Room service
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-utensils"></i>
+                            Breakfast
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-sm line-through text-gray-300">$450</span>
+                                <span class="text-lg font-bold text-dark">$315</span>
+                            </div>
+                            <span class="text-xs text-gray-400">per night • $2,205 total</span>
+                        </div>
+                        <button class="quick-view-btn text-sm text-white font-semibold px-5 py-2.5 rounded-xl bg-primary active:bg-primaryDark shadow-md">
+                            Quick view
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stay-result-card rounded-2xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="if(!event.target.closest('button')) window.location.href='stay-detail.html'">
+                <div class="relative">
+                    <div class="image-carousel-container h-56 overflow-hidden relative">
+                        <div class="image-carousel flex transition-transform duration-300">
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/b8a60b07ea-87d1988497ac6512e186.png" alt="Paris Marais district studio apartment modern design exposed beams" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/2247bf93eb-0d494d9a9ed0d50a2975.png" alt="Paris studio apartment kitchen dining area compact design modern" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/927a0fa2d6-d8ade6845f3ea47498fc.png" alt="Paris apartment bedroom cozy design city rooftops view window" />
+                        </div>
+                        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                            <div class="img-dot w-2 h-2 rounded-full bg-white shadow-md"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 flex gap-2">
+                        <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-regular fa-heart text-dark"></i>
+                        </button>
+                        <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-code-compare text-dark"></i>
+                        </button>
+                    </div>
+                    <div class="absolute top-3 left-3">
+                        <span class="bg-primary text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">SUPERHOST</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Charming Studio in Le Marais</h3>
+                            <p class="text-sm text-gray-400 mb-1">4th Arrondissement • Entire studio</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    2 guests
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bed"></i>
+                                    1 bed
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bath"></i>
+                                    1 bath
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent text-sm"></i>
+                            <span class="text-sm font-semibold text-dark">4.94</span>
+                        </div>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs text-gray-400">176 reviews</span>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs font-medium text-primary">Superhost</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-wifi"></i>
+                            Wifi
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-kitchen-set"></i>
+                            Kitchen
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-secondary/10 text-secondary text-xs font-medium">
+                            Free cancellation
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-lg font-bold text-dark">$185</span>
+                            </div>
+                            <span class="text-xs text-gray-400">per night • $1,295 total</span>
+                        </div>
+                        <button class="quick-view-btn text-sm text-white font-semibold px-5 py-2.5 rounded-xl bg-primary active:bg-primaryDark shadow-md">
+                            Quick view
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stay-result-card rounded-2xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="if(!event.target.closest('button')) window.location.href='stay-detail.html'">
+                <div class="relative">
+                    <div class="image-carousel-container h-56 overflow-hidden relative">
+                        <div class="image-carousel flex transition-transform duration-300">
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/5831ceaef4-5e7fbae770b1c387dfd5.png" alt="Paris penthouse terrace Seine river view modern design luxury" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/ef28467b59-86bdef77b389b9f628c9.png" alt="Paris penthouse interior open plan living room contemporary" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a8fa0a7b9c-32311a74a3c9d2564633.png" alt="Paris penthouse bedroom master suite city view balcony" />
+                        </div>
+                        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                            <div class="img-dot w-2 h-2 rounded-full bg-white shadow-md"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 flex gap-2">
+                        <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-regular fa-heart text-dark"></i>
+                        </button>
+                        <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-code-compare text-dark"></i>
+                        </button>
+                    </div>
+                    <div class="absolute top-3 left-3">
+                        <span class="bg-primary text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">LUXURY</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Luxury Penthouse with River Terrace</h3>
+                            <p class="text-sm text-gray-400 mb-1">5th Arrondissement • Entire penthouse</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    6 guests
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bed"></i>
+                                    3 beds
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bath"></i>
+                                    2 baths
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent text-sm"></i>
+                            <span class="text-sm font-semibold text-dark">4.96</span>
+                        </div>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs text-gray-400">68 reviews</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-wifi"></i>
+                            Wifi
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-hot-tub-person"></i>
+                            Hot tub
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-dumbbell"></i>
+                            Gym
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-lg font-bold text-dark">$695</span>
+                            </div>
+                            <span class="text-xs text-gray-400">per night • $4,865 total</span>
+                        </div>
+                        <button class="quick-view-btn text-sm text-white font-semibold px-5 py-2.5 rounded-xl bg-primary active:bg-primaryDark shadow-md">
+                            Quick view
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stay-result-card rounded-2xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="if(!event.target.closest('button')) window.location.href='stay-detail.html'">
+                <div class="relative">
+                    <div class="image-carousel-container h-56 overflow-hidden relative">
+                        <div class="image-carousel flex transition-transform duration-300">
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7d8b6a97b3-04e60b34b395b04a9680.png" alt="Paris loft apartment industrial design exposed brick artistic" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/cec682f854-ce107f11a722a6a5b8e6.png" alt="Loft interior open plan high ceilings modern furniture art gallery" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/e4ca483cc5-82eec4501895df10289e.png" alt="Loft bedroom mezzanine level industrial style urban design" />
+                        </div>
+                        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                            <div class="img-dot w-2 h-2 rounded-full bg-white shadow-md"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 flex gap-2">
+                        <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-heart text-primary"></i>
+                        </button>
+                        <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-code-compare text-dark"></i>
+                        </button>
+                    </div>
+                    <div class="absolute top-3 left-3 flex flex-col gap-2">
+                        <span class="bg-secondary text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">REFUNDABLE</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Artist Loft in Montmartre</h3>
+                            <p class="text-sm text-gray-400 mb-1">18th Arrondissement • Entire loft</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    3 guests
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bed"></i>
+                                    1 bed
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bath"></i>
+                                    1 bath
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent text-sm"></i>
+                            <span class="text-sm font-semibold text-dark">4.87</span>
+                        </div>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs text-gray-400">124 reviews</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-wifi"></i>
+                            Wifi
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-palette"></i>
+                            Art studio
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-secondary/10 text-secondary text-xs font-medium">
+                            Free cancellation
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-lg font-bold text-dark">$245</span>
+                            </div>
+                            <span class="text-xs text-gray-400">per night • $1,715 total</span>
+                        </div>
+                        <button class="quick-view-btn text-sm text-white font-semibold px-5 py-2.5 rounded-xl bg-primary active:bg-primaryDark shadow-md">
+                            Quick view
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stay-result-card rounded-2xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="if(!event.target.closest('button')) window.location.href='stay-detail.html'">
+                <div class="relative">
+                    <div class="image-carousel-container h-56 overflow-hidden relative">
+                        <div class="image-carousel flex transition-transform duration-300">
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Paris houseboat Seine river unique accommodation floating home" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Houseboat interior cozy nautical design river view windows" />
+                            <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3c0c10e80f-824a064370575d7ac141.png" alt="Houseboat deck outdoor seating area Paris cityscape view" />
+                        </div>
+                        <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                            <div class="img-dot w-2 h-2 rounded-full bg-white shadow-md"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                    <div class="absolute top-3 right-3 flex gap-2">
+                        <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-regular fa-heart text-dark"></i>
+                        </button>
+                        <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                            <i class="fa-solid fa-code-compare text-dark"></i>
+                        </button>
+                    </div>
+                    <div class="absolute top-3 left-3">
+                        <span class="bg-accent text-white text-xs font-bold px-2.5 py-1 rounded-md shadow-md">UNIQUE</span>
+                    </div>
+                </div>
+                <div class="p-4">
+                    <div class="flex items-start justify-between mb-2">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Romantic Houseboat on the Seine</h3>
+                            <p class="text-sm text-gray-400 mb-1">Seine River • Entire boat</p>
+                            <div class="flex items-center gap-2 text-xs text-gray-400 mb-2">
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-user-group"></i>
+                                    2 guests
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bed"></i>
+                                    1 bed
+                                </span>
+                                <span>•</span>
+                                <span class="flex items-center gap-1">
+                                    <i class="fa-solid fa-bath"></i>
+                                    1 bath
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-2 mb-3">
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent text-sm"></i>
+                            <span class="text-sm font-semibold text-dark">4.98</span>
+                        </div>
+                        <span class="text-xs text-gray-300">•</span>
+                        <span class="text-xs text-gray-400">203 reviews</span>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-2 mb-3">
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-wifi"></i>
+                            Wifi
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-gray-50 text-xs text-gray-500 flex items-center gap-1">
+                            <i class="fa-solid fa-anchor"></i>
+                            Waterfront
+                        </span>
+                        <span class="px-2 py-1 rounded-md bg-secondary/10 text-secondary text-xs font-medium">
+                            Only 1 left!
+                        </span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-3 border-t border-gray-100">
+                        <div>
+                            <div class="flex items-baseline gap-1">
+                                <span class="text-lg font-bold text-dark">$295</span>
+                            </div>
+                            <span class="text-xs text-gray-400">per night • $2,065 total</span>
+                        </div>
+                        <button class="quick-view-btn text-sm text-white font-semibold px-5 py-2.5 rounded-xl bg-primary active:bg-primaryDark shadow-md">
+                            Quick view
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <section id="load-more" class="px-4 py-6">
+            <button class="w-full py-4 rounded-xl border-2 border-gray-200 text-dark font-semibold active:scale-98 transition-transform">
+                Load more results
+            </button>
+        </section>
+
+    </main>
+
+    <div id="map-bottom-sheet" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-dark/50 backdrop-blur-sm" id="map-overlay"></div>
+        <div class="absolute inset-0 bg-white rounded-t-3xl overflow-hidden flex flex-col" style="top: 10%;">
+            <div class="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-dark">Map View</h2>
+                <button id="close-map-btn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
+                    <i class="fa-solid fa-xmark text-dark"></i>
+                </button>
+            </div>
+            
+            <div class="flex-1 relative overflow-hidden">
+                <div class="absolute inset-0 bg-gray-100 flex items-center justify-center">
+                    <div class="text-center">
+                        <i class="fa-solid fa-map-location-dot text-primary text-5xl mb-3"></i>
+                        <p class="text-gray-400 text-sm">Interactive map with pins and clusters</p>
+                        <p class="text-gray-400 text-xs mt-1">Tap pins to highlight cards</p>
+                    </div>
+                </div>
+                
+                <div class="absolute bottom-4 left-0 right-0 px-4">
+                    <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-2">
+                        <div class="snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-lg bg-white">
+                            <div class="h-32 overflow-hidden">
+                                <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d384fe0771-8e6e1235180c127dee7c.png" alt="Paris apartment" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Elegant Apartment Near Eiffel Tower</h3>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-1">
+                                        <i class="fa-solid fa-star text-accent text-xs"></i>
+                                        <span class="text-xs font-semibold text-dark">4.91</span>
+                                    </div>
+                                    <span class="text-xs text-gray-400">7th Arr.</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-base font-bold text-dark">$255</span>
+                                    <button class="text-xs text-primary font-medium">View</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-lg bg-white">
+                            <div class="h-32 overflow-hidden">
+                                <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/431f669cce-9d0d11f9a9d58754a1f7.png" alt="Paris hotel" />
+                            </div>
+                            <div class="p-3">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Boutique Hotel Suite with Louvre View</h3>
+                                <div class="flex items-center gap-2 mb-2">
+                                    <div class="flex items-center gap-1">
+                                        <i class="fa-solid fa-star text-accent text-xs"></i>
+                                        <span class="text-xs font-semibold text-dark">4.89</span>
+                                    </div>
+                                    <span class="text-xs text-gray-400">1st Arr.</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-base font-bold text-dark">$315</span>
+                                    <button class="text-xs text-primary font-medium">View</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="filters-drawer" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-dark/50 backdrop-blur-sm" id="filters-overlay"></div>
+        <div class="absolute inset-0 bg-white rounded-t-3xl overflow-hidden flex flex-col" style="top: 15%;">
+            <div class="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+                <button id="close-filters-btn" class="text-dark font-medium">Close</button>
+                <h2 class="text-lg font-bold text-dark">Filters</h2>
+                <button id="reset-filters-btn" class="text-primary font-medium">Reset</button>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto px-4 py-4">
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-dark mb-3">Price Range</h3>
+                    <div class="flex gap-3 mb-3">
+                        <div class="flex-1">
+                            <label class="text-xs text-gray-400 mb-1 block">Min price</label>
+                            <input type="number" placeholder="$50" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-dark">
+                        </div>
+                        <div class="flex-1">
+                            <label class="text-xs text-gray-400 mb-1 block">Max price</label>
+                            <input type="number" placeholder="$500" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-dark">
+                        </div>
+                    </div>
+                    <div class="h-2 bg-gray-100 rounded-full relative">
+                        <div class="absolute h-full bg-primary rounded-full" style="left: 20%; right: 40%;"></div>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-dark mb-3">Property Type</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button class="p-4 rounded-xl border-2 border-primary bg-primary/5 text-left active:scale-98 transition-transform">
+                            <i class="fa-solid fa-building text-primary text-xl mb-2"></i>
+                            <div class="font-semibold text-sm text-dark">Apartment</div>
+                        </button>
+                        <button class="p-4 rounded-xl border border-gray-200 text-left active:scale-98 transition-transform">
+                            <i class="fa-solid fa-hotel text-gray-400 text-xl mb-2"></i>
+                            <div class="font-semibold text-sm text-dark">Hotel</div>
+                        </button>
+                        <button class="p-4 rounded-xl border border-gray-200 text-left active:scale-98 transition-transform">
+                            <i class="fa-solid fa-house text-gray-400 text-xl mb-2"></i>
+                            <div class="font-semibold text-sm text-dark">House</div>
+                        </button>
+                        <button class="p-4 rounded-xl border border-gray-200 text-left active:scale-98 transition-transform">
+                            <i class="fa-solid fa-star text-gray-400 text-xl mb-2"></i>
+                            <div class="font-semibold text-sm text-dark">Unique</div>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-dark mb-3">Amenities</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-wifi text-dark"></i>
+                                <span class="text-sm font-medium text-dark">Wifi</span>
+                            </div>
+                            <input type="checkbox" checked class="w-5 h-5 rounded border-gray-300 text-primary">
+                        </label>
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-kitchen-set text-dark"></i>
+                                <span class="text-sm font-medium text-dark">Kitchen</span>
+                            </div>
+                            <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary">
+                        </label>
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-snowflake text-dark"></i>
+                                <span class="text-sm font-medium text-dark">Air conditioning</span>
+                            </div>
+                            <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary">
+                        </label>
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                            <div class="flex items-center gap-3">
+                                <i class="fa-solid fa-paw text-dark"></i>
+                                <span class="text-sm font-medium text-dark">Pets allowed</span>
+                            </div>
+                            <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary">
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-dark mb-3">Booking Options</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                            <span class="text-sm font-medium text-dark">Free cancellation</span>
+                            <input type="checkbox" checked class="w-5 h-5 rounded border-gray-300 text-primary">
+                        </label>
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                            <span class="text-sm font-medium text-dark">Instant booking</span>
+                            <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary">
+                        </label>
+                        <label class="flex items-center justify-between p-3 rounded-xl bg-gray-50">
+                            <span class="text-sm font-medium text-dark">Superhost</span>
+                            <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary">
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h3 class="text-base font-bold text-dark mb-3">Guest Rating</h3>
+                    <div class="space-y-2">
+                        <button class="w-full p-3 rounded-xl border-2 border-primary bg-primary/5 text-left active:scale-98 transition-transform">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-star text-primary"></i>
+                                <span class="text-sm font-semibold text-dark">4.5+ Excellent</span>
+                            </div>
+                        </button>
+                        <button class="w-full p-3 rounded-xl border border-gray-200 text-left active:scale-98 transition-transform">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-star text-gray-400"></i>
+                                <span class="text-sm font-medium text-dark">4.0+ Very Good</span>
+                            </div>
+                        </button>
+                        <button class="w-full p-3 rounded-xl border border-gray-200 text-left active:scale-98 transition-transform">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-star text-gray-400"></i>
+                                <span class="text-sm font-medium text-dark">3.5+ Good</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="px-4 py-4 border-t border-gray-100 bg-white">
+                <button id="apply-filters-btn" class="w-full py-4 rounded-xl bg-primary text-white font-bold shadow-lg active:scale-98 transition-transform">
+                    Show 342 stays
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="sort-bottom-sheet" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-dark/50 backdrop-blur-sm" id="sort-overlay"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl overflow-hidden safe-area-bottom">
+            <div class="px-4 py-4 border-b border-gray-100">
+                <h2 class="text-lg font-bold text-dark text-center">Sort by</h2>
+            </div>
+            <div class="px-4 py-3 space-y-1">
+                <button class="w-full p-4 rounded-xl bg-primary/5 text-left active:scale-98 transition-transform">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-semibold text-dark">Recommended</span>
+                        <i class="fa-solid fa-check text-primary"></i>
+                    </div>
+                </button>
+                <button class="w-full p-4 rounded-xl text-left active:scale-98 transition-transform">
+                    <span class="text-sm font-medium text-dark">Price: Low to High</span>
+                </button>
+                <button class="w-full p-4 rounded-xl text-left active:scale-98 transition-transform">
+                    <span class="text-sm font-medium text-dark">Price: High to Low</span>
+                </button>
+                <button class="w-full p-4 rounded-xl text-left active:scale-98 transition-transform">
+                    <span class="text-sm font-medium text-dark">Guest Rating</span>
+                </button>
+                <button class="w-full p-4 rounded-xl text-left active:scale-98 transition-transform">
+                    <span class="text-sm font-medium text-dark">Distance</span>
+                </button>
+            </div>
+            <div class="px-4 py-4">
+                <button id="close-sort-btn" class="w-full py-3 rounded-xl border border-gray-200 text-dark font-medium active:scale-98 transition-transform">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="quick-view-sheet" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-dark/50 backdrop-blur-sm" id="quick-view-overlay"></div>
+        <div class="absolute inset-0 bg-white rounded-t-3xl overflow-hidden flex flex-col" style="top: 20%;">
+            <div class="flex items-center justify-between px-4 py-4 border-b border-gray-100">
+                <button id="close-quick-view-btn" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
+                    <i class="fa-solid fa-xmark text-dark"></i>
+                </button>
+                <div class="flex gap-2">
+                    <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
+                        <i class="fa-solid fa-heart text-primary"></i>
+                    </button>
+                    <button class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
+                        <i class="fa-solid fa-share-nodes text-dark"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto">
+                <div class="relative h-64">
+                    <div class="image-carousel-container h-64 overflow-hidden relative">
+                        <div class="image-carousel flex transition-transform duration-300">
+                            <img class="w-full h-64 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d384fe0771-8e6e1235180c127dee7c.png" alt="Paris apartment" />
+                            <img class="w-full h-64 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/9de77d85ab-10dd49d350979f042024.png" alt="Paris apartment interior" />
+                            <img class="w-full h-64 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/efb2b29ddf-2189d70b52ce185c24e7.png" alt="Paris apartment bedroom" />
+                        </div>
+                        <div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                            <div class="img-dot w-2 h-2 rounded-full bg-white shadow-md"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="px-4 py-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h2 class="text-xl font-bold text-dark mb-1">Elegant Apartment Near Eiffel Tower</h2>
+                            <p class="text-sm text-gray-400">7th Arrondissement, Paris</p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent"></i>
+                            <span class="text-base font-bold text-dark">4.91</span>
+                        </div>
+                        <span class="text-gray-300">•</span>
+                        <span class="text-sm text-gray-400">142 reviews</span>
+                        <span class="text-gray-300">•</span>
+                        <span class="text-sm font-medium text-primary">Superhost</span>
+                    </div>
+                    
+                    <div class="grid grid-cols-3 gap-3 mb-4">
+                        <div class="text-center p-3 rounded-xl bg-gray-50">
+                            <i class="fa-solid fa-user-group text-dark text-lg mb-1"></i>
+                            <div class="text-xs text-gray-400">4 guests</div>
+                        </div>
+                        <div class="text-center p-3 rounded-xl bg-gray-50">
+                            <i class="fa-solid fa-bed text-dark text-lg mb-1"></i>
+                            <div class="text-xs text-gray-400">2 beds</div>
+                        </div>
+                        <div class="text-center p-3 rounded-xl bg-gray-50">
+                            <i class="fa-solid fa-bath text-dark text-lg mb-1"></i>
+                            <div class="text-xs text-gray-400">1 bath</div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <h3 class="text-sm font-bold text-dark mb-2">Amenities</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 rounded-full bg-gray-50 text-xs text-dark flex items-center gap-1.5">
+                                <i class="fa-solid fa-wifi"></i>
+                                Wifi
+                            </span>
+                            <span class="px-3 py-1.5 rounded-full bg-gray-50 text-xs text-dark flex items-center gap-1.5">
+                                <i class="fa-solid fa-kitchen-set"></i>
+                                Kitchen
+                            </span>
+                            <span class="px-3 py-1.5 rounded-full bg-gray-50 text-xs text-dark flex items-center gap-1.5">
+                                <i class="fa-solid fa-snowflake"></i>
+                                AC
+                            </span>
+                            <span class="px-3 py-1.5 rounded-full bg-secondary/10 text-secondary text-xs font-medium">
+                                Free cancellation
+                            </span>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 rounded-xl bg-gradient-to-br from-accent/10 to-primary/10 mb-4">
+                        <div class="flex items-center gap-2 mb-2">
+                            <i class="fa-solid fa-tag text-accent"></i>
+                            <span class="text-sm font-bold text-dark">25% OFF</span>
+                        </div>
+                        <p class="text-xs text-gray-500">Limited time offer for your dates</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="px-4 py-4 border-t border-gray-100 bg-white safe-area-bottom">
+                <div class="flex items-center justify-between mb-3">
+                    <div>
+                        <div class="flex items-baseline gap-1">
+                            <span class="text-sm line-through text-gray-300">$340</span>
+                            <span class="text-2xl font-bold text-dark">$255</span>
+                        </div>
+                        <span class="text-xs text-gray-400">per night • $1,785 total</span>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button class="flex-1 py-3 rounded-xl border border-primary text-primary font-semibold active:scale-98 transition-transform">
+                        View details
+                    </button>
+                    <button class="flex-1 py-3 rounded-xl bg-primary text-white font-semibold active:scale-98 transition-transform">
+                        Select rooms
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 hidden">
+        <div class="bg-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-3 animate-bounce">
+            <i class="fa-solid fa-check-circle text-secondary"></i>
+            <span class="text-sm font-medium" id="toast-message">Action completed</span>
+        </div>
+    </div>
+
+    <div id="compare-tray" class="fixed bottom-20 left-0 right-0 z-30 px-4 hidden safe-area-bottom">
+        <div class="bg-dark text-white rounded-2xl shadow-2xl p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-code-compare text-white"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-sm">Compare Stays</div>
+                    <div class="text-xs text-white/70"><span id="compare-count">1</span>/3 selected</div>
+                </div>
+            </div>
+            <button id="compare-view-btn" class="bg-white text-dark font-bold px-5 py-2.5 rounded-xl active:scale-95 transition-transform">
+                Compare
+            </button>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase-rolling text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map-location-dot text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-wallet text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    const compareTray = document.getElementById('compare-tray');
+    const compareCount = document.getElementById('compare-count');
+    let selectedCompare = 1;
+    
+    compareTray.classList.remove('hidden');
+    
+    const compareBtns = document.querySelectorAll('.compare-btn');
+    compareBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (selectedCompare < 3) {
+                selectedCompare++;
+                compareCount.textContent = selectedCompare;
+                showToast('Added to compare');
+            } else {
+                showToast('Compare limit reached (3 max)');
+            }
+        });
+    });
+    
+    const saveBtns = document.querySelectorAll('.save-btn');
+    saveBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-regular')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                showToast('Saved to wishlist');
+            } else {
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+                showToast('Removed from wishlist');
+            }
+        });
+    });
+    
+    const mapPillBtn = document.getElementById('map-pill-btn');
+    const mapBottomSheet = document.getElementById('map-bottom-sheet');
+    const closeMapBtn = document.getElementById('close-map-btn');
+    const mapOverlay = document.getElementById('map-overlay');
+    
+    mapPillBtn.addEventListener('click', function() {
+        mapBottomSheet.classList.remove('hidden');
+    });
+    
+    closeMapBtn.addEventListener('click', function() {
+        mapBottomSheet.classList.add('hidden');
+    });
+    
+    mapOverlay.addEventListener('click', function() {
+        mapBottomSheet.classList.add('hidden');
+    });
+    
+    const filterBtn = document.getElementById('filter-btn');
+    const filtersDrawer = document.getElementById('filters-drawer');
+    const closeFiltersBtn = document.getElementById('close-filters-btn');
+    const filtersOverlay = document.getElementById('filters-overlay');
+    const applyFiltersBtn = document.getElementById('apply-filters-btn');
+    const resetFiltersBtn = document.getElementById('reset-filters-btn');
+    
+    filterBtn.addEventListener('click', function() {
+        filtersDrawer.classList.remove('hidden');
+    });
+    
+    closeFiltersBtn.addEventListener('click', function() {
+        filtersDrawer.classList.add('hidden');
+    });
+    
+    filtersOverlay.addEventListener('click', function() {
+        filtersDrawer.classList.add('hidden');
+    });
+    
+    applyFiltersBtn.addEventListener('click', function() {
+        filtersDrawer.classList.add('hidden');
+        showToast('Filters applied');
+    });
+    
+    resetFiltersBtn.addEventListener('click', function() {
+        showToast('Filters reset');
+    });
+    
+    const sortBtn = document.getElementById('sort-btn');
+    const sortBottomSheet = document.getElementById('sort-bottom-sheet');
+    const closeSortBtn = document.getElementById('close-sort-btn');
+    const sortOverlay = document.getElementById('sort-overlay');
+    
+    sortBtn.addEventListener('click', function() {
+        sortBottomSheet.classList.remove('hidden');
+    });
+    
+    closeSortBtn.addEventListener('click', function() {
+        sortBottomSheet.classList.add('hidden');
+    });
+    
+    sortOverlay.addEventListener('click', function() {
+        sortBottomSheet.classList.add('hidden');
+    });
+    
+    const quickViewBtns = document.querySelectorAll('.quick-view-btn');
+    const quickViewSheet = document.getElementById('quick-view-sheet');
+    const closeQuickViewBtn = document.getElementById('close-quick-view-btn');
+    const quickViewOverlay = document.getElementById('quick-view-overlay');
+    
+    quickViewBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            quickViewSheet.classList.remove('hidden');
+        });
+    });
+    
+    closeQuickViewBtn.addEventListener('click', function() {
+        quickViewSheet.classList.add('hidden');
+    });
+    
+    quickViewOverlay.addEventListener('click', function() {
+        quickViewSheet.classList.add('hidden');
+    });
+    
+    const imageCarousels = document.querySelectorAll('.image-carousel-container');
+    imageCarousels.forEach(container => {
+        const carousel = container.querySelector('.image-carousel');
+        const dots = container.querySelectorAll('.img-dot');
+        let currentIndex = 0;
+        let startX = 0;
+        let isDragging = false;
+        
+        container.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+        
+        container.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+        });
+        
+        container.addEventListener('touchend', function(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+            
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIndex < dots.length - 1) {
+                    currentIndex++;
+                } else if (diff < 0 && currentIndex > 0) {
+                    currentIndex--;
+                }
+                updateCarousel();
+            }
+        });
+        
+        function updateCarousel() {
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.remove('bg-white/50');
+                    dot.classList.add('bg-white');
+                } else {
+                    dot.classList.remove('bg-white');
+                    dot.classList.add('bg-white/50');
+                }
+            });
+        }
+    });
+    
+    function showToast(message) {
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toast-message');
+        toastMessage.textContent = message;
+        toast.classList.remove('hidden');
+        setTimeout(() => {
+            toast.classList.add('hidden');
+        }, 2000);
+    }
+
+    const searchSummaryPill = document.getElementById('search-summary-pill');
+    if (searchSummaryPill) {
+        searchSummaryPill.addEventListener('click', () => {
+            window.location.href = 'search.html';
+        });
+    }
+
+    const mapPillBtn = document.getElementById('map-pill-btn');
+    if (mapPillBtn) {
+        mapPillBtn.addEventListener('click', () => {
+            window.location.href = 'map-explorer.html';
+        });
+    }
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof SEARCH_DATES !== 'undefined') {
+            SEARCH_DATES.updateAllDateDisplays();
+        }
+    });
+</script>
+</body>
+</html>

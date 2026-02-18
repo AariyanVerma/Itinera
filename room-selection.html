@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Rooms</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-44">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center gap-3">
+            <button id="back-btn" class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-arrow-left text-dark"></i>
+            </button>
+            <div class="flex-1">
+                <h1 class="font-bold text-base text-dark">Select Rooms & Add-ons</h1>
+                <p class="text-xs text-gray-400">Ocean View Villa with Private Pool</p>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="booking-dates-summary" class="px-4 py-4 bg-white border-b border-gray-100">
+            <div class="flex items-center gap-3">
+                <div class="flex-1 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar text-primary text-sm"></i>
+                    <div>
+                        <div class="text-xs text-gray-400">Check-in</div>
+                        <div class="text-sm font-semibold text-dark" data-date="check-in">Dec 24, 2024</div>
+                    </div>
+                </div>
+                <div class="w-px h-8 bg-gray-200"></div>
+                <div class="flex-1 flex items-center gap-2">
+                    <i class="fa-solid fa-calendar text-primary text-sm"></i>
+                    <div>
+                        <div class="text-xs text-gray-400">Check-out</div>
+                        <div class="text-sm font-semibold text-dark" data-date="check-out">Dec 28, 2024</div>
+                    </div>
+                </div>
+                <div class="w-px h-8 bg-gray-200"></div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-user-group text-primary text-sm"></i>
+                    <div>
+                        <div class="text-xs text-gray-400">Guests</div>
+                        <div class="text-sm font-semibold text-dark">2 adults</div>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3 flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-primary/5 to-accent/5">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-moon text-accent text-sm"></i>
+                    <span class="text-sm font-medium text-dark" data-date="nights">4 nights</span>
+                </div>
+                <button class="text-xs text-primary font-semibold">Change dates</button>
+            </div>
+        </section>
+
+        <section id="available-rooms" class="py-4">
+            <div class="px-4 mb-3">
+                <h2 class="text-lg font-bold text-dark mb-1">Available Rooms</h2>
+                <p class="text-xs text-gray-400">Select quantity for each room type</p>
+            </div>
+
+            <div id="room-card-1" class="bg-white border-b-8 border-gray-50">
+                <div class="px-4 pt-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Deluxe Ocean Suite</h3>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs bg-secondary/10 text-secondary font-semibold px-2 py-1 rounded-md">Refundable</span>
+                                <span class="text-xs bg-accent/10 text-accent font-semibold px-2 py-1 rounded-md">Only 2 left</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 mb-3 text-xs text-gray-500">
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-bed text-gray-400"></i>
+                            <span>King Bed</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-maximize text-gray-400"></i>
+                            <span>45 m²</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-group text-gray-400"></i>
+                            <span>Max 3</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-3 border-t border-gray-100">
+                        <div>
+                            <div class="text-lg font-bold text-dark">$850<span class="text-sm font-normal text-gray-400">/night</span></div>
+                            <div class="text-xs text-gray-400">$3,400 total</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-30" data-action="decrease" data-room="1" disabled>
+                                <i class="fa-solid fa-minus text-dark text-sm"></i>
+                            </button>
+                            <span class="room-qty text-lg font-bold text-dark w-6 text-center" data-room="1">0</span>
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-primary bg-primary flex items-center justify-center active:scale-95 transition-transform" data-action="increase" data-room="1">
+                                <i class="fa-solid fa-plus text-white text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-details-accordion border-t border-gray-100">
+                    <button class="accordion-trigger w-full px-4 py-3 flex items-center justify-between active:bg-gray-50 transition-colors" data-target="details-1">
+                        <span class="text-sm font-semibold text-primary">View room details & amenities</span>
+                        <i class="fa-solid fa-chevron-down text-primary text-sm accordion-icon transition-transform"></i>
+                    </button>
+                    <div id="details-1" class="accordion-content hidden px-4 pb-4">
+                        <div class="space-y-3">
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Room Features</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-water text-secondary"></i>
+                                        <span>Ocean view</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-door-open text-secondary"></i>
+                                        <span>Private balcony</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-bath text-secondary"></i>
+                                        <span>Jacuzzi tub</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-wind text-secondary"></i>
+                                        <span>Air conditioning</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-tv text-secondary"></i>
+                                        <span>55" Smart TV</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-wifi text-secondary"></i>
+                                        <span>Free WiFi</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-mug-hot text-secondary"></i>
+                                        <span>Coffee maker</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-lock text-secondary"></i>
+                                        <span>Safe</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Cancellation Policy</h4>
+                                <p class="text-xs text-gray-500">Free cancellation until Dec 17, 2024. After that, cancel before Dec 21 for a 50% refund.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="room-card-2" class="bg-white border-b-8 border-gray-50">
+                <div class="px-4 pt-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Premium Master Suite</h3>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs bg-secondary/10 text-secondary font-semibold px-2 py-1 rounded-md">Refundable</span>
+                                <span class="text-xs bg-primary/10 text-primary font-semibold px-2 py-1 rounded-md">Most Popular</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 mb-3 text-xs text-gray-500">
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-bed text-gray-400"></i>
+                            <span>King + Sofa</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-maximize text-gray-400"></i>
+                            <span>65 m²</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-group text-gray-400"></i>
+                            <span>Max 4</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-3 border-t border-gray-100">
+                        <div>
+                            <div class="text-lg font-bold text-dark">$1,150<span class="text-sm font-normal text-gray-400">/night</span></div>
+                            <div class="text-xs text-gray-400">$4,600 total</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-30" data-action="decrease" data-room="2" disabled>
+                                <i class="fa-solid fa-minus text-dark text-sm"></i>
+                            </button>
+                            <span class="room-qty text-lg font-bold text-dark w-6 text-center" data-room="2">0</span>
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-primary bg-primary flex items-center justify-center active:scale-95 transition-transform" data-action="increase" data-room="2">
+                                <i class="fa-solid fa-plus text-white text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-details-accordion border-t border-gray-100">
+                    <button class="accordion-trigger w-full px-4 py-3 flex items-center justify-between active:bg-gray-50 transition-colors" data-target="details-2">
+                        <span class="text-sm font-semibold text-primary">View room details & amenities</span>
+                        <i class="fa-solid fa-chevron-down text-primary text-sm accordion-icon transition-transform"></i>
+                    </button>
+                    <div id="details-2" class="accordion-content hidden px-4 pb-4">
+                        <div class="space-y-3">
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Room Features</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-water text-secondary"></i>
+                                        <span>Panoramic ocean view</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-door-open text-secondary"></i>
+                                        <span>Large terrace</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-bath text-secondary"></i>
+                                        <span>Spa bathroom</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-couch text-secondary"></i>
+                                        <span>Living area</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-champagne-glasses text-secondary"></i>
+                                        <span>Mini bar</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-wifi text-secondary"></i>
+                                        <span>High-speed WiFi</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-shirt text-secondary"></i>
+                                        <span>Walk-in closet</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-concierge-bell text-secondary"></i>
+                                        <span>Butler service</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Cancellation Policy</h4>
+                                <p class="text-xs text-gray-500">Free cancellation until Dec 17, 2024. After that, cancel before Dec 21 for a 50% refund.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="room-card-3" class="bg-white border-b-8 border-gray-50">
+                <div class="px-4 pt-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Garden View Double</h3>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs bg-gray-100 text-gray-500 font-semibold px-2 py-1 rounded-md">Non-refundable</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 mb-3 text-xs text-gray-500">
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-bed text-gray-400"></i>
+                            <span>2 Double Beds</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-maximize text-gray-400"></i>
+                            <span>35 m²</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-group text-gray-400"></i>
+                            <span>Max 4</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-3 border-t border-gray-100">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-sm line-through text-gray-300">$720</span>
+                                <span class="text-lg font-bold text-dark">$648<span class="text-sm font-normal text-gray-400">/night</span></span>
+                            </div>
+                            <div class="text-xs text-gray-400">$2,592 total</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-30" data-action="decrease" data-room="3" disabled>
+                                <i class="fa-solid fa-minus text-dark text-sm"></i>
+                            </button>
+                            <span class="room-qty text-lg font-bold text-dark w-6 text-center" data-room="3">0</span>
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-primary bg-primary flex items-center justify-center active:scale-95 transition-transform" data-action="increase" data-room="3">
+                                <i class="fa-solid fa-plus text-white text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-details-accordion border-t border-gray-100">
+                    <button class="accordion-trigger w-full px-4 py-3 flex items-center justify-between active:bg-gray-50 transition-colors" data-target="details-3">
+                        <span class="text-sm font-semibold text-primary">View room details & amenities</span>
+                        <i class="fa-solid fa-chevron-down text-primary text-sm accordion-icon transition-transform"></i>
+                    </button>
+                    <div id="details-3" class="accordion-content hidden px-4 pb-4">
+                        <div class="space-y-3">
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Room Features</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-tree text-secondary"></i>
+                                        <span>Garden view</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-door-open text-secondary"></i>
+                                        <span>Small balcony</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-shower text-secondary"></i>
+                                        <span>Shower</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-wind text-secondary"></i>
+                                        <span>Air conditioning</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-tv text-secondary"></i>
+                                        <span>40" TV</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-wifi text-secondary"></i>
+                                        <span>Free WiFi</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-mug-hot text-secondary"></i>
+                                        <span>Coffee maker</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-snowflake text-secondary"></i>
+                                        <span>Mini fridge</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Cancellation Policy</h4>
+                                <p class="text-xs text-gray-500">Non-refundable rate. No cancellations or changes allowed. Save 10% with this rate.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="room-card-4" class="bg-white border-b-8 border-gray-50">
+                <div class="px-4 pt-4">
+                    <div class="flex items-start justify-between mb-3">
+                        <div class="flex-1">
+                            <h3 class="font-bold text-base text-dark mb-1">Family Connecting Rooms</h3>
+                            <div class="flex items-center gap-2 mb-2">
+                                <span class="text-xs bg-secondary/10 text-secondary font-semibold px-2 py-1 rounded-md">Refundable</span>
+                                <span class="text-xs bg-accent/10 text-accent font-semibold px-2 py-1 rounded-md">Only 1 left</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center gap-4 mb-3 text-xs text-gray-500">
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-bed text-gray-400"></i>
+                            <span>King + 2 Twins</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-maximize text-gray-400"></i>
+                            <span>75 m²</span>
+                        </div>
+                        <div class="flex items-center gap-1.5">
+                            <i class="fa-solid fa-user-group text-gray-400"></i>
+                            <span>Max 6</span>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between py-3 border-t border-gray-100">
+                        <div>
+                            <div class="text-lg font-bold text-dark">$1,420<span class="text-sm font-normal text-gray-400">/night</span></div>
+                            <div class="text-xs text-gray-400">$5,680 total</div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-30" data-action="decrease" data-room="4" disabled>
+                                <i class="fa-solid fa-minus text-dark text-sm"></i>
+                            </button>
+                            <span class="room-qty text-lg font-bold text-dark w-6 text-center" data-room="4">0</span>
+                            <button class="room-qty-btn w-9 h-9 rounded-full border-2 border-primary bg-primary flex items-center justify-center active:scale-95 transition-transform" data-action="increase" data-room="4">
+                                <i class="fa-solid fa-plus text-white text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="room-details-accordion border-t border-gray-100">
+                    <button class="accordion-trigger w-full px-4 py-3 flex items-center justify-between active:bg-gray-50 transition-colors" data-target="details-4">
+                        <span class="text-sm font-semibold text-primary">View room details & amenities</span>
+                        <i class="fa-solid fa-chevron-down text-primary text-sm accordion-icon transition-transform"></i>
+                    </button>
+                    <div id="details-4" class="accordion-content hidden px-4 pb-4">
+                        <div class="space-y-3">
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Room Features</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-water text-secondary"></i>
+                                        <span>Partial ocean view</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-door-open text-secondary"></i>
+                                        <span>2 connecting rooms</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-bath text-secondary"></i>
+                                        <span>2 bathrooms</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-couch text-secondary"></i>
+                                        <span>Sitting area</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-gamepad text-secondary"></i>
+                                        <span>Kids amenities</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-wifi text-secondary"></i>
+                                        <span>Free WiFi</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-tv text-secondary"></i>
+                                        <span>2 Smart TVs</span>
+                                    </div>
+                                    <div class="flex items-center gap-2 text-xs text-gray-500">
+                                        <i class="fa-solid fa-snowflake text-secondary"></i>
+                                        <span>2 Mini fridges</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-semibold text-dark mb-2">Cancellation Policy</h4>
+                                <p class="text-xs text-gray-500">Free cancellation until Dec 17, 2024. After that, cancel before Dec 21 for a 50% refund.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="add-ons-section" class="py-4 bg-white">
+            <div class="px-4 mb-4">
+                <h2 class="text-lg font-bold text-dark mb-1">Enhance Your Stay</h2>
+                <p class="text-xs text-gray-400">Add optional services to your booking</p>
+            </div>
+
+            <div id="addon-breakfast" class="px-4 py-4 border-b border-gray-100">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-utensils text-accent text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Breakfast Buffet</h3>
+                                <p class="text-xs text-gray-400 mb-2">Full American breakfast served daily 7-11 AM</p>
+                                <div class="text-sm font-bold text-dark">$35<span class="text-xs font-normal text-gray-400">/person/night</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 mt-3">
+                            <button class="addon-qty-btn w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-30" data-action="decrease" data-addon="breakfast" disabled>
+                                <i class="fa-solid fa-minus text-dark text-xs"></i>
+                            </button>
+                            <span class="addon-qty text-base font-bold text-dark w-5 text-center" data-addon="breakfast">0</span>
+                            <button class="addon-qty-btn w-8 h-8 rounded-full border-2 border-accent bg-accent flex items-center justify-center active:scale-95 transition-transform" data-action="increase" data-addon="breakfast">
+                                <i class="fa-solid fa-plus text-white text-xs"></i>
+                            </button>
+                            <span class="text-xs text-gray-400 ml-1">guests</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addon-airport" class="px-4 py-4 border-b border-gray-100">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-plane-arrival text-secondary text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Airport Pickup Service</h3>
+                                <p class="text-xs text-gray-400 mb-2">Private luxury car transfer from airport</p>
+                                <div class="text-sm font-bold text-dark">$120<span class="text-xs font-normal text-gray-400"> one-way</span></div>
+                            </div>
+                        </div>
+                        <label class="flex items-center gap-3 mt-3">
+                            <input type="checkbox" class="addon-checkbox w-5 h-5 rounded border-2 border-gray-300 text-secondary focus:ring-2 focus:ring-secondary/20" data-addon="airport" data-price="120">
+                            <span class="text-sm text-gray-500">Add to booking</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addon-late-checkout" class="px-4 py-4 border-b border-gray-100">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-clock text-primary text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Late Checkout</h3>
+                                <p class="text-xs text-gray-400 mb-2">Extend checkout until 6 PM (subject to availability)</p>
+                                <div class="text-sm font-bold text-dark">$85<span class="text-xs font-normal text-gray-400"> per room</span></div>
+                            </div>
+                        </div>
+                        <label class="flex items-center gap-3 mt-3">
+                            <input type="checkbox" class="addon-checkbox w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20" data-addon="late-checkout" data-price="85">
+                            <span class="text-sm text-gray-500">Add to booking</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addon-extra-bed" class="px-4 py-4 border-b border-gray-100">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-bed text-accent text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Extra Bed / Rollaway</h3>
+                                <p class="text-xs text-gray-400 mb-2">Comfortable rollaway bed with premium linens</p>
+                                <div class="text-sm font-bold text-dark">$45<span class="text-xs font-normal text-gray-400">/night</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 mt-3">
+                            <button class="addon-qty-btn w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-30" data-action="decrease" data-addon="extra-bed" disabled>
+                                <i class="fa-solid fa-minus text-dark text-xs"></i>
+                            </button>
+                            <span class="addon-qty text-base font-bold text-dark w-5 text-center" data-addon="extra-bed">0</span>
+                            <button class="addon-qty-btn w-8 h-8 rounded-full border-2 border-accent bg-accent flex items-center justify-center active:scale-95 transition-transform" data-action="increase" data-addon="extra-bed">
+                                <i class="fa-solid fa-plus text-white text-xs"></i>
+                            </button>
+                            <span class="text-xs text-gray-400 ml-1">beds</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addon-spa" class="px-4 py-4 border-b border-gray-100">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-spa text-secondary text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Couples Spa Package</h3>
+                                <p class="text-xs text-gray-400 mb-2">60-min massage for 2 + champagne & chocolates</p>
+                                <div class="text-sm font-bold text-dark">$280<span class="text-xs font-normal text-gray-400"> per package</span></div>
+                            </div>
+                        </div>
+                        <label class="flex items-center gap-3 mt-3">
+                            <input type="checkbox" class="addon-checkbox w-5 h-5 rounded border-2 border-gray-300 text-secondary focus:ring-2 focus:ring-secondary/20" data-addon="spa" data-price="280">
+                            <span class="text-sm text-gray-500">Add to booking</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="addon-wine-tour" class="px-4 py-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-wine-glass text-primary text-lg"></i>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-sm text-dark mb-1">Private Wine Tasting Tour</h3>
+                                <p class="text-xs text-gray-400 mb-2">Visit 3 local wineries with expert sommelier guide</p>
+                                <div class="text-sm font-bold text-dark">$195<span class="text-xs font-normal text-gray-400">/person</span></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 mt-3">
+                            <button class="addon-qty-btn w-8 h-8 rounded-full border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform disabled:opacity-30" data-action="decrease" data-addon="wine-tour" disabled>
+                                <i class="fa-solid fa-minus text-dark text-xs"></i>
+                            </button>
+                            <span class="addon-qty text-base font-bold text-dark w-5 text-center" data-addon="wine-tour">0</span>
+                            <button class="addon-qty-btn w-8 h-8 rounded-full border-2 border-primary bg-primary flex items-center justify-center active:scale-95 transition-transform" data-action="increase" data-addon="wine-tour">
+                                <i class="fa-solid fa-plus text-white text-xs"></i>
+                            </button>
+                            <span class="text-xs text-gray-400 ml-1">guests</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing-preview" class="px-4 py-4 bg-gradient-to-br from-gray-50 to-white">
+            <div class="bg-white rounded-2xl shadow-lg p-4 border border-gray-100">
+                <h3 class="font-bold text-base text-dark mb-3">Pricing Summary</h3>
+                
+                <div class="space-y-2 mb-3 pb-3 border-b border-gray-100">
+                    <div class="flex items-center justify-between text-sm">
+                        <span class="text-gray-500">Rooms (4 nights)</span>
+                        <span id="rooms-subtotal" class="font-semibold text-dark">$0</span>
+                    </div>
+                    <div id="addons-breakdown" class="space-y-1.5">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-sm text-gray-500">Taxes & fees</span>
+                    <span id="taxes-amount" class="text-sm font-semibold text-dark">$0</span>
+                </div>
+
+                <div class="flex items-center justify-between pt-3 border-t-2 border-gray-200">
+                    <div>
+                        <div class="text-xs text-gray-400 mb-0.5">Total Price</div>
+                        <div id="total-price" class="text-2xl font-bold text-dark price-highlight">$0</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="policies-info" class="px-4 py-4">
+            <div class="bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl p-4">
+                <h3 class="font-semibold text-sm text-dark mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-circle-info text-primary"></i>
+                    Important Information
+                </h3>
+                <div class="space-y-2 text-xs text-gray-500">
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-secondary text-xs mt-0.5"></i>
+                        <span>Check-in: 3:00 PM | Check-out: 11:00 AM</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-secondary text-xs mt-0.5"></i>
+                        <span>Valid photo ID and credit card required at check-in</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-secondary text-xs mt-0.5"></i>
+                        <span>Children under 12 stay free with existing bedding</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-secondary text-xs mt-0.5"></i>
+                        <span>Pets allowed with additional $50/night fee</span>
+                    </div>
+                    <div class="flex items-start gap-2">
+                        <i class="fa-solid fa-check text-secondary text-xs mt-0.5"></i>
+                        <span>Resort fee of $45/night includes WiFi, parking, and gym access</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="sticky-cta-bar" class="fixed bottom-16 left-0 right-0 z-30 px-4 bg-white border-t border-gray-200 shadow-2xl safe-area-bottom">
+        <div class="py-3 flex items-center justify-between gap-3">
+            <div>
+                <div class="text-xs text-gray-400 mb-0.5">Total</div>
+                <div id="cta-total-price" class="text-xl font-bold text-dark price-highlight">$0</div>
+            </div>
+            <button id="continue-btn" class="bg-primary text-white font-bold px-8 py-3.5 rounded-xl shadow-lg active:scale-98 transition-transform disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-wallet text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none">
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    const roomPrices = {
+        1: 850,
+        2: 1150,
+        3: 648,
+        4: 1420
+    };
+
+    const roomQuantities = {
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0
+    };
+
+    const roomMaxQty = {
+        1: 2,
+        2: 5,
+        3: 5,
+        4: 1
+    };
+
+    const addonPrices = {
+        'breakfast': 35,
+        'airport': 120,
+        'late-checkout': 85,
+        'extra-bed': 45,
+        'spa': 280,
+        'wine-tour': 195
+    };
+
+    const addonQuantities = {
+        'breakfast': 0,
+        'extra-bed': 0,
+        'wine-tour': 0
+    };
+
+    const addonCheckboxes = {
+        'airport': false,
+        'late-checkout': false,
+        'spa': false
+    };
+
+    const nights = 4;
+
+    function showToast(message, type = 'success') {
+        const toastContainer = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `pointer-events-auto mb-2 px-4 py-3 rounded-xl shadow-2xl transform transition-all duration-300 ${
+            type === 'success' ? 'bg-secondary text-white' : 'bg-accent text-white'
+        }`;
+        toast.innerHTML = `
+            <div class="flex items-center gap-2">
+                <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : 'fa-info-circle'}"></i>
+                <span class="text-sm font-medium">${message}</span>
+            </div>
+        `;
+        toastContainer.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-20px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 2500);
+    }
+
+    function updatePricing() {
+        let roomsSubtotal = 0;
+        Object.keys(roomQuantities).forEach(room => {
+            roomsSubtotal += roomQuantities[room] * roomPrices[room] * nights;
+        });
+
+        let addonsSubtotal = 0;
+        Object.keys(addonQuantities).forEach(addon => {
+            if (addon === 'breakfast' || addon === 'extra-bed') {
+                addonsSubtotal += addonQuantities[addon] * addonPrices[addon] * nights;
+            } else if (addon === 'wine-tour') {
+                addonsSubtotal += addonQuantities[addon] * addonPrices[addon];
+            }
+        });
+
+        Object.keys(addonCheckboxes).forEach(addon => {
+            if (addonCheckboxes[addon]) {
+                addonsSubtotal += addonPrices[addon];
+            }
+        });
+
+        const subtotal = roomsSubtotal + addonsSubtotal;
+        const taxes = Math.round(subtotal * 0.12);
+        const total = subtotal + taxes;
+
+        document.getElementById('rooms-subtotal').textContent = '$' + roomsSubtotal.toLocaleString();
+        document.getElementById('taxes-amount').textContent = '$' + taxes.toLocaleString();
+        
+        const totalElements = document.querySelectorAll('#total-price, #cta-total-price');
+        totalElements.forEach(el => {
+            const oldValue = parseInt(el.textContent.replace(/[^0-9]/g, '')) || 0;
+            el.textContent = '$' + total.toLocaleString();
+            if (oldValue !== total && oldValue > 0) {
+                el.classList.add('price-animate');
+                setTimeout(() => el.classList.remove('price-animate'), 600);
+            }
+        });
+
+        const addonsBreakdown = document.getElementById('addons-breakdown');
+        addonsBreakdown.innerHTML = '';
+        
+        if (addonQuantities['breakfast'] > 0) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-between text-sm';
+            div.innerHTML = `
+                <span class="text-gray-500">Breakfast (${addonQuantities['breakfast']} × ${nights} nights)</span>
+                <span class="font-semibold text-dark">$${(addonQuantities['breakfast'] * addonPrices['breakfast'] * nights).toLocaleString()}</span>
+            `;
+            addonsBreakdown.appendChild(div);
+        }
+
+        if (addonQuantities['extra-bed'] > 0) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-between text-sm';
+            div.innerHTML = `
+                <span class="text-gray-500">Extra Bed (${addonQuantities['extra-bed']} × ${nights} nights)</span>
+                <span class="font-semibold text-dark">$${(addonQuantities['extra-bed'] * addonPrices['extra-bed'] * nights).toLocaleString()}</span>
+            `;
+            addonsBreakdown.appendChild(div);
+        }
+
+        if (addonQuantities['wine-tour'] > 0) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-between text-sm';
+            div.innerHTML = `
+                <span class="text-gray-500">Wine Tour (${addonQuantities['wine-tour']} guests)</span>
+                <span class="font-semibold text-dark">$${(addonQuantities['wine-tour'] * addonPrices['wine-tour']).toLocaleString()}</span>
+            `;
+            addonsBreakdown.appendChild(div);
+        }
+
+        if (addonCheckboxes['airport']) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-between text-sm';
+            div.innerHTML = `
+                <span class="text-gray-500">Airport Pickup</span>
+                <span class="font-semibold text-dark">$${addonPrices['airport'].toLocaleString()}</span>
+            `;
+            addonsBreakdown.appendChild(div);
+        }
+
+        if (addonCheckboxes['late-checkout']) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-between text-sm';
+            div.innerHTML = `
+                <span class="text-gray-500">Late Checkout</span>
+                <span class="font-semibold text-dark">$${addonPrices['late-checkout'].toLocaleString()}</span>
+            `;
+            addonsBreakdown.appendChild(div);
+        }
+
+        if (addonCheckboxes['spa']) {
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-between text-sm';
+            div.innerHTML = `
+                <span class="text-gray-500">Couples Spa Package</span>
+                <span class="font-semibold text-dark">$${addonPrices['spa'].toLocaleString()}</span>
+            `;
+            addonsBreakdown.appendChild(div);
+        }
+
+        const continueBtn = document.getElementById('continue-btn');
+        const hasRooms = Object.values(roomQuantities).some(q => q > 0);
+        continueBtn.disabled = !hasRooms;
+    }
+
+    document.querySelectorAll('.room-qty-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const action = this.dataset.action;
+            const room = this.dataset.room;
+            const qtySpan = document.querySelector(`.room-qty[data-room="${room}"]`);
+            const decreaseBtn = document.querySelector(`.room-qty-btn[data-action="decrease"][data-room="${room}"]`);
+            const increaseBtn = document.querySelector(`.room-qty-btn[data-action="increase"][data-room="${room}"]`);
+
+            if (action === 'increase' && roomQuantities[room] < roomMaxQty[room]) {
+                roomQuantities[room]++;
+                qtySpan.textContent = roomQuantities[room];
+                decreaseBtn.disabled = false;
+                if (roomQuantities[room] >= roomMaxQty[room]) {
+                    increaseBtn.disabled = true;
+                }
+                showToast('Room added to selection', 'success');
+            } else if (action === 'decrease' && roomQuantities[room] > 0) {
+                roomQuantities[room]--;
+                qtySpan.textContent = roomQuantities[room];
+                increaseBtn.disabled = false;
+                if (roomQuantities[room] === 0) {
+                    decreaseBtn.disabled = true;
+                }
+                showToast('Room removed from selection', 'info');
+            }
+
+            updatePricing();
+        });
+    });
+
+    document.querySelectorAll('.addon-qty-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const action = this.dataset.action;
+            const addon = this.dataset.addon;
+            const qtySpan = document.querySelector(`.addon-qty[data-addon="${addon}"]`);
+            const decreaseBtn = document.querySelector(`.addon-qty-btn[data-action="decrease"][data-addon="${addon}"]`);
+
+            if (action === 'increase') {
+                addonQuantities[addon]++;
+                qtySpan.textContent = addonQuantities[addon];
+                decreaseBtn.disabled = false;
+                showToast('Add-on added', 'success');
+            } else if (action === 'decrease' && addonQuantities[addon] > 0) {
+                addonQuantities[addon]--;
+                qtySpan.textContent = addonQuantities[addon];
+                if (addonQuantities[addon] === 0) {
+                    decreaseBtn.disabled = true;
+                }
+                showToast('Add-on removed', 'info');
+            }
+
+            updatePricing();
+        });
+    });
+
+    document.querySelectorAll('.addon-checkbox').forEach(checkbox => {
+        checkbox.addEventListener('change', function() {
+            const addon = this.dataset.addon;
+            addonCheckboxes[addon] = this.checked;
+            if (this.checked) {
+                showToast('Add-on added', 'success');
+            } else {
+                showToast('Add-on removed', 'info');
+            }
+            updatePricing();
+        });
+    });
+
+    document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+        trigger.addEventListener('click', function() {
+            const targetId = this.dataset.target;
+            const content = document.getElementById(targetId);
+            const icon = this.querySelector('.accordion-icon');
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        });
+    });
+
+    const style = document.createElement('style');
+    style.textContent = `
+        .price-highlight {
+            transition: all 0.3s ease;
+        }
+        .price-animate {
+            animation: priceChange 0.6s ease;
+        }
+        @keyframes priceChange {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); color: #FF385C; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    updatePricing();
+
+    const continueBtn = document.getElementById('continue-btn');
+    continueBtn.addEventListener('click', function() {
+        if (!this.disabled) {
+            window.location.href = 'checkout.html';
+        }
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof SEARCH_DATES !== 'undefined') {
+        SEARCH_DATES.updateAllDateDisplays();
+    }
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

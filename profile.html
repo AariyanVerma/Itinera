@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile & Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-20">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <button id="back-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-arrow-left text-dark"></i>
+            </button>
+            
+            <h1 class="text-lg font-bold text-dark">Profile & Settings</h1>
+            
+            <button id="help-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-circle-question text-gray-400"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="profile-header" class="bg-white px-4 py-6 mb-2">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="relative">
+                    <div class="w-20 h-20 rounded-full overflow-hidden border-4 border-primary/20">
+                        <img id="profile-photo" src="\me2.jpg" alt="Profile" class="w-full h-full object-cover" />
+                    </div>
+                    <input type="file" id="photo-input" accept="image/*" class="hidden" />
+                    <button id="change-photo-btn" class="absolute bottom-0 right-0 w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                        <i class="fa-solid fa-camera text-xs"></i>
+                    </button>
+                </div>
+                <div class="flex-1">
+                    <h2 class="text-xl font-bold text-dark mb-1">Aariyan Verma</h2>
+                    <p class="text-sm text-gray-400 mb-2">Aariyan.Verma@gmail.com</p>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-1 bg-primary/10 px-2 py-1 rounded-full">
+                            <i class="fa-solid fa-trophy text-primary text-xs"></i>
+                            <span class="text-xs font-semibold text-primary">Level 3</span>
+                        </div>
+                        <div class="flex items-center gap-1 bg-secondary/10 px-2 py-1 rounded-full">
+                            <i class="fa-solid fa-shield-halved text-secondary text-xs"></i>
+                            <span class="text-xs font-semibold text-secondary">Verified</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-3 gap-3">
+                <div class="text-center p-3 rounded-xl bg-gradient-to-br from-primary/5 to-primary/10">
+                    <div class="text-2xl font-bold text-dark mb-1">24</div>
+                    <div class="text-xs text-gray-400">Trips</div>
+                </div>
+                <div class="text-center p-3 rounded-xl bg-gradient-to-br from-secondary/5 to-secondary/10">
+                    <div class="text-2xl font-bold text-dark mb-1">87</div>
+                    <div class="text-xs text-gray-400">Reviews</div>
+                </div>
+                <div class="text-center p-3 rounded-xl bg-gradient-to-br from-accent/5 to-accent/10">
+                    <div class="text-2xl font-bold text-dark mb-1">2.4k</div>
+                    <div class="text-xs text-gray-400">XP Points</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="account-section" class="bg-white px-4 py-4 mb-2">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Account</h3>
+            
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-user text-primary"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Personal Information</div>
+                        <div class="text-xs text-gray-400">Name, email, phone number</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-lock text-secondary"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Login & Security</div>
+                        <div class="text-xs text-gray-400">Password, 2FA, biometrics</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                        <i class="fa-solid fa-credit-card text-accent"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Payment Methods</div>
+                        <div class="text-xs text-gray-400">Manage cards and wallets</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+        </section>
+
+        <section id="preferences-section" class="bg-white px-4 py-4 mb-2">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Preferences</h3>
+            
+            <div class="py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <i class="fa-solid fa-palette text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Theme</div>
+                            <div class="text-xs text-gray-400">Light or dark mode</div>
+                        </div>
+                    </div>
+                    <button id="theme-toggle" class="relative w-14 h-8 bg-gray-200 rounded-full transition-colors">
+                        <div id="theme-toggle-btn" class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform flex items-center justify-center">
+                            <i class="fa-solid fa-sun text-accent text-xs"></i>
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                            <i class="fa-solid fa-dollar-sign text-secondary"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Currency</div>
+                            <div class="text-xs text-gray-400" data-currency="description">USD - US Dollar</div>
+                        </div>
+                    </div>
+                    <button id="currency-selector" class="px-4 py-2 rounded-lg bg-gray-50 text-sm font-semibold text-dark active:bg-gray-100 transition-colors">
+                        USD
+                        <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                            <i class="fa-solid fa-language text-accent"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Language</div>
+                            <div class="text-xs text-gray-400" data-language="description">English (US)</div>
+                        </div>
+                    </div>
+                    <button id="language-selector" class="px-4 py-2 rounded-lg bg-gray-50 text-sm font-semibold text-dark active:bg-gray-100 transition-colors">
+                        EN
+                        <i class="fa-solid fa-chevron-down text-xs ml-1"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="py-3">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <i class="fa-solid fa-gauge text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Reduced Motion</div>
+                            <div class="text-xs text-gray-400">Minimize animations</div>
+                        </div>
+                    </div>
+                    <button id="motion-toggle" class="relative w-14 h-8 bg-gray-200 rounded-full transition-colors">
+                        <div id="motion-toggle-btn" class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="notifications-section" class="bg-white px-4 py-4 mb-2">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Notifications</h3>
+            
+            <div class="py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <i class="fa-solid fa-bell text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Push Notifications</div>
+                            <div class="text-xs text-gray-400">Booking updates & deals</div>
+                        </div>
+                    </div>
+                    <button id="push-toggle" class="relative w-14 h-8 bg-primary rounded-full transition-colors">
+                        <div id="push-toggle-btn" class="absolute top-1 right-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                            <i class="fa-solid fa-envelope text-secondary"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Email Notifications</div>
+                            <div class="text-xs text-gray-400">Newsletters & promotions</div>
+                        </div>
+                    </div>
+                    <button id="email-toggle" class="relative w-14 h-8 bg-primary rounded-full transition-colors">
+                        <div id="email-toggle-btn" class="absolute top-1 right-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                            <i class="fa-solid fa-comment-sms text-accent"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">SMS Notifications</div>
+                            <div class="text-xs text-gray-400">Booking confirmations</div>
+                        </div>
+                    </div>
+                    <button id="sms-toggle" class="relative w-14 h-8 bg-gray-200 rounded-full transition-colors">
+                        <div id="sms-toggle-btn" class="absolute top-1 left-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="py-3">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                            <i class="fa-solid fa-trophy text-primary"></i>
+                        </div>
+                        <div>
+                            <div class="font-semibold text-sm text-dark">Rewards Updates</div>
+                            <div class="text-xs text-gray-400">Missions & level-ups</div>
+                        </div>
+                    </div>
+                    <button id="rewards-toggle" class="relative w-14 h-8 bg-primary rounded-full transition-colors">
+                        <div id="rewards-toggle-btn" class="absolute top-1 right-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform"></div>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="data-tools-section" class="bg-white px-4 py-4 mb-2">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Data & Privacy</h3>
+            
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-download text-secondary"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Export Data (JSON)</div>
+                        <div class="text-xs text-gray-400">Download your trip data</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                        <i class="fa-solid fa-file-csv text-accent"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Export Data (CSV)</div>
+                        <div class="text-xs text-gray-400">Spreadsheet format</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-upload text-primary"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Import Data (JSON)</div>
+                        <div class="text-xs text-gray-400">Restore from backup</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button id="clear-data-btn" class="w-full flex items-center justify-between py-3 active:bg-red-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                        <i class="fa-solid fa-trash-can text-red-500"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-red-500">Clear Local Data</div>
+                        <div class="text-xs text-gray-400">Delete all saved data</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+        </section>
+
+        <section id="support-section" class="bg-white px-4 py-4 mb-2">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">Support & Legal</h3>
+            
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-headset text-primary"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Help Center</div>
+                        <div class="text-xs text-gray-400">FAQs and support articles</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-comments text-secondary"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Contact Support</div>
+                        <div class="text-xs text-gray-400">Chat with our team</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center">
+                        <i class="fa-solid fa-star text-accent"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Rate Itinera</div>
+                        <div class="text-xs text-gray-400">Share your feedback</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                        <i class="fa-solid fa-file-lines text-gray-400"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Terms of Service</div>
+                        <div class="text-xs text-gray-400">Legal agreements</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 active:bg-gray-50 transition-colors">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                        <i class="fa-solid fa-shield-halved text-gray-400"></i>
+                    </div>
+                    <div class="text-left">
+                        <div class="font-semibold text-sm text-dark">Privacy Policy</div>
+                        <div class="text-xs text-gray-400">How we protect your data</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+        </section>
+
+        <section id="app-info-section" class="bg-white px-4 py-4 mb-2">
+            <h3 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-3">About</h3>
+            
+            <div class="py-3 border-b border-gray-100">
+                <div class="flex items-center justify-between">
+                    <div class="text-sm text-gray-400">App Version</div>
+                    <div class="text-sm font-semibold text-dark">2.8.4</div>
+                </div>
+            </div>
+
+            <button class="w-full flex items-center justify-between py-3 border-b border-gray-100 active:bg-gray-50 transition-colors">
+                <div class="text-sm text-dark">Check for Updates</div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+
+            <button class="w-full flex items-center justify-between py-3 active:bg-gray-50 transition-colors">
+                <div class="text-sm text-dark">Open Source Licenses</div>
+                <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+            </button>
+        </section>
+
+        <section id="logout-section" class="px-4 pb-6">
+            <button id="logout-btn" class="w-full py-4 rounded-xl bg-white border-2 border-red-500 text-red-500 font-bold active:scale-98 transition-transform shadow-sm">
+                <i class="fa-solid fa-right-from-bracket mr-2"></i>
+                Log Out
+            </button>
+            
+            <div class="text-center mt-4 text-xs text-gray-400">
+                Made with <i class="fa-solid fa-heart text-primary text-xs"></i> by Itinera Team
+            </div>
+        </section>
+
+    </main>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase-rolling text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map-location-dot text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-chart-pie text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="confirmation-modal" class="fixed inset-0 bg-dark/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-sm w-full p-6 transform scale-95 transition-transform">
+        <div class="w-16 h-16 rounded-full bg-red-100 flex items-center justify-center mx-auto mb-4">
+            <i class="fa-solid fa-triangle-exclamation text-red-500 text-2xl"></i>
+        </div>
+        <h3 class="text-xl font-bold text-dark text-center mb-2">Clear All Data?</h3>
+        <p class="text-sm text-gray-400 text-center mb-6">This will permanently delete all your saved trips, bookings, and preferences. This action cannot be undone.</p>
+        <div class="space-y-2">
+            <button id="confirm-clear-btn" class="w-full py-3 rounded-xl bg-red-500 text-white font-bold active:scale-98 transition-transform">
+                Yes, Clear All Data
+            </button>
+            <button id="cancel-clear-btn" class="w-full py-3 rounded-xl bg-gray-100 text-dark font-semibold active:scale-98 transition-transform">
+                Cancel
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="currency-modal" class="fixed inset-0 bg-dark/60 backdrop-blur-sm z-50 hidden">
+    <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl max-h-[70vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white border-b border-gray-100 px-4 py-4 flex items-center justify-between">
+            <h3 class="text-lg font-bold text-dark">Select Currency</h3>
+            <button id="close-currency-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-xmark text-gray-400"></i>
+            </button>
+        </div>
+        <div class="p-4">
+            <div class="relative mb-4">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="currency-search" placeholder="Search currency..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm focus:outline-none focus:border-primary" />
+            </div>
+            
+            <div id="currency-list" class="space-y-2">
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl bg-primary/10 border-2 border-primary active:scale-98 transition-transform" data-code="USD" data-symbol="$" data-name="US Dollar" data-country="United States">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">$</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">USD - US Dollar</div>
+                            <div class="text-xs text-gray-400">United States</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-check text-primary"></i>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="EUR" data-symbol="€" data-name="Euro" data-country="European Union">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">€</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">EUR - Euro</div>
+                            <div class="text-xs text-gray-400">European Union</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="GBP" data-symbol="£" data-name="British Pound" data-country="United Kingdom">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">£</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">GBP - British Pound</div>
+                            <div class="text-xs text-gray-400">United Kingdom</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="JPY" data-symbol="¥" data-name="Japanese Yen" data-country="Japan">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">¥</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">JPY - Japanese Yen</div>
+                            <div class="text-xs text-gray-400">Japan</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="CAD" data-symbol="$" data-name="Canadian Dollar" data-country="Canada">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">$</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">CAD - Canadian Dollar</div>
+                            <div class="text-xs text-gray-400">Canada</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="AUD" data-symbol="$" data-name="Australian Dollar" data-country="Australia">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">$</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">AUD - Australian Dollar</div>
+                            <div class="text-xs text-gray-400">Australia</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="INR" data-symbol="₹" data-name="Indian Rupee" data-country="India">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">₹</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">INR - Indian Rupee</div>
+                            <div class="text-xs text-gray-400">India</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="KRW" data-symbol="₩" data-name="South Korean Won" data-country="South Korea">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">₩</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">KRW - South Korean Won</div>
+                            <div class="text-xs text-gray-400">South Korea</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="CNY" data-symbol="¥" data-name="Chinese Yuan" data-country="China">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">¥</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">CNY - Chinese Yuan</div>
+                            <div class="text-xs text-gray-400">China</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="CHF" data-symbol="Fr" data-name="Swiss Franc" data-country="Switzerland">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">Fr</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">CHF - Swiss Franc</div>
+                            <div class="text-xs text-gray-400">Switzerland</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="MXN" data-symbol="$" data-name="Mexican Peso" data-country="Mexico">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">$</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">MXN - Mexican Peso</div>
+                            <div class="text-xs text-gray-400">Mexico</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="currency-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="BRL" data-symbol="R$" data-name="Brazilian Real" data-country="Brazil">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">R$</span>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">BRL - Brazilian Real</div>
+                            <div class="text-xs text-gray-400">Brazil</div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="language-modal" class="fixed inset-0 bg-dark/60 backdrop-blur-sm z-50 hidden">
+    <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl max-h-[70vh] overflow-y-auto">
+        <div class="sticky top-0 bg-white border-b border-gray-100 px-4 py-4 flex items-center justify-between">
+            <h3 class="text-lg font-bold text-dark">Select Language</h3>
+            <button id="close-language-modal" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-xmark text-gray-400"></i>
+            </button>
+        </div>
+        <div class="p-4">
+            <div class="relative mb-4">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm"></i>
+                <input type="text" id="language-search" placeholder="Search language..." class="w-full pl-10 pr-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm focus:outline-none focus:border-primary" />
+            </div>
+            
+            <div id="language-list" class="space-y-2">
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl bg-primary/10 border-2 border-primary active:scale-98 transition-transform" data-code="en-US" data-name="English (US)" data-native="English">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-primary">EN</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">English (US)</div>
+                            <div class="text-xs text-gray-400">English</div>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-check text-primary"></i>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="en-GB" data-name="English (UK)" data-native="English">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-secondary">EN</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">English (UK)</div>
+                            <div class="text-xs text-gray-400">English</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="es" data-name="Spanish" data-native="Español">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-accent">ES</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Spanish</div>
+                            <div class="text-xs text-gray-400">Español</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="fr" data-name="French" data-native="Français">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-primary">FR</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">French</div>
+                            <div class="text-xs text-gray-400">Français</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="de" data-name="German" data-native="Deutsch">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-secondary">DE</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">German</div>
+                            <div class="text-xs text-gray-400">Deutsch</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="it" data-name="Italian" data-native="Italiano">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-accent">IT</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Italian</div>
+                            <div class="text-xs text-gray-400">Italiano</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="pt" data-name="Portuguese" data-native="Português">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-primary">PT</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Portuguese</div>
+                            <div class="text-xs text-gray-400">Português</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="ja" data-name="Japanese" data-native="日本語">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-secondary">JA</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Japanese</div>
+                            <div class="text-xs text-gray-400">日本語</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="zh" data-name="Chinese" data-native="中文">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-accent">ZH</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Chinese</div>
+                            <div class="text-xs text-gray-400">中文</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="ko" data-name="Korean" data-native="한국어">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-primary">KO</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Korean</div>
+                            <div class="text-xs text-gray-400">한국어</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="hi" data-name="Hindi" data-native="हिन्दी">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-secondary">HI</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Hindi</div>
+                            <div class="text-xs text-gray-400">हिन्दी</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="ar" data-name="Arabic" data-native="العربية">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-accent">AR</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Arabic</div>
+                            <div class="text-xs text-gray-400">العربية</div>
+                        </div>
+                    </div>
+                </button>
+
+                <button class="language-option w-full flex items-center justify-between py-3 px-4 rounded-xl hover:bg-gray-50 active:scale-98 transition-transform" data-code="ru" data-name="Russian" data-native="Русский">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <span class="text-lg font-bold text-primary">RU</span>
+                        </div>
+                        <div class="text-left">
+                            <div class="font-semibold text-sm text-dark">Russian</div>
+                            <div class="text-xs text-gray-400">Русский</div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 hidden">
+    <div class="bg-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 animate-bounce">
+        <i id="toast-icon" class="fa-solid fa-check-circle text-secondary"></i>
+        <span id="toast-message" class="font-semibold text-sm">Settings saved successfully</span>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleBtn = document.getElementById('theme-toggle-btn');
+    const motionToggle = document.getElementById('motion-toggle');
+    const motionToggleBtn = document.getElementById('motion-toggle-btn');
+    const pushToggle = document.getElementById('push-toggle');
+    const pushToggleBtn = document.getElementById('push-toggle-btn');
+    const emailToggle = document.getElementById('email-toggle');
+    const emailToggleBtn = document.getElementById('email-toggle-btn');
+    const smsToggle = document.getElementById('sms-toggle');
+    const smsToggleBtn = document.getElementById('sms-toggle-btn');
+    const rewardsToggle = document.getElementById('rewards-toggle');
+    const rewardsToggleBtn = document.getElementById('rewards-toggle-btn');
+    const clearDataBtn = document.getElementById('clear-data-btn');
+    const confirmationModal = document.getElementById('confirmation-modal');
+    const confirmClearBtn = document.getElementById('confirm-clear-btn');
+    const cancelClearBtn = document.getElementById('cancel-clear-btn');
+    const currencySelector = document.getElementById('currency-selector');
+    const currencyModal = document.getElementById('currency-modal');
+    const closeCurrencyModal = document.getElementById('close-currency-modal');
+    const currencySearch = document.getElementById('currency-search');
+    const currencyList = document.getElementById('currency-list');
+    const currencyOptions = document.querySelectorAll('.currency-option');
+    
+    const languageSelector = document.getElementById('language-selector');
+    const languageModal = document.getElementById('language-modal');
+    const closeLanguageModal = document.getElementById('close-language-modal');
+    const languageSearch = document.getElementById('language-search');
+    const languageList = document.getElementById('language-list');
+    const languageOptions = document.querySelectorAll('.language-option');
+    
+    const toastContainer = document.getElementById('toast-container');
+    const toastMessage = document.getElementById('toast-message');
+    const toastIcon = document.getElementById('toast-icon');
+    
+    let selectedCurrency = localStorage.getItem('selectedCurrency') || 'USD';
+    let selectedLanguage = localStorage.getItem('selectedLanguage') || 'en-US';
+    
+    let isDarkMode = false;
+    let isReducedMotion = false;
+    let isPushEnabled = true;
+    let isEmailEnabled = true;
+    let isSmsEnabled = false;
+    let isRewardsEnabled = true;
+
+    function showToast(message, type = 'success') {
+        toastMessage.textContent = message;
+        if (type === 'success') {
+            toastIcon.className = 'fa-solid fa-check-circle text-secondary';
+        } else if (type === 'error') {
+            toastIcon.className = 'fa-solid fa-exclamation-circle text-red-500';
+        } else if (type === 'info') {
+            toastIcon.className = 'fa-solid fa-info-circle text-primary';
+        }
+        toastContainer.classList.remove('hidden');
+        setTimeout(() => {
+            toastContainer.classList.add('hidden');
+        }, 3000);
+    }
+
+    themeToggle.addEventListener('click', function() {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode) {
+            themeToggle.classList.remove('bg-gray-200');
+            themeToggle.classList.add('bg-primary');
+            themeToggleBtn.style.transform = 'translateX(24px)';
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-moon text-primary text-xs"></i>';
+            showToast('Dark mode enabled', 'success');
+        } else {
+            themeToggle.classList.remove('bg-primary');
+            themeToggle.classList.add('bg-gray-200');
+            themeToggleBtn.style.transform = 'translateX(0)';
+            themeToggleBtn.innerHTML = '<i class="fa-solid fa-sun text-accent text-xs"></i>';
+            showToast('Light mode enabled', 'success');
+        }
+    });
+
+    motionToggle.addEventListener('click', function() {
+        isReducedMotion = !isReducedMotion;
+        if (isReducedMotion) {
+            motionToggle.classList.remove('bg-gray-200');
+            motionToggle.classList.add('bg-primary');
+            motionToggleBtn.style.transform = 'translateX(24px)';
+            showToast('Reduced motion enabled', 'success');
+        } else {
+            motionToggle.classList.remove('bg-primary');
+            motionToggle.classList.add('bg-gray-200');
+            motionToggleBtn.style.transform = 'translateX(0)';
+            showToast('Animations enabled', 'success');
+        }
+    });
+
+    pushToggle.addEventListener('click', function() {
+        isPushEnabled = !isPushEnabled;
+        if (isPushEnabled) {
+            pushToggle.classList.remove('bg-gray-200');
+            pushToggle.classList.add('bg-primary');
+            pushToggleBtn.style.transform = 'translateX(24px)';
+            showToast('Push notifications enabled', 'success');
+        } else {
+            pushToggle.classList.remove('bg-primary');
+            pushToggle.classList.add('bg-gray-200');
+            pushToggleBtn.style.transform = 'translateX(0)';
+            showToast('Push notifications disabled', 'info');
+        }
+    });
+
+    emailToggle.addEventListener('click', function() {
+        isEmailEnabled = !isEmailEnabled;
+        if (isEmailEnabled) {
+            emailToggle.classList.remove('bg-gray-200');
+            emailToggle.classList.add('bg-primary');
+            emailToggleBtn.style.transform = 'translateX(24px)';
+            showToast('Email notifications enabled', 'success');
+        } else {
+            emailToggle.classList.remove('bg-primary');
+            emailToggle.classList.add('bg-gray-200');
+            emailToggleBtn.style.transform = 'translateX(0)';
+            showToast('Email notifications disabled', 'info');
+        }
+    });
+
+    smsToggle.addEventListener('click', function() {
+        isSmsEnabled = !isSmsEnabled;
+        if (isSmsEnabled) {
+            smsToggle.classList.remove('bg-gray-200');
+            smsToggle.classList.add('bg-primary');
+            smsToggleBtn.style.transform = 'translateX(24px)';
+            showToast('SMS notifications enabled', 'success');
+        } else {
+            smsToggle.classList.remove('bg-primary');
+            smsToggle.classList.add('bg-gray-200');
+            smsToggleBtn.style.transform = 'translateX(0)';
+            showToast('SMS notifications disabled', 'info');
+        }
+    });
+
+    rewardsToggle.addEventListener('click', function() {
+        isRewardsEnabled = !isRewardsEnabled;
+        if (isRewardsEnabled) {
+            rewardsToggle.classList.remove('bg-gray-200');
+            rewardsToggle.classList.add('bg-primary');
+            rewardsToggleBtn.style.transform = 'translateX(24px)';
+            showToast('Rewards updates enabled', 'success');
+        } else {
+            rewardsToggle.classList.remove('bg-primary');
+            rewardsToggle.classList.add('bg-gray-200');
+            rewardsToggleBtn.style.transform = 'translateX(0)';
+            showToast('Rewards updates disabled', 'info');
+        }
+    });
+
+    clearDataBtn.addEventListener('click', function() {
+        confirmationModal.classList.remove('hidden');
+        confirmationModal.classList.add('flex');
+    });
+
+    cancelClearBtn.addEventListener('click', function() {
+        confirmationModal.classList.remove('flex');
+        confirmationModal.classList.add('hidden');
+    });
+
+    confirmClearBtn.addEventListener('click', function() {
+        confirmationModal.classList.remove('flex');
+        confirmationModal.classList.add('hidden');
+        showToast('All local data cleared', 'success');
+    });
+
+    currencySelector.addEventListener('click', function() {
+        currencyModal.classList.remove('hidden');
+        currencySearch.focus();
+    });
+
+    closeCurrencyModal.addEventListener('click', function() {
+        currencyModal.classList.add('hidden');
+        currencySearch.value = '';
+        filterCurrencies('');
+    });
+
+    currencyModal.addEventListener('click', function(e) {
+        if (e.target === currencyModal) {
+            currencyModal.classList.add('hidden');
+            currencySearch.value = '';
+            filterCurrencies('');
+        }
+    });
+
+    function filterCurrencies(searchTerm) {
+        const term = searchTerm.toLowerCase();
+        currencyOptions.forEach(option => {
+            const code = option.dataset.code.toLowerCase();
+            const name = option.dataset.name.toLowerCase();
+            const country = option.dataset.country.toLowerCase();
+            
+            if (code.includes(term) || name.includes(term) || country.includes(term)) {
+                option.style.display = 'flex';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    }
+
+    currencySearch.addEventListener('input', function(e) {
+        filterCurrencies(e.target.value);
+    });
+
+    currencyOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const code = this.dataset.code;
+            const symbol = this.dataset.symbol;
+            const name = this.dataset.name;
+            
+            selectedCurrency = code;
+            localStorage.setItem('selectedCurrency', code);
+            
+            currencySelector.innerHTML = `${code} <i class="fa-solid fa-chevron-down text-xs ml-1"></i>`;
+            const descEl = document.querySelector('[data-currency="description"]');
+            if (descEl) {
+                descEl.textContent = `${code} - ${name}`;
+            }
+            
+            currencyOptions.forEach(opt => {
+                opt.classList.remove('bg-primary/10', 'border-primary', 'border-2');
+                const checkIcon = opt.querySelector('.fa-check');
+                if (checkIcon) {
+                    checkIcon.remove();
+                }
+            });
+            
+            this.classList.add('bg-primary/10', 'border-primary', 'border-2');
+            const existingCheck = this.querySelector('.fa-check');
+            if (!existingCheck) {
+                const checkIcon = document.createElement('i');
+                checkIcon.className = 'fa-solid fa-check text-primary';
+                this.appendChild(checkIcon);
+            }
+            
+            currencyModal.classList.add('hidden');
+            currencySearch.value = '';
+            filterCurrencies('');
+            
+            showToast(`Currency changed to ${code}`, 'success');
+        });
+    });
+
+    languageSelector.addEventListener('click', function() {
+        languageModal.classList.remove('hidden');
+        languageSearch.focus();
+    });
+
+    closeLanguageModal.addEventListener('click', function() {
+        languageModal.classList.add('hidden');
+        languageSearch.value = '';
+        filterLanguages('');
+    });
+
+    languageModal.addEventListener('click', function(e) {
+        if (e.target === languageModal) {
+            languageModal.classList.add('hidden');
+            languageSearch.value = '';
+            filterLanguages('');
+        }
+    });
+
+    function filterLanguages(searchTerm) {
+        const term = searchTerm.toLowerCase();
+        languageOptions.forEach(option => {
+            const code = option.dataset.code.toLowerCase();
+            const name = option.dataset.name.toLowerCase();
+            const native = option.dataset.native.toLowerCase();
+            
+            if (code.includes(term) || name.includes(term) || native.includes(term)) {
+                option.style.display = 'flex';
+            } else {
+                option.style.display = 'none';
+            }
+        });
+    }
+
+    languageSearch.addEventListener('input', function(e) {
+        filterLanguages(e.target.value);
+    });
+
+    languageOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const code = this.dataset.code;
+            const name = this.dataset.name;
+            
+            selectedLanguage = code;
+            localStorage.setItem('selectedLanguage', code);
+            
+            const displayCode = code.split('-')[0].toUpperCase();
+            languageSelector.innerHTML = `${displayCode} <i class="fa-solid fa-chevron-down text-xs ml-1"></i>`;
+            const descEl = document.querySelector('[data-language="description"]');
+            if (descEl) {
+                descEl.textContent = name;
+            }
+            
+            languageOptions.forEach(opt => {
+                opt.classList.remove('bg-primary/10', 'border-primary', 'border-2');
+                const checkIcon = opt.querySelector('.fa-check');
+                if (checkIcon) {
+                    checkIcon.remove();
+                }
+            });
+            
+            this.classList.add('bg-primary/10', 'border-primary', 'border-2');
+            const existingCheck = this.querySelector('.fa-check');
+            if (!existingCheck) {
+                const checkIcon = document.createElement('i');
+                checkIcon.className = 'fa-solid fa-check text-primary';
+                this.appendChild(checkIcon);
+            }
+            
+            languageModal.classList.add('hidden');
+            languageSearch.value = '';
+            filterLanguages('');
+            
+            showToast(`Language changed to ${name}`, 'success');
+        });
+    });
+
+    function updateCurrencyDisplay() {
+        if (selectedCurrency) {
+            const currencyOption = Array.from(currencyOptions).find(opt => opt.dataset.code === selectedCurrency);
+            if (currencyOption) {
+                const code = currencyOption.dataset.code;
+                const name = currencyOption.dataset.name;
+                currencySelector.innerHTML = `${code} <i class="fa-solid fa-chevron-down text-xs ml-1"></i>`;
+                const descEl = document.querySelector('[data-currency="description"]');
+                if (descEl) {
+                    descEl.textContent = `${code} - ${name}`;
+                }
+                
+                currencyOptions.forEach(opt => {
+                    opt.classList.remove('bg-primary/10', 'border-primary', 'border-2');
+                    const checkIcon = opt.querySelector('.fa-check');
+                    if (checkIcon) {
+                        checkIcon.remove();
+                    }
+                });
+                
+                currencyOption.classList.add('bg-primary/10', 'border-primary', 'border-2');
+                const existingCheck = currencyOption.querySelector('.fa-check');
+                if (!existingCheck) {
+                    const checkIcon = document.createElement('i');
+                    checkIcon.className = 'fa-solid fa-check text-primary';
+                    currencyOption.appendChild(checkIcon);
+                }
+            }
+        }
+    }
+    
+    function updateLanguageDisplay() {
+        if (selectedLanguage) {
+            const languageOption = Array.from(languageOptions).find(opt => opt.dataset.code === selectedLanguage);
+            if (languageOption) {
+                const code = languageOption.dataset.code;
+                const name = languageOption.dataset.name;
+                const displayCode = code.split('-')[0].toUpperCase();
+                languageSelector.innerHTML = `${displayCode} <i class="fa-solid fa-chevron-down text-xs ml-1"></i>`;
+                const descEl = document.querySelector('[data-language="description"]');
+                if (descEl) {
+                    descEl.textContent = name;
+                }
+                
+                languageOptions.forEach(opt => {
+                    opt.classList.remove('bg-primary/10', 'border-primary', 'border-2');
+                    const checkIcon = opt.querySelector('.fa-check');
+                    if (checkIcon) {
+                        checkIcon.remove();
+                    }
+                });
+                
+                languageOption.classList.add('bg-primary/10', 'border-primary', 'border-2');
+                const existingCheck = languageOption.querySelector('.fa-check');
+                if (!existingCheck) {
+                    const checkIcon = document.createElement('i');
+                    checkIcon.className = 'fa-solid fa-check text-primary';
+                    languageOption.appendChild(checkIcon);
+                }
+            }
+        }
+    }
+    
+    updateCurrencyDisplay();
+    updateLanguageDisplay();
+
+    const changePhotoBtn = document.getElementById('change-photo-btn');
+    const photoInput = document.getElementById('photo-input');
+    const profilePhoto = document.getElementById('profile-photo');
+
+    const savedPhoto = localStorage.getItem('profilePhoto');
+    if (savedPhoto) {
+        profilePhoto.src = savedPhoto;
+    }
+
+    changePhotoBtn.addEventListener('click', function() {
+        photoInput.click();
+    });
+
+    photoInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                profilePhoto.src = e.target.result;
+                localStorage.setItem('profilePhoto', e.target.result);
+                showToast('Profile photo updated', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

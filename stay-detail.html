@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stay Detail</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-white text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-36">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <button id="back-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-arrow-left text-dark"></i>
+            </button>
+            
+            <div class="flex items-center gap-2">
+                <button id="share-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                    <i class="fa-solid fa-share-nodes text-dark"></i>
+                </button>
+                <button id="save-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                    <i class="fa-solid fa-heart text-primary"></i>
+                </button>
+                <button id="compare-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                    <i class="fa-solid fa-code-compare text-dark"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        
+        <section id="gallery-carousel" class="relative">
+            <div class="gallery-container overflow-hidden relative">
+                <div id="gallery-slider" class="flex transition-transform duration-300 ease-out">
+                    <div class="gallery-slide flex-shrink-0 w-full h-[400px] relative">
+                        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Luxury beachfront villa infinity pool ocean view sunset modern architecture" />
+                    </div>
+                    <div class="gallery-slide flex-shrink-0 w-full h-[400px] relative">
+                        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Luxury villa interior modern living room ocean view floor to ceiling windows" />
+                    </div>
+                    <div class="gallery-slide flex-shrink-0 w-full h-[400px] relative">
+                        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3c0c10e80f-824a064370575d7ac141.png" alt="Luxury villa bedroom master suite ocean view balcony contemporary design" />
+                    </div>
+                    <div class="gallery-slide flex-shrink-0 w-full h-[400px] relative">
+                        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d4e5c7f891-5a2b3c4d8e9f0a1b2c3d.png" alt="Villa outdoor terrace dining area pool deck sunset ocean view" />
+                    </div>
+                    <div class="gallery-slide flex-shrink-0 w-full h-[400px] relative">
+                        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a1b2c3d4e5-f6a7b8c9d0e1f2a3b4c5.png" alt="Villa kitchen modern design marble countertops ocean view windows" />
+                    </div>
+                </div>
+                
+                <button id="gallery-open-btn" class="absolute bottom-4 right-4 bg-white text-dark font-semibold px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 active:scale-95 transition-transform">
+                    <i class="fa-solid fa-images"></i>
+                    <span class="text-sm">View all photos</span>
+                </button>
+                
+                <div id="gallery-dots" class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                    <div class="gallery-dot w-2 h-2 rounded-full bg-white"></div>
+                    <div class="gallery-dot w-2 h-2 rounded-full bg-white/50"></div>
+                    <div class="gallery-dot w-2 h-2 rounded-full bg-white/50"></div>
+                    <div class="gallery-dot w-2 h-2 rounded-full bg-white/50"></div>
+                    <div class="gallery-dot w-2 h-2 rounded-full bg-white/50"></div>
+                </div>
+            </div>
+            
+            <div id="thumbnail-strip" class="flex gap-2 overflow-x-auto snap-x snap-mandatory px-4 py-3 bg-gray-50">
+                <button class="thumbnail-btn snap-start flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-primary active:scale-95 transition-transform">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Thumbnail 1" />
+                </button>
+                <button class="thumbnail-btn snap-start flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent active:scale-95 transition-transform">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Thumbnail 2" />
+                </button>
+                <button class="thumbnail-btn snap-start flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent active:scale-95 transition-transform">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3c0c10e80f-824a064370575d7ac141.png" alt="Thumbnail 3" />
+                </button>
+                <button class="thumbnail-btn snap-start flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent active:scale-95 transition-transform">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d4e5c7f891-5a2b3c4d8e9f0a1b2c3d.png" alt="Thumbnail 4" />
+                </button>
+                <button class="thumbnail-btn snap-start flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden border-2 border-transparent active:scale-95 transition-transform">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a1b2c3d4e5-f6a7b8c9d0e1f2a3b4c5.png" alt="Thumbnail 5" />
+                </button>
+            </div>
+        </section>
+
+        <section id="stay-header" class="px-4 py-4">
+            <div class="flex items-start justify-between gap-3 mb-2">
+                <div class="flex-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="bg-primary text-white text-xs font-bold px-2 py-1 rounded-md">SUPERHOST</span>
+                        <span class="bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">20% OFF</span>
+                    </div>
+                    <h1 class="text-2xl font-bold text-dark mb-1">Ocean View Villa with Private Pool</h1>
+                    <div class="flex items-center gap-2 text-sm text-gray-400">
+                        <i class="fa-solid fa-location-dot text-primary"></i>
+                        <span>Malibu, California, USA</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="flex items-center gap-4 mb-4">
+                <div class="flex items-center gap-1">
+                    <i class="fa-solid fa-star text-accent"></i>
+                    <span class="text-base font-bold text-dark">4.95</span>
+                </div>
+                <button class="text-sm font-semibold text-dark underline">128 reviews</button>
+            </div>
+            
+            <div class="flex items-center gap-3 text-sm text-gray-500">
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-users"></i>
+                    <span>8 guests</span>
+                </div>
+                <span class="text-gray-200">•</span>
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>4 bedrooms</span>
+                </div>
+                <span class="text-gray-200">•</span>
+                <div class="flex items-center gap-1.5">
+                    <i class="fa-solid fa-bath"></i>
+                    <span>3 baths</span>
+                </div>
+            </div>
+        </section>
+
+        <div id="scroll-spy-tabs" class="sticky top-[65px] z-30 bg-white border-b border-gray-100 px-4">
+            <div class="flex gap-1 overflow-x-auto pb-0.5 -mb-px">
+                <button class="tab-btn flex-shrink-0 px-4 py-3 text-sm font-semibold text-primary border-b-2 border-primary whitespace-nowrap">
+                    Overview
+                </button>
+                <button class="tab-btn flex-shrink-0 px-4 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent whitespace-nowrap">
+                    Amenities
+                </button>
+                <button class="tab-btn flex-shrink-0 px-4 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent whitespace-nowrap">
+                    Rooms
+                </button>
+                <button class="tab-btn flex-shrink-0 px-4 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent whitespace-nowrap">
+                    Location
+                </button>
+                <button class="tab-btn flex-shrink-0 px-4 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent whitespace-nowrap">
+                    Reviews
+                </button>
+                <button class="tab-btn flex-shrink-0 px-4 py-3 text-sm font-medium text-gray-400 border-b-2 border-transparent whitespace-nowrap">
+                    Policies
+                </button>
+            </div>
+        </div>
+
+        <section id="overview-section" class="px-4 py-6 border-b border-gray-100">
+            <h2 class="text-xl font-bold text-dark mb-3">About this place</h2>
+            <p class="text-sm text-gray-500 leading-relaxed mb-4">
+                Experience luxury coastal living in this stunning oceanfront villa. Wake up to breathtaking Pacific Ocean views from every room. This modern architectural masterpiece features floor-to-ceiling windows, an infinity pool that seems to merge with the ocean, and direct beach access.
+            </p>
+            <p class="text-sm text-gray-500 leading-relaxed mb-4">
+                The villa boasts 4 spacious bedrooms, each with en-suite bathrooms and private balconies. The open-plan living area flows seamlessly onto the expansive deck, perfect for entertaining or simply soaking in the California sunshine. The gourmet kitchen is fully equipped with high-end appliances.
+            </p>
+            <button id="read-more-btn" class="text-sm font-semibold text-primary underline">Read more</button>
+            
+            <div class="mt-6 p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="w-12 h-12 rounded-full overflow-hidden flex-shrink-0">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Host" class="w-full h-full object-cover" />
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-2 mb-1">
+                            <h3 class="font-bold text-base text-dark">Hosted by James Anderson</h3>
+                            <i class="fa-solid fa-circle-check text-secondary text-sm"></i>
+                        </div>
+                        <p class="text-xs text-gray-400">Superhost • Joined in 2018</p>
+                    </div>
+                </div>
+                <div class="grid grid-cols-3 gap-3 mb-4">
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-dark">287</div>
+                        <div class="text-xs text-gray-400">Reviews</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-dark">4.9★</div>
+                        <div class="text-xs text-gray-400">Rating</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-lg font-bold text-dark">5</div>
+                        <div class="text-xs text-gray-400">Years hosting</div>
+                    </div>
+                </div>
+                <button class="w-full bg-white text-dark font-semibold py-3 rounded-xl border border-gray-200 active:scale-98 transition-transform">
+                    Contact Host
+                </button>
+            </div>
+        </section>
+
+        <section id="amenities-section" class="px-4 py-6 border-b border-gray-100">
+            <h2 class="text-xl font-bold text-dark mb-4">What this place offers</h2>
+            
+            <div class="flex flex-wrap gap-2 mb-4">
+                <span class="amenity-chip px-3 py-2 rounded-full bg-gray-50 text-xs font-medium text-dark flex items-center gap-1.5">
+                    <i class="fa-solid fa-wifi text-primary"></i>
+                    Fast WiFi
+                </span>
+                <span class="amenity-chip px-3 py-2 rounded-full bg-gray-50 text-xs font-medium text-dark flex items-center gap-1.5">
+                    <i class="fa-solid fa-water-ladder text-secondary"></i>
+                    Infinity Pool
+                </span>
+                <span class="amenity-chip px-3 py-2 rounded-full bg-gray-50 text-xs font-medium text-dark flex items-center gap-1.5">
+                    <i class="fa-solid fa-umbrella-beach text-accent"></i>
+                    Beach Access
+                </span>
+                <span class="amenity-chip px-3 py-2 rounded-full bg-gray-50 text-xs font-medium text-dark flex items-center gap-1.5">
+                    <i class="fa-solid fa-car text-primary"></i>
+                    Free Parking
+                </span>
+                <span class="amenity-chip px-3 py-2 rounded-full bg-gray-50 text-xs font-medium text-dark flex items-center gap-1.5">
+                    <i class="fa-solid fa-hot-tub-person text-secondary"></i>
+                    Hot Tub
+                </span>
+                <span class="amenity-chip px-3 py-2 rounded-full bg-gray-50 text-xs font-medium text-dark flex items-center gap-1.5">
+                    <i class="fa-solid fa-tv text-accent"></i>
+                    Smart TV
+                </span>
+            </div>
+            
+            <div id="amenities-list" class="space-y-3 mb-4">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-kitchen-set text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-dark">Gourmet Kitchen</h4>
+                        <p class="text-xs text-gray-400">High-end appliances, island seating</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-dumbbell text-secondary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-dark">Private Gym</h4>
+                        <p class="text-xs text-gray-400">Fully equipped fitness center</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-wind text-accent"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-dark">Air Conditioning</h4>
+                        <p class="text-xs text-gray-400">Central AC throughout</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-shirt text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-dark">Washer & Dryer</h4>
+                        <p class="text-xs text-gray-400">In-unit laundry facilities</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-fire-burner text-secondary"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-sm text-dark">BBQ Grill</h4>
+                        <p class="text-xs text-gray-400">Outdoor dining area</p>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="show-all-amenities-btn" class="w-full border border-gray-200 text-dark font-semibold py-3 rounded-xl active:scale-98 transition-transform">
+                Show all 42 amenities
+            </button>
+        </section>
+
+        <section id="rooms-section" class="px-4 py-6 border-b border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-dark">Available Rooms</h2>
+                <button class="text-sm font-semibold text-primary">See all rooms</button>
+            </div>
+            
+            <div class="space-y-3">
+                <div class="room-card rounded-xl overflow-hidden border border-gray-200 bg-white">
+                    <div class="flex gap-3">
+                        <div class="w-28 h-28 flex-shrink-0 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3c0c10e80f-824a064370575d7ac141.png" alt="Master Suite" />
+                        </div>
+                        <div class="flex-1 p-3 pr-2">
+                            <h3 class="font-bold text-sm text-dark mb-1">Master Suite</h3>
+                            <p class="text-xs text-gray-400 mb-2">King bed • Ocean view • En-suite bath</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-users text-gray-400 text-xs"></i>
+                                    <span class="text-xs text-gray-500">2 guests</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs line-through text-gray-300">$280</div>
+                                    <div class="text-sm font-bold text-dark">$224<span class="text-xs font-normal text-gray-400">/night</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-card rounded-xl overflow-hidden border border-gray-200 bg-white">
+                    <div class="flex gap-3">
+                        <div class="w-28 h-28 flex-shrink-0 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Guest Suite" />
+                        </div>
+                        <div class="flex-1 p-3 pr-2">
+                            <h3 class="font-bold text-sm text-dark mb-1">Guest Suite</h3>
+                            <p class="text-xs text-gray-400 mb-2">Queen bed • Garden view • Private balcony</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-users text-gray-400 text-xs"></i>
+                                    <span class="text-xs text-gray-500">2 guests</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs line-through text-gray-300">$220</div>
+                                    <div class="text-sm font-bold text-dark">$176<span class="text-xs font-normal text-gray-400">/night</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="room-card rounded-xl overflow-hidden border border-gray-200 bg-white">
+                    <div class="flex gap-3">
+                        <div class="w-28 h-28 flex-shrink-0 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Twin Room" />
+                        </div>
+                        <div class="flex-1 p-3 pr-2">
+                            <h3 class="font-bold text-sm text-dark mb-1">Twin Room</h3>
+                            <p class="text-xs text-gray-400 mb-2">2 twin beds • Pool view • Shared bath</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-users text-gray-400 text-xs"></i>
+                                    <span class="text-xs text-gray-500">2 guests</span>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-xs line-through text-gray-300">$180</div>
+                                    <div class="text-sm font-bold text-dark">$144<span class="text-xs font-normal text-gray-400">/night</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="location-section" class="px-4 py-6 border-b border-gray-100">
+            <h2 class="text-xl font-bold text-dark mb-4">Location</h2>
+            
+            <div class="mb-4">
+                <div class="flex items-start gap-2 mb-2">
+                    <i class="fa-solid fa-location-dot text-primary mt-1"></i>
+                    <div>
+                        <p class="text-sm font-semibold text-dark">23456 Pacific Coast Highway</p>
+                        <p class="text-sm text-gray-400">Malibu, CA 90265, United States</p>
+                    </div>
+                </div>
+                <button id="copy-address-btn" class="text-sm font-semibold text-primary flex items-center gap-1.5">
+                    <i class="fa-solid fa-copy"></i>
+                    Copy address
+                </button>
+            </div>
+            
+            <div id="map-preview" class="h-48 rounded-xl overflow-hidden bg-gray-100 mb-3 relative">
+                <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/map-preview-malibu.png" alt="Map showing location in Malibu California beachfront area" />
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-8 h-8 rounded-full bg-primary shadow-lg flex items-center justify-center">
+                        <i class="fa-solid fa-location-dot text-white text-lg"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <button id="open-maps-btn" class="w-full border border-gray-200 text-dark font-semibold py-3 rounded-xl flex items-center justify-center gap-2 active:scale-98 transition-transform">
+                <i class="fa-solid fa-map-location-dot"></i>
+                Open in Maps
+            </button>
+            
+            <div class="mt-4 p-4 rounded-xl bg-gray-50">
+                <h3 class="font-bold text-sm text-dark mb-3">Nearby Attractions</h3>
+                <div class="space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">Zuma Beach</span>
+                        <span class="text-sm font-semibold text-dark">0.3 mi</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">Malibu Pier</span>
+                        <span class="text-sm font-semibold text-dark">2.1 mi</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">Getty Villa</span>
+                        <span class="text-sm font-semibold text-dark">5.8 mi</span>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm text-gray-500">Santa Monica</span>
+                        <span class="text-sm font-semibold text-dark">12.4 mi</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="reviews-section" class="px-4 py-6 border-b border-gray-100">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="text-xl font-bold text-dark">Guest Reviews</h2>
+                <div class="flex items-center gap-1">
+                    <i class="fa-solid fa-star text-accent"></i>
+                    <span class="text-lg font-bold text-dark">4.95</span>
+                    <span class="text-sm text-gray-400">(128)</span>
+                </div>
+            </div>
+            
+            <div id="rating-distribution" class="mb-6">
+                <div class="space-y-2">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 w-16">Cleanliness</span>
+                        <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 98%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-dark w-8 text-right">4.9</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 w-16">Accuracy</span>
+                        <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 96%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-dark w-8 text-right">4.8</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 w-16">Check-in</span>
+                        <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 100%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-dark w-8 text-right">5.0</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 w-16">Communication</span>
+                        <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 98%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-dark w-8 text-right">4.9</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 w-16">Location</span>
+                        <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 100%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-dark w-8 text-right">5.0</span>
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs text-gray-500 w-16">Value</span>
+                        <div class="flex-1 h-2 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="h-full bg-primary rounded-full" style="width: 94%"></div>
+                        </div>
+                        <span class="text-xs font-semibold text-dark w-8 text-right">4.7</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="reviews-list" class="space-y-4 mb-4">
+                <div class="review-card p-4 rounded-xl bg-gray-50">
+                    <div class="flex items-start gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Reviewer" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-bold text-sm text-dark">Sarah Mitchell</h4>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-xs"></i>
+                                    <span class="text-xs font-semibold text-dark">5.0</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400">November 2024</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 leading-relaxed">
+                        Absolutely stunning property! The ocean views are even better than the photos. James was an excellent host, very responsive and accommodating. The infinity pool is a dream and the beach access is perfect. Would definitely stay here again!
+                    </p>
+                </div>
+                
+                <div class="review-card p-4 rounded-xl bg-gray-50">
+                    <div class="flex items-start gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-8.jpg" alt="Reviewer" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-bold text-sm text-dark">David Chen</h4>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-xs"></i>
+                                    <span class="text-xs font-semibold text-dark">5.0</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400">October 2024</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 leading-relaxed">
+                        Perfect getaway for our family vacation. The villa had everything we needed and more. Kitchen was fully stocked, beds were comfortable, and the outdoor space is incredible. Great location close to restaurants and shopping.
+                    </p>
+                </div>
+                
+                <div class="review-card p-4 rounded-xl bg-gray-50">
+                    <div class="flex items-start gap-3 mb-3">
+                        <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Reviewer" class="w-full h-full object-cover" />
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-1">
+                                <h4 class="font-bold text-sm text-dark">Emma Rodriguez</h4>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-xs"></i>
+                                    <span class="text-xs font-semibold text-dark">4.8</span>
+                                </div>
+                            </div>
+                            <p class="text-xs text-gray-400">September 2024</p>
+                        </div>
+                    </div>
+                    <p class="text-sm text-gray-500 leading-relaxed">
+                        Beautiful property in a prime location. The sunsets from the deck are unforgettable. Only minor issue was the hot tub wasn't working during our stay, but James arranged a discount. Overall a fantastic experience!
+                    </p>
+                </div>
+            </div>
+            
+            <button id="show-all-reviews-btn" class="w-full border border-gray-200 text-dark font-semibold py-3 rounded-xl active:scale-98 transition-transform">
+                Show all 128 reviews
+            </button>
+            
+            <button id="write-review-btn" class="w-full bg-primary text-white font-semibold py-3 rounded-xl mt-3 active:scale-98 transition-transform">
+                Write a Review
+            </button>
+        </section>
+
+        <section id="policies-section" class="px-4 py-6 border-b border-gray-100">
+            <h2 class="text-xl font-bold text-dark mb-4">House Rules & Policies</h2>
+            
+            <div class="space-y-4">
+                <div>
+                    <h3 class="font-bold text-sm text-dark mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-clock text-primary"></i>
+                        Check-in & Check-out
+                    </h3>
+                    <div class="pl-7 space-y-1">
+                        <p class="text-sm text-gray-500">Check-in: After 3:00 PM</p>
+                        <p class="text-sm text-gray-500">Check-out: Before 11:00 AM</p>
+                        <p class="text-xs text-gray-400 mt-1">Early check-in/late check-out subject to availability</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-sm text-dark mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-ban-smoking text-primary"></i>
+                        Property Rules
+                    </h3>
+                    <div class="pl-7 space-y-1">
+                        <p class="text-sm text-gray-500">• No smoking inside the property</p>
+                        <p class="text-sm text-gray-500">• No parties or events</p>
+                        <p class="text-sm text-gray-500">• Pets allowed with prior approval</p>
+                        <p class="text-sm text-gray-500">• Quiet hours: 10:00 PM - 8:00 AM</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-sm text-dark mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-rotate-left text-secondary"></i>
+                        Cancellation Policy
+                    </h3>
+                    <div class="pl-7 space-y-1">
+                        <p class="text-sm text-gray-500">Free cancellation up to 7 days before check-in</p>
+                        <p class="text-sm text-gray-500">50% refund for cancellations 3-7 days before</p>
+                        <p class="text-sm text-gray-500">No refund for cancellations within 3 days</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-sm text-dark mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-shield-halved text-accent"></i>
+                        Safety & Security
+                    </h3>
+                    <div class="pl-7 space-y-1">
+                        <p class="text-sm text-gray-500">• Security cameras on exterior</p>
+                        <p class="text-sm text-gray-500">• Smoke & carbon monoxide detectors</p>
+                        <p class="text-sm text-gray-500">• Fire extinguisher on premises</p>
+                        <p class="text-sm text-gray-500">• First aid kit available</p>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="font-bold text-sm text-dark mb-2 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-info text-primary"></i>
+                        Additional Information
+                    </h3>
+                    <div class="pl-7 space-y-1">
+                        <p class="text-sm text-gray-500">• $500 security deposit required</p>
+                        <p class="text-sm text-gray-500">• Cleaning fee: $150</p>
+                        <p class="text-sm text-gray-500">• Maximum occupancy: 8 guests</p>
+                        <p class="text-sm text-gray-500">• Children welcome</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="similar-stays" class="px-4 py-6">
+            <h2 class="text-xl font-bold text-dark mb-4">Similar Stays Nearby</h2>
+            
+            <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory -mx-4 px-4">
+                <div class="stay-card snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform">
+                    <div class="relative">
+                        <div class="h-44 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7d8b6a97b3-04e60b34b395b04a9680.png" alt="Beachfront modern villa" />
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-2">
+                            <button class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
+                                <i class="fa-regular fa-heart text-dark text-sm"></i>
+                            </button>
+                            <button class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
+                                <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-semibold text-sm text-dark mb-1">Modern Beach House</h3>
+                        <p class="text-xs text-gray-400 mb-2">Malibu, California</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-accent text-xs"></i>
+                                <span class="text-xs font-semibold text-dark">4.87</span>
+                            </div>
+                            <span class="text-xs text-gray-300">•</span>
+                            <span class="text-xs text-gray-400">94 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-base font-bold text-dark">$695</span>
+                                <span class="text-xs text-gray-400">/night</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stay-card snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform">
+                    <div class="relative">
+                        <div class="h-44 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/faca805449-f3790499b254798fd55a.png" alt="Luxury coastal estate" />
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-2">
+                            <button class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
+                                <i class="fa-regular fa-heart text-dark text-sm"></i>
+                            </button>
+                            <button class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
+                                <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">
+                            10% OFF
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-semibold text-sm text-dark mb-1">Coastal Estate with Pool</h3>
+                        <p class="text-xs text-gray-400 mb-2">Malibu, California</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-accent text-xs"></i>
+                                <span class="text-xs font-semibold text-dark">4.91</span>
+                            </div>
+                            <span class="text-xs text-gray-300">•</span>
+                            <span class="text-xs text-gray-400">76 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs line-through text-gray-300">$920</span>
+                                <span class="text-base font-bold text-dark ml-1">$828</span>
+                                <span class="text-xs text-gray-400">/night</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stay-card snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform">
+                    <div class="relative">
+                        <div class="h-44 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/efb2147c5b-6c7e321e8007849c5265.png" alt="Oceanview retreat" />
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-2">
+                            <button class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
+                                <i class="fa-regular fa-heart text-dark text-sm"></i>
+                            </button>
+                            <button class="w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md">
+                                <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <h3 class="font-semibold text-sm text-dark mb-1">Oceanview Retreat</h3>
+                        <p class="text-xs text-gray-400 mb-2">Malibu, California</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-accent text-xs"></i>
+                                <span class="text-xs font-semibold text-dark">4.89</span>
+                            </div>
+                            <span class="text-xs text-gray-300">•</span>
+                            <span class="text-xs text-gray-400">103 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-base font-bold text-dark">$745</span>
+                                <span class="text-xs text-gray-400">/night</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="cta-bar" class="fixed bottom-16 left-0 right-0 z-30 bg-white border-t border-gray-100 shadow-2xl safe-area-bottom">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <div>
+                <div class="flex items-baseline gap-1">
+                    <span class="text-xs line-through text-gray-300">$850</span>
+                    <span class="text-xl font-bold text-dark">$680</span>
+                    <span class="text-sm text-gray-400">/night</span>
+                </div>
+                <p class="text-xs text-gray-400">20% off • Limited time</p>
+            </div>
+            <button id="select-rooms-cta" class="bg-primary text-white font-bold px-6 py-3.5 rounded-xl shadow-lg active:scale-95 transition-transform" onclick="window.location.href='room-selection.html'">
+                Select Rooms
+            </button>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-wallet text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="gallery-lightbox" class="fixed inset-0 bg-dark z-50 hidden">
+    <div class="h-full flex flex-col">
+        <div class="flex items-center justify-between p-4 safe-area-top">
+            <button id="lightbox-close-btn" class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-xmark text-white text-xl"></i>
+            </button>
+            <div class="text-white font-semibold text-sm">
+                <span id="lightbox-current">1</span> / <span id="lightbox-total">5</span>
+            </div>
+            <button class="w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-share-nodes text-white"></i>
+            </button>
+        </div>
+        
+        <div class="flex-1 relative overflow-hidden">
+            <div id="lightbox-slider" class="flex h-full transition-transform duration-300">
+                <div class="lightbox-slide flex-shrink-0 w-full h-full flex items-center justify-center p-4">
+                    <img class="max-w-full max-h-full object-contain" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Gallery image 1" />
+                </div>
+                <div class="lightbox-slide flex-shrink-0 w-full h-full flex items-center justify-center p-4">
+                    <img class="max-w-full max-h-full object-contain" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Gallery image 2" />
+                </div>
+                <div class="lightbox-slide flex-shrink-0 w-full h-full flex items-center justify-center p-4">
+                    <img class="max-w-full max-h-full object-contain" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3c0c10e80f-824a064370575d7ac141.png" alt="Gallery image 3" />
+                </div>
+                <div class="lightbox-slide flex-shrink-0 w-full h-full flex items-center justify-center p-4">
+                    <img class="max-w-full max-h-full object-contain" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d4e5c7f891-5a2b3c4d8e9f0a1b2c3d.png" alt="Gallery image 4" />
+                </div>
+                <div class="lightbox-slide flex-shrink-0 w-full h-full flex items-center justify-center p-4">
+                    <img class="max-w-full max-h-full object-contain" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a1b2c3d4e5-f6a7b8c9d0e1f2a3b4c5.png" alt="Gallery image 5" />
+                </div>
+            </div>
+            
+            <button id="lightbox-prev" class="absolute left-4 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-chevron-left text-white text-xl"></i>
+            </button>
+            
+            <button id="lightbox-next" class="absolute right-4 top-1/2 transform -translate-y-1/2 w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-chevron-right text-white text-xl"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 flex flex-col gap-2 pointer-events-none">
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    try {
+        let currentSlide = 0;
+        const totalSlides = 5;
+        const gallerySlider = document.getElementById('gallery-slider');
+        const galleryDots = document.querySelectorAll('.gallery-dot');
+        const thumbnailBtns = document.querySelectorAll('.thumbnail-btn');
+        
+        function updateGallery() {
+            gallerySlider.style.transform = `translateX(-${currentSlide * 100}%)`;
+            galleryDots.forEach((dot, index) => {
+                dot.classList.toggle('bg-white', index === currentSlide);
+                dot.classList.toggle('bg-white/50', index !== currentSlide);
+            });
+            thumbnailBtns.forEach((btn, index) => {
+                btn.classList.toggle('border-primary', index === currentSlide);
+                btn.classList.toggle('border-transparent', index !== currentSlide);
+            });
+        }
+        
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        gallerySlider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        gallerySlider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50 && currentSlide < totalSlides - 1) {
+                currentSlide++;
+                updateGallery();
+            } else if (touchEndX - touchStartX > 50 && currentSlide > 0) {
+                currentSlide--;
+                updateGallery();
+            }
+        });
+        
+        thumbnailBtns.forEach((btn, index) => {
+            btn.addEventListener('click', () => {
+                currentSlide = index;
+                updateGallery();
+            });
+        });
+        
+        const galleryOpenBtn = document.getElementById('gallery-open-btn');
+        const galleryLightbox = document.getElementById('gallery-lightbox');
+        const lightboxCloseBtn = document.getElementById('lightbox-close-btn');
+        const lightboxSlider = document.getElementById('lightbox-slider');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+        const lightboxCurrent = document.getElementById('lightbox-current');
+        
+        let lightboxIndex = 0;
+        
+        function updateLightbox() {
+            lightboxSlider.style.transform = `translateX(-${lightboxIndex * 100}%)`;
+            lightboxCurrent.textContent = lightboxIndex + 1;
+        }
+        
+        galleryOpenBtn.addEventListener('click', () => {
+            lightboxIndex = currentSlide;
+            updateLightbox();
+            galleryLightbox.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        lightboxCloseBtn.addEventListener('click', () => {
+            galleryLightbox.classList.add('hidden');
+            document.body.style.overflow = '';
+        });
+        
+        lightboxPrev.addEventListener('click', () => {
+            if (lightboxIndex > 0) {
+                lightboxIndex--;
+                updateLightbox();
+            }
+        });
+        
+        lightboxNext.addEventListener('click', () => {
+            if (lightboxIndex < totalSlides - 1) {
+                lightboxIndex++;
+                updateLightbox();
+            }
+        });
+        
+        lightboxSlider.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+        
+        lightboxSlider.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            if (touchStartX - touchEndX > 50 && lightboxIndex < totalSlides - 1) {
+                lightboxIndex++;
+                updateLightbox();
+            } else if (touchEndX - touchStartX > 50 && lightboxIndex > 0) {
+                lightboxIndex--;
+                updateLightbox();
+            }
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (!galleryLightbox.classList.contains('hidden')) {
+                if (e.key === 'Escape') {
+                    galleryLightbox.classList.add('hidden');
+                    document.body.style.overflow = '';
+                } else if (e.key === 'ArrowLeft' && lightboxIndex > 0) {
+                    lightboxIndex--;
+                    updateLightbox();
+                } else if (e.key === 'ArrowRight' && lightboxIndex < totalSlides - 1) {
+                    lightboxIndex++;
+                    updateLightbox();
+                }
+            }
+        });
+        
+        const tabs = document.querySelectorAll('.tab-btn');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('text-primary', 'border-primary');
+                    t.classList.add('text-gray-400', 'border-transparent');
+                });
+                tab.classList.remove('text-gray-400', 'border-transparent');
+                tab.classList.add('text-primary', 'border-primary');
+            });
+        });
+        
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `pointer-events-auto px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform transition-all duration-300 ${
+                type === 'success' ? 'bg-secondary text-white' : 'bg-primary text-white'
+            }`;
+            toast.innerHTML = `
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-heart'}"></i>
+                <span class="text-sm font-semibold">${message}</span>
+            `;
+            document.getElementById('toast-container').appendChild(toast);
+            
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(-20px)';
+                setTimeout(() => toast.remove(), 300);
+            }, 2500);
+        }
+        
+        document.getElementById('save-btn').addEventListener('click', () => {
+            showToast('Removed from saved', 'error');
+        });
+        
+        document.getElementById('compare-btn').addEventListener('click', () => {
+            showToast('Added to compare', 'success');
+        });
+        
+        document.getElementById('copy-address-btn').addEventListener('click', () => {
+            showToast('Address copied to clipboard', 'success');
+        });
+        
+        document.getElementById('share-btn').addEventListener('click', () => {
+            showToast('Share options opened', 'success');
+        });
+        
+    } catch(e) {
+        console.error('Script error:', e);
+    }
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

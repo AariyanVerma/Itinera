@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Summary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-32">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <button id="back-btn" class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-chevron-left text-dark"></i>
+            </button>
+            
+            <div class="flex-1 text-center">
+                <h1 class="font-bold text-base text-dark">Booking Summary</h1>
+                <p class="text-xs text-gray-400">Step 3 of 4</p>
+            </div>
+            
+            <button id="help-btn" class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-question text-dark"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="price-lock-banner" class="bg-gradient-to-r from-accent to-primary px-4 py-3">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <div class="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center">
+                        <i class="fa-solid fa-lock text-white text-sm"></i>
+                    </div>
+                    <div>
+                        <div class="text-white font-bold text-sm">Price locked</div>
+                        <div class="text-white/90 text-xs">Complete booking within</div>
+                    </div>
+                </div>
+                <div id="countdown-timer" class="bg-white/20 backdrop-blur-sm rounded-xl px-3 py-2">
+                    <div class="text-white font-bold text-lg text-center" id="timer-display">09:47</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="stay-summary-card" class="px-4 pt-4 pb-3">
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+                <div class="relative h-40 overflow-hidden">
+                    <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Ocean View Villa with Private Pool luxury beachfront" />
+                    <div class="absolute top-3 left-3 bg-primary text-white text-xs font-bold px-2 py-1 rounded-md">
+                        SUPERHOST
+                    </div>
+                </div>
+                <div class="p-4">
+                    <h2 class="font-bold text-base text-dark mb-1">Ocean View Villa with Private Pool</h2>
+                    <p class="text-sm text-gray-400 mb-3">Malibu, California</p>
+                    
+                    <div class="flex items-center gap-1 mb-4">
+                        <i class="fa-solid fa-star text-accent text-sm"></i>
+                        <span class="text-sm font-semibold text-dark">4.95</span>
+                        <span class="text-xs text-gray-400">(128 reviews)</span>
+                    </div>
+
+                    <div class="space-y-2 border-t border-gray-100 pt-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-calendar-days text-gray-400 text-sm"></i>
+                                <span class="text-sm text-gray-500">Check-in</span>
+                            </div>
+                            <span class="text-sm font-semibold text-dark" data-date="check-in">Dec 24, 2024</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-calendar-days text-gray-400 text-sm"></i>
+                                <span class="text-sm text-gray-500">Check-out</span>
+                            </div>
+                            <span class="text-sm font-semibold text-dark" data-date="check-out">Dec 28, 2024</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-moon text-gray-400 text-sm"></i>
+                                <span class="text-sm text-gray-500">Duration</span>
+                            </div>
+                            <span class="text-sm font-semibold text-dark" data-date="nights">4 nights</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-users text-gray-400 text-sm"></i>
+                                <span class="text-sm text-gray-500">Guests</span>
+                            </div>
+                            <span class="text-sm font-semibold text-dark">2 adults, 1 child</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="selected-room-card" class="px-4 pb-3">
+            <div class="bg-white rounded-2xl shadow-md p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-sm text-dark">Selected Room</h3>
+                    <button class="text-xs text-primary font-medium">Change</button>
+                </div>
+                
+                <div class="flex gap-3">
+                    <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Master Suite Ocean View luxury bedroom" />
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold text-sm text-dark mb-1">Master Suite - Ocean View</h4>
+                        <div class="flex flex-wrap gap-2 mb-2">
+                            <span class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-bed text-gray-300"></i>
+                                King bed
+                            </span>
+                            <span class="text-xs text-gray-400 flex items-center gap-1">
+                                <i class="fa-solid fa-user text-gray-300"></i>
+                                Max 4
+                            </span>
+                        </div>
+                        <div class="text-xs text-gray-400">Qty: 1 room</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="add-ons-section" class="px-4 pb-3">
+            <div class="bg-white rounded-2xl shadow-md p-4">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="font-bold text-sm text-dark">Add-ons</h3>
+                    <button class="text-xs text-primary font-medium">Modify</button>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
+                                <i class="fa-solid fa-utensils text-secondary"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Breakfast Included</div>
+                                <div class="text-xs text-gray-400">Daily for all guests</div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-semibold text-dark">$80</div>
+                    </div>
+
+                    <div class="flex items-center justify-between pb-3 border-b border-gray-100">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-car text-accent"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Airport Transfer</div>
+                                <div class="text-xs text-gray-400">Round trip</div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-semibold text-dark">$120</div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i class="fa-solid fa-spa text-primary"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark">Spa Package</div>
+                                <div class="text-xs text-gray-400">2 sessions</div>
+                            </div>
+                        </div>
+                        <div class="text-sm font-semibold text-dark">$200</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing-breakdown" class="px-4 pb-3">
+            <div class="bg-white rounded-2xl shadow-md p-4">
+                <h3 class="font-bold text-sm text-dark mb-4">Price Breakdown</h3>
+                
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between" id="base-price-row">
+                        <div>
+                            <div class="text-sm text-gray-500">$850 × 4 nights</div>
+                        </div>
+                        <div class="text-sm font-semibold text-dark">$3,400</div>
+                    </div>
+
+                    <div class="flex items-center justify-between" id="addons-row">
+                        <div class="text-sm text-gray-500">Add-ons</div>
+                        <div class="text-sm font-semibold text-dark">$400</div>
+                    </div>
+
+                    <div class="border-t border-gray-100 pt-3">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-sm text-gray-500">Subtotal</div>
+                            <div class="text-sm font-semibold text-dark">$3,800</div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-1">
+                                <span class="text-sm text-gray-500">Taxes & fees</span>
+                                <button class="w-4 h-4 rounded-full bg-gray-100 flex items-center justify-center">
+                                    <i class="fa-solid fa-info text-gray-400 text-xs"></i>
+                                </button>
+                            </div>
+                            <div class="text-sm font-semibold text-dark">$456</div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="text-sm text-gray-500">Service fee</div>
+                            <div class="text-sm font-semibold text-dark">$95</div>
+                        </div>
+
+                        <div class="flex items-center justify-between mb-3" id="discount-row">
+                            <div class="text-sm text-secondary">Discount (ITINERA15)</div>
+                            <div class="text-sm font-semibold text-secondary">-$652</div>
+                        </div>
+                    </div>
+
+                    <div class="border-t-2 border-gray-200 pt-3">
+                        <div class="flex items-center justify-between">
+                            <div class="font-bold text-base text-dark">Total</div>
+                            <div>
+                                <div id="total-amount" class="font-bold text-xl text-primary">$3,699</div>
+                                <div class="text-xs text-gray-400 text-right">Due at property</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="coupon-module" class="px-4 pb-3">
+            <div class="bg-white rounded-2xl shadow-md p-4">
+                <h3 class="font-bold text-sm text-dark mb-3">Apply Coupon Code</h3>
+                
+                <div class="flex gap-2 mb-3">
+                    <div class="flex-1 relative">
+                        <input 
+                            type="text" 
+                            id="coupon-input" 
+                            placeholder="Enter coupon code"
+                            class="w-full px-4 py-3 border border-gray-200 rounded-xl text-sm focus:outline-none focus:border-primary transition-colors"
+                        />
+                    </div>
+                    <button id="apply-coupon-btn" class="px-5 py-3 bg-primary text-white font-semibold rounded-xl text-sm active:scale-95 transition-transform">
+                        Apply
+                    </button>
+                </div>
+
+                <div id="coupon-success" class="hidden bg-secondary/10 border border-secondary/20 rounded-xl p-3 mb-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-secondary"></i>
+                        <div class="flex-1">
+                            <div class="font-semibold text-sm text-secondary">Coupon applied!</div>
+                            <div class="text-xs text-gray-500">You saved $652 on this booking</div>
+                        </div>
+                        <button id="remove-coupon-btn" class="text-xs text-gray-400 hover:text-gray-600">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div id="coupon-error" class="hidden bg-red-50 border border-red-200 rounded-xl p-3 mb-3">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation text-red-500"></i>
+                        <div class="flex-1">
+                            <div class="font-semibold text-sm text-red-600">Invalid coupon code</div>
+                            <div class="text-xs text-gray-500">Please check and try again</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap gap-2">
+                    <button class="coupon-chip px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs font-medium text-dark active:scale-95 transition-transform" data-code="WELCOME10">
+                        <i class="fa-solid fa-tag text-primary mr-1"></i>
+                        WELCOME10
+                    </button>
+                    <button class="coupon-chip px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs font-medium text-dark active:scale-95 transition-transform" data-code="STUDENT5">
+                        <i class="fa-solid fa-tag text-secondary mr-1"></i>
+                        STUDENT5
+                    </button>
+                    <button class="coupon-chip px-3 py-2 bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-lg text-xs font-semibold text-primary active:scale-95 transition-transform" data-code="ITINERA15">
+                        <i class="fa-solid fa-sparkles text-accent mr-1"></i>
+                        ITINERA15 (Applied)
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section id="cancellation-policy" class="px-4 pb-3">
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+                <button id="policy-accordion-btn" class="w-full p-4 flex items-center justify-between active:bg-gray-50 transition-colors">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                            <i class="fa-solid fa-shield-halved text-primary"></i>
+                        </div>
+                        <div class="text-left">
+                            <h3 class="font-bold text-sm text-dark">Cancellation Policy</h3>
+                            <p class="text-xs text-gray-400">Free cancellation until Dec 17</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-sm transition-transform" id="policy-chevron"></i>
+                </button>
+                
+                <div id="policy-content" class="hidden px-4 pb-4">
+                    <div class="space-y-3 pt-2 border-t border-gray-100">
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fa-solid fa-check text-secondary text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark mb-1">Free cancellation</div>
+                                <div class="text-xs text-gray-500">Cancel before Dec 17, 2024 at 11:59 PM for a full refund</div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fa-solid fa-percent text-accent text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark mb-1">50% refund</div>
+                                <div class="text-xs text-gray-500">Cancel between Dec 17-20 for a 50% refund of total amount</div>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <i class="fa-solid fa-xmark text-red-500 text-xs"></i>
+                            </div>
+                            <div>
+                                <div class="font-semibold text-sm text-dark mb-1">No refund</div>
+                                <div class="text-xs text-gray-500">Cancel after Dec 20 or no-show: no refund</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-gray-50 rounded-lg p-3 mt-3">
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-info-circle text-gray-400 text-sm mt-0.5"></i>
+                                <div class="text-xs text-gray-500">
+                                    Processing fees are non-refundable. Refunds will be processed within 5-7 business days.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="payment-security" class="px-4 pb-3">
+            <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-2xl p-4 border border-gray-200">
+                <div class="flex items-center gap-3 mb-3">
+                    <div class="w-10 h-10 rounded-lg bg-white shadow-sm flex items-center justify-center">
+                        <i class="fa-solid fa-lock text-secondary"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-sm text-dark">Secure Payment</h3>
+                        <p class="text-xs text-gray-400">Your data is encrypted</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <div class="flex items-center gap-1 px-2 py-1 bg-white rounded-md shadow-sm">
+                        <i class="fa-brands fa-cc-visa text-blue-600 text-lg"></i>
+                    </div>
+                    <div class="flex items-center gap-1 px-2 py-1 bg-white rounded-md shadow-sm">
+                        <i class="fa-brands fa-cc-mastercard text-red-600 text-lg"></i>
+                    </div>
+                    <div class="flex items-center gap-1 px-2 py-1 bg-white rounded-md shadow-sm">
+                        <i class="fa-brands fa-cc-amex text-blue-500 text-lg"></i>
+                    </div>
+                    <div class="flex items-center gap-1 px-2 py-1 bg-white rounded-md shadow-sm">
+                        <i class="fa-brands fa-cc-paypal text-blue-700 text-lg"></i>
+                    </div>
+                    <div class="flex items-center gap-1 px-2 py-1 bg-white rounded-md shadow-sm">
+                        <i class="fa-brands fa-apple-pay text-dark text-lg"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="important-info" class="px-4 pb-3">
+            <div class="bg-blue-50 border border-blue-200 rounded-2xl p-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-circle-info text-blue-600 text-sm"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-sm text-dark mb-1">Important Information</h3>
+                        <ul class="space-y-1 text-xs text-gray-600">
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle text-blue-400 text-[4px] mt-1.5"></i>
+                                <span>Valid ID required at check-in</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle text-blue-400 text-[4px] mt-1.5"></i>
+                                <span>Credit card for incidentals</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <i class="fa-solid fa-circle text-blue-400 text-[4px] mt-1.5"></i>
+                                <span>Minimum age 21 to check in</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="need-help" class="px-4 pb-6">
+            <div class="bg-white rounded-2xl shadow-md p-4">
+                <h3 class="font-bold text-sm text-dark mb-3">Need Help?</h3>
+                <div class="space-y-2">
+                    <button class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-50 active:bg-gray-100 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-comments text-primary"></i>
+                            <span class="text-sm font-medium text-dark">Chat with support</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                    </button>
+                    <button class="w-full flex items-center justify-between p-3 rounded-xl bg-gray-50 active:bg-gray-100 transition-colors">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-phone text-secondary"></i>
+                            <span class="text-sm font-medium text-dark">Call us: 1-800-ITINERA</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-gray-300 text-sm"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="cta-bar" class="fixed bottom-16 left-0 right-0 z-30 bg-white border-t border-gray-100 shadow-2xl safe-area-bottom">
+        <div class="px-4 py-3">
+            <div class="flex items-center justify-between mb-2">
+                <div>
+                    <div class="text-xs text-gray-400">Total amount</div>
+                    <div class="font-bold text-xl text-primary" id="cta-total">$3,699</div>
+                </div>
+                <button id="proceed-checkout-btn" class="bg-primary text-white font-bold px-6 py-3.5 rounded-xl shadow-lg active:scale-95 transition-transform">
+                    Proceed to Checkout
+                    <i class="fa-solid fa-arrow-right ml-2"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-wallet text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="toast-container" class="fixed top-20 left-4 right-4 z-50 pointer-events-none">
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    let countdownSeconds = 600;
+    let totalAmount = 3699;
+    let discountApplied = true;
+    
+    const timerDisplay = document.getElementById('timer-display');
+    const totalAmountEl = document.getElementById('total-amount');
+    const ctaTotalEl = document.getElementById('cta-total');
+    const couponInput = document.getElementById('coupon-input');
+    const applyCouponBtn = document.getElementById('apply-coupon-btn');
+    const couponSuccess = document.getElementById('coupon-success');
+    const couponError = document.getElementById('coupon-error');
+    const removeCouponBtn = document.getElementById('remove-coupon-btn');
+    const discountRow = document.getElementById('discount-row');
+    const policyAccordionBtn = document.getElementById('policy-accordion-btn');
+    const policyContent = document.getElementById('policy-content');
+    const policyChevron = document.getElementById('policy-chevron');
+    
+    function updateTimer() {
+        if (countdownSeconds > 0) {
+            countdownSeconds--;
+            const minutes = Math.floor(countdownSeconds / 60);
+            const seconds = countdownSeconds % 60;
+            timerDisplay.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            setTimeout(updateTimer, 1000);
+        } else {
+            timerDisplay.textContent = '00:00';
+            showToast('Price lock expired. Prices may have changed.', 'error');
+        }
+    }
+    
+    updateTimer();
+    
+    function animateTotal(newTotal) {
+        const startTotal = totalAmount;
+        const difference = newTotal - startTotal;
+        const duration = 800;
+        const startTime = performance.now();
+        
+        function animate(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            
+            const easeOutQuad = progress * (2 - progress);
+            const currentValue = Math.round(startTotal + (difference * easeOutQuad));
+            
+            totalAmountEl.textContent = `$${currentValue.toLocaleString()}`;
+            ctaTotalEl.textContent = `$${currentValue.toLocaleString()}`;
+            
+            if (progress < 1) {
+                requestAnimationFrame(animate);
+            } else {
+                totalAmount = newTotal;
+            }
+        }
+        
+        requestAnimationFrame(animate);
+    }
+    
+    function highlightRow(rowId) {
+        const row = document.getElementById(rowId);
+        if (row) {
+            row.classList.add('bg-yellow-50');
+            setTimeout(() => {
+                row.classList.remove('bg-yellow-50');
+            }, 1000);
+        }
+    }
+    
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        toast.className = `pointer-events-auto mb-2 p-4 rounded-xl shadow-lg transform transition-all duration-300 translate-y-0 opacity-100 ${
+            type === 'success' ? 'bg-secondary text-white' : 'bg-red-500 text-white'
+        }`;
+        toast.innerHTML = `
+            <div class="flex items-center gap-3">
+                <i class="fa-solid ${type === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation'}"></i>
+                <span class="font-medium text-sm">${message}</span>
+            </div>
+        `;
+        
+        const container = document.getElementById('toast-container');
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.transform = 'translateY(-20px)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    const validCoupons = {
+        'WELCOME10': { discount: 435, message: 'You saved $435 with WELCOME10' },
+        'STUDENT5': { discount: 217, message: 'You saved $217 with STUDENT5' },
+        'ITINERA15': { discount: 652, message: 'You saved $652 with ITINERA15' }
+    };
+    
+    applyCouponBtn.addEventListener('click', function() {
+        const code = couponInput.value.trim().toUpperCase();
+        
+        if (validCoupons[code]) {
+            if (discountApplied) {
+                animateTotal(totalAmount + 652);
+                discountApplied = false;
+            }
+            
+            const newTotal = 4351 - validCoupons[code].discount;
+            animateTotal(newTotal);
+            discountApplied = true;
+            
+            discountRow.querySelector('.text-secondary').textContent = `Discount (${code})`;
+            discountRow.querySelector('.font-semibold').textContent = `-$${validCoupons[code].discount}`;
+            
+            couponError.classList.add('hidden');
+            couponSuccess.classList.remove('hidden');
+            couponSuccess.querySelector('.text-xs').textContent = validCoupons[code].message;
+            
+            highlightRow('discount-row');
+            showToast(validCoupons[code].message, 'success');
+            
+            couponInput.value = '';
+            
+            document.querySelectorAll('.coupon-chip').forEach(chip => {
+                chip.classList.remove('bg-gradient-to-r', 'from-primary/10', 'to-accent/10', 'border-primary/20', 'text-primary', 'font-semibold');
+                chip.classList.add('bg-gray-50', 'border-gray-200', 'text-dark', 'font-medium');
+                chip.innerHTML = chip.innerHTML.replace(' (Applied)', '');
+            });
+            
+            const appliedChip = document.querySelector(`[data-code="${code}"]`);
+            if (appliedChip) {
+                appliedChip.classList.remove('bg-gray-50', 'border-gray-200', 'text-dark', 'font-medium');
+                appliedChip.classList.add('bg-gradient-to-r', 'from-primary/10', 'to-accent/10', 'border-primary/20', 'text-primary', 'font-semibold');
+                if (!appliedChip.textContent.includes('(Applied)')) {
+                    appliedChip.innerHTML = appliedChip.innerHTML.replace(code, `${code} (Applied)`);
+                }
+            }
+        } else {
+            couponSuccess.classList.add('hidden');
+            couponError.classList.remove('hidden');
+            showToast('Invalid coupon code', 'error');
+        }
+    });
+    
+    removeCouponBtn.addEventListener('click', function() {
+        animateTotal(4351);
+        discountApplied = false;
+        couponSuccess.classList.add('hidden');
+        discountRow.classList.add('hidden');
+        showToast('Coupon removed', 'success');
+        
+        document.querySelectorAll('.coupon-chip').forEach(chip => {
+            chip.classList.remove('bg-gradient-to-r', 'from-primary/10', 'to-accent/10', 'border-primary/20', 'text-primary', 'font-semibold');
+            chip.classList.add('bg-gray-50', 'border-gray-200', 'text-dark', 'font-medium');
+            chip.innerHTML = chip.innerHTML.replace(' (Applied)', '');
+        });
+    });
+    
+    document.querySelectorAll('.coupon-chip').forEach(chip => {
+        chip.addEventListener('click', function() {
+            const code = this.dataset.code;
+            couponInput.value = code;
+            applyCouponBtn.click();
+        });
+    });
+    
+    policyAccordionBtn.addEventListener('click', function() {
+        policyContent.classList.toggle('hidden');
+        policyChevron.classList.toggle('rotate-180');
+    });
+    
+    document.getElementById('proceed-checkout-btn').addEventListener('click', function() {
+        showToast('Proceeding to checkout...', 'success');
+        setTimeout(() => {
+            window.location.href = '#checkout';
+        }, 500);
+    });
+    
+    document.getElementById('back-btn').addEventListener('click', function() {
+        window.history.back();
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (typeof SEARCH_DATES !== 'undefined') {
+        SEARCH_DATES.updateAllDateDisplays();
+    }
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

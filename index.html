@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itinera - Discover Amazing Stays</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none; }</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-white text-dark overflow-x-hidden">
+<div class="container">
+<div id="app-container" class="relative pb-20">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-route text-primary text-2xl"></i>
+                <span class="font-bold text-xl text-dark">Itinera</span>
+            </div>
+            
+            <button id="search-pill" class="flex-1 max-w-[200px] bg-gray-50 rounded-full px-4 py-2.5 flex items-center gap-2 shadow-sm border border-gray-200 active:scale-95 transition-transform">
+                <i class="fa-solid fa-magnifying-glass text-gray-400 text-sm"></i>
+                <span class="text-sm text-gray-400 truncate">Where to?</span>
+            </button>
+            
+            <button id="profile-icon" class="w-10 h-10 rounded-full overflow-hidden border-2 border-gray-200 flex items-center justify-center active:scale-95 transition-transform">
+                <img id="header-profile-img" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Profile" class="w-full h-full object-cover" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+                <i class="fa-solid fa-user text-gray-500" style="display: none;"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="hero-prompt" class="px-4 pt-6 pb-4">
+            <h1 class="text-2xl font-bold text-dark mb-2">Where will your next adventure take you?</h1>
+            <p class="text-gray-400 text-sm mb-4">Discover amazing stays and experiences around the world</p>
+            
+            <div id="quick-destination-chips" class="flex gap-2 overflow-x-auto pb-2 -mx-4 px-4 snap-x snap-mandatory">
+                <button class="chip-btn snap-start flex-shrink-0 px-4 py-2 rounded-full bg-primary text-white text-sm font-medium shadow-md active:scale-95 transition-transform">
+                    <i class="fa-solid fa-fire mr-1.5"></i>Trending
+                </button>
+                <button class="chip-btn snap-start flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-200 text-dark text-sm font-medium active:scale-95 transition-transform">
+                    <i class="fa-solid fa-umbrella-beach mr-1.5"></i>Beaches
+                </button>
+                <button class="chip-btn snap-start flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-200 text-dark text-sm font-medium active:scale-95 transition-transform">
+                    <i class="fa-solid fa-mountain mr-1.5"></i>Mountains
+                </button>
+                <button class="chip-btn snap-start flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-200 text-dark text-sm font-medium active:scale-95 transition-transform">
+                    <i class="fa-solid fa-city mr-1.5"></i>Cities
+                </button>
+                <button class="chip-btn snap-start flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-200 text-dark text-sm font-medium active:scale-95 transition-transform">
+                    <i class="fa-solid fa-tree mr-1.5"></i>Nature
+                </button>
+                <button class="chip-btn snap-start flex-shrink-0 px-4 py-2 rounded-full bg-white border border-gray-200 text-dark text-sm font-medium active:scale-95 transition-transform">
+                    <i class="fa-solid fa-landmark mr-1.5"></i>Historical
+                </button>
+            </div>
+        </section>
+
+        <section id="featured-destinations" class="pb-6">
+            <div class="px-4 mb-3 flex items-center justify-between">
+                <h2 class="text-lg font-bold text-dark">Featured Destinations</h2>
+                <button class="text-sm text-primary font-medium">See all</button>
+            </div>
+            
+            <div class="relative">
+                <div id="featured-carousel" class="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-3">
+                    <div class="featured-card snap-start flex-shrink-0 w-[85vw] max-w-[340px] rounded-2xl overflow-hidden shadow-lg bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='search-results.html?destination=Santorini'">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/2f5715a318-967f0cdd794dff5ef7d4.png" alt="Santorini Greece" />
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                    <i class="fa-regular fa-heart text-dark"></i>
+                                </button>
+                            </div>
+                            <div class="absolute bottom-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                                20% OFF
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-base text-dark mb-1">Santorini, Greece</h3>
+                            <p class="text-sm text-gray-400 mb-2">Iconic white buildings & stunning sunsets</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.9</span>
+                                    <span class="text-xs text-gray-400">(2.3k)</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-sm line-through text-gray-300">$280</span>
+                                    <span class="text-base font-bold text-dark ml-1">$224</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="featured-card snap-start flex-shrink-0 w-[85vw] max-w-[340px] rounded-2xl overflow-hidden shadow-lg bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='search-results.html?destination=Bali'">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/8389112696-9591732ea558fd5dffe5.png" alt="Bali Indonesia" />
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                    <i class="fa-regular fa-heart text-dark"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-base text-dark mb-1">Bali, Indonesia</h3>
+                            <p class="text-sm text-gray-400 mb-2">Tropical paradise with rich culture</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.8</span>
+                                    <span class="text-xs text-gray-400">(1.8k)</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-base font-bold text-dark">$156</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="featured-card snap-start flex-shrink-0 w-[85vw] max-w-[340px] rounded-2xl overflow-hidden shadow-lg bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='search-results.html?destination=Tokyo'">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/95f5932267-ddbb7f777a4a4055cb4c.png" alt="Tokyo Japan" />
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                    <i class="fa-regular fa-heart text-dark"></i>
+                                </button>
+                            </div>
+                            <div class="absolute bottom-3 left-3 bg-secondary text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                                POPULAR
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-base text-dark mb-1">Tokyo, Japan</h3>
+                            <p class="text-sm text-gray-400 mb-2">Modern metropolis meets tradition</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.9</span>
+                                    <span class="text-xs text-gray-400">(3.1k)</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-base font-bold text-dark">$198</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="featured-card snap-start flex-shrink-0 w-[85vw] max-w-[340px] rounded-2xl overflow-hidden shadow-lg bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='search-results.html?destination=Iceland'">
+                        <div class="relative h-48 overflow-hidden">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/1a16e79045-dc3cf5c0f202e455343d.png" alt="Iceland" />
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                    <i class="fa-regular fa-heart text-dark"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-base text-dark mb-1">Reykjavik, Iceland</h3>
+                            <p class="text-sm text-gray-400 mb-2">Northern lights & natural wonders</p>
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.7</span>
+                                    <span class="text-xs text-gray-400">(1.5k)</span>
+                                </div>
+                                <div class="text-right">
+                                    <span class="text-base font-bold text-dark">$312</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="featured-dots" class="flex justify-center gap-1.5 mt-2">
+                    <div class="dot w-2 h-2 rounded-full bg-primary"></div>
+                    <div class="dot w-2 h-2 rounded-full bg-gray-200"></div>
+                    <div class="dot w-2 h-2 rounded-full bg-gray-200"></div>
+                    <div class="dot w-2 h-2 rounded-full bg-gray-200"></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="trending-stays" class="pb-6">
+            <div class="px-4 mb-3 flex items-center justify-between">
+                <div>
+                    <h2 class="text-lg font-bold text-dark">Trending Stays</h2>
+                    <p class="text-xs text-gray-400 mt-0.5">Most booked this week</p>
+                </div>
+                <button class="text-sm text-primary font-medium" onclick="window.location.href='search-results.html'">View all</button>
+            </div>
+            
+            <div class="flex gap-3 overflow-x-auto snap-x snap-mandatory -mx-4 px-4">
+                <div class="stay-card snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='stay-detail.html'">
+                    <div class="relative">
+                        <div class="image-carousel-container h-44 overflow-hidden relative">
+                            <div class="image-carousel flex transition-transform duration-300">
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Ocean View Villa" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Villa interior" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3c0c10e80f-824a064370575d7ac141.png" alt="Villa bedroom" />
+                            </div>
+                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-2">
+                            <button class="save-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                <i class="fa-regular fa-heart text-dark text-sm"></i>
+                            </button>
+                            <button class="compare-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); addToCompare(this)">
+                                <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="absolute top-2 left-2 bg-primary text-white text-xs font-bold px-2 py-1 rounded-md">
+                            SUPERHOST
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="flex items-start justify-between mb-1">
+                            <h3 class="font-semibold text-sm text-dark flex-1">Ocean View Villa with Private Pool</h3>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-2">Malibu, California</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-accent text-xs"></i>
+                                <span class="text-xs font-semibold text-dark">4.95</span>
+                            </div>
+                            <span class="text-xs text-gray-300">•</span>
+                            <span class="text-xs text-gray-400">128 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-base font-bold text-dark">$850</span>
+                                <span class="text-xs text-gray-400">/night</span>
+                            </div>
+                            <button class="quick-view-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20" onclick="event.stopPropagation(); window.location.href='stay-quick-view.html'">
+                                Quick view
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stay-card snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='stay-detail.html'">
+                    <div class="relative">
+                        <div class="image-carousel-container h-44 overflow-hidden relative">
+                            <div class="image-carousel flex transition-transform duration-300">
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7d8b6a97b3-04e60b34b395b04a9680.png" alt="Mountain Cabin" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/cec682f854-ce107f11a722a6a5b8e6.png" alt="Cabin exterior" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/e4ca483cc5-82eec4501895df10289e.png" alt="Cabin bedroom" />
+                            </div>
+                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-2">
+                            <button class="save-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                <i class="fa-solid fa-heart text-primary text-sm"></i>
+                            </button>
+                            <button class="compare-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); addToCompare(this)">
+                                <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="flex items-start justify-between mb-1">
+                            <h3 class="font-semibold text-sm text-dark flex-1">Cozy Mountain Cabin Retreat</h3>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-2">Aspen, Colorado</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-accent text-xs"></i>
+                                <span class="text-xs font-semibold text-dark">4.88</span>
+                            </div>
+                            <span class="text-xs text-gray-300">•</span>
+                            <span class="text-xs text-gray-400">94 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-base font-bold text-dark">$420</span>
+                                <span class="text-xs text-gray-400">/night</span>
+                            </div>
+                            <button class="quick-view-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20" onclick="event.stopPropagation(); window.location.href='stay-quick-view.html'">
+                                Quick view
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stay-card snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='stay-detail.html'">
+                    <div class="relative">
+                        <div class="image-carousel-container h-44 overflow-hidden relative">
+                            <div class="image-carousel flex transition-transform duration-300">
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/faca805449-f3790499b254798fd55a.png" alt="Downtown Loft" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/50bb0114d8-da1ef044d34dd24f6898.png" alt="Loft interior" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/1ed52d8781-fa1a950fc646ec6e5597.png" alt="Loft bedroom" />
+                            </div>
+                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-2">
+                            <button class="save-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                <i class="fa-regular fa-heart text-dark text-sm"></i>
+                            </button>
+                            <button class="compare-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); addToCompare(this)">
+                                <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="absolute top-2 left-2 bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">
+                            15% OFF
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="flex items-start justify-between mb-1">
+                            <h3 class="font-semibold text-sm text-dark flex-1">Downtown Loft with Skyline Views</h3>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-2">New York, NY</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-accent text-xs"></i>
+                                <span class="text-xs font-semibold text-dark">4.92</span>
+                            </div>
+                            <span class="text-xs text-gray-300">•</span>
+                            <span class="text-xs text-gray-400">167 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-xs line-through text-gray-300">$380</span>
+                                <span class="text-base font-bold text-dark ml-1">$323</span>
+                                <span class="text-xs text-gray-400">/night</span>
+                            </div>
+                            <button class="quick-view-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20" onclick="event.stopPropagation(); window.location.href='stay-quick-view.html'">
+                                Quick view
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="stay-card snap-start flex-shrink-0 w-[280px] rounded-xl overflow-hidden shadow-md bg-white active:scale-98 transition-transform cursor-pointer" onclick="window.location.href='stay-detail.html'">
+                    <div class="relative">
+                        <div class="image-carousel-container h-44 overflow-hidden relative">
+                            <div class="image-carousel flex transition-transform duration-300">
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/efb2147c5b-6c7e321e8007849c5265.png" alt="Jungle Treehouse" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/06e387ad4e-1d2ccdb1cbdac691634b.png" alt="Treehouse interior" />
+                                <img class="w-full h-44 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/323418a331-ec4fecf356a63dd40a5c.png" alt="Treehouse deck" />
+                            </div>
+                            <div class="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                                <div class="img-dot w-1.5 h-1.5 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                        <div class="absolute top-2 right-2 flex gap-2">
+                            <button class="save-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); toggleSave(this)">
+                                <i class="fa-regular fa-heart text-dark text-sm"></i>
+                            </button>
+                            <button class="compare-btn w-8 h-8 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform" onclick="event.stopPropagation(); addToCompare(this)">
+                                <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                            </button>
+                        </div>
+                        <div class="absolute top-2 left-2 bg-secondary text-white text-xs font-bold px-2 py-1 rounded-md">
+                            ECO
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <div class="flex items-start justify-between mb-1">
+                            <h3 class="font-semibold text-sm text-dark flex-1">Jungle Treehouse Eco Lodge</h3>
+                        </div>
+                        <p class="text-xs text-gray-400 mb-2">Ubud, Bali</p>
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="flex items-center gap-1">
+                                <i class="fa-solid fa-star text-accent text-xs"></i>
+                                <span class="text-xs font-semibold text-dark">4.97</span>
+                            </div>
+                            <span class="text-xs text-gray-300">•</span>
+                            <span class="text-xs text-gray-400">203 reviews</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <span class="text-base font-bold text-dark">$215</span>
+                                <span class="text-xs text-gray-400">/night</span>
+                            </div>
+                            <button class="quick-view-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20" onclick="event.stopPropagation(); window.location.href='stay-quick-view.html'">
+                                Quick view
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="loyalty-rewards-teaser" class="mx-4 mb-6 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-primary to-accent p-6 relative">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
+            <div class="absolute bottom-0 left-0 w-24 h-24 bg-white/10 rounded-full -ml-12 -mb-12"></div>
+            <div class="relative z-10">
+                <div class="flex items-center gap-2 mb-2">
+                    <i class="fa-solid fa-trophy text-white text-2xl"></i>
+                    <span class="bg-white/20 text-white text-xs font-bold px-2 py-1 rounded-full">LEVEL 3</span>
+                </div>
+                <h2 class="text-white font-bold text-lg mb-1">Earn Rewards as You Travel</h2>
+                <p class="text-white/90 text-sm mb-4">Complete missions, earn XP, and unlock exclusive perks</p>
+                <div class="flex gap-2 mb-4">
+                    <div class="flex-1 bg-white/20 rounded-lg p-3 backdrop-blur-sm">
+                        <div class="text-white/70 text-xs mb-1">Current XP</div>
+                        <div class="text-white font-bold text-lg">2,450</div>
+                    </div>
+                    <div class="flex-1 bg-white/20 rounded-lg p-3 backdrop-blur-sm">
+                        <div class="text-white/70 text-xs mb-1">Next Level</div>
+                        <div class="text-white font-bold text-lg">3,000</div>
+                    </div>
+                </div>
+                <div class="bg-white/20 rounded-full h-2 mb-3 overflow-hidden">
+                    <div class="bg-white h-full rounded-full" style="width: 82%"></div>
+                </div>
+                <button class="w-full bg-white text-primary font-bold py-3 rounded-xl shadow-lg active:scale-98 transition-transform" onclick="window.location.href='rewards-dashboard.html'">
+                    View Rewards Dashboard
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="compare-tray" class="fixed bottom-20 left-0 right-0 z-30 px-4 hidden safe-area-bottom">
+        <div class="bg-dark text-white rounded-2xl shadow-2xl p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-code-compare text-white"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-sm">Compare Stays</div>
+                    <div class="text-xs text-white/70"><span id="compare-count">0</span>/3 selected</div>
+                </div>
+            </div>
+            <button id="compare-btn" class="bg-white text-dark font-bold px-5 py-2.5 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='compare-stays.html'">
+                Compare
+            </button>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform" onclick="window.location.href='index.html'">
+                <i class="fa-solid fa-compass text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='search.html'">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='my-trips.html'">
+                <i class="fa-solid fa-suitcase-rolling text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='map-explorer.html'">
+                <i class="fa-solid fa-map-location-dot text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='budget-dashboard.html'">
+                <i class="fa-solid fa-chart-pie text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform" onclick="window.location.href='profile.html'">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+</div>
+
+<script src="js/app.js"></script>
+<script>
+let currentFeaturedIndex = 0;
+const featuredCards = document.querySelectorAll('.featured-card');
+const featuredDots = document.querySelectorAll('#featured-dots .dot');
+
+function updateFeaturedCarousel() {
+    featuredCards.forEach((card, index) => {
+        if (index === currentFeaturedIndex) {
+            card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    });
+    featuredDots.forEach((dot, index) => {
+        if (index === currentFeaturedIndex) {
+            dot.classList.remove('bg-gray-200');
+            dot.classList.add('bg-primary');
+        } else {
+            dot.classList.remove('bg-primary');
+            dot.classList.add('bg-gray-200');
+        }
+    });
+}
+
+setInterval(() => {
+    currentFeaturedIndex = (currentFeaturedIndex + 1) % featuredCards.length;
+    updateFeaturedCarousel();
+}, 5000);
+
+document.querySelectorAll('.image-carousel-container').forEach(container => {
+    const carousel = container.querySelector('.image-carousel');
+    const images = carousel.querySelectorAll('img');
+    const dots = container.querySelectorAll('.img-dot');
+    let currentIndex = 0;
+    
+    if (images.length > 1) {
+        setInterval(() => {
+            currentIndex = (currentIndex + 1) % images.length;
+            carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+            dots.forEach((dot, index) => {
+                if (index === currentIndex) {
+                    dot.classList.remove('bg-white/50');
+                    dot.classList.add('bg-white');
+                } else {
+                    dot.classList.remove('bg-white');
+                    dot.classList.add('bg-white/50');
+                }
+            });
+        }, 3000);
+    }
+});
+
+document.getElementById('search-pill').addEventListener('click', () => {
+    window.location.href = 'search.html';
+});
+
+document.getElementById('profile-icon').addEventListener('click', () => {
+    window.location.href = 'profile.html';
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const headerProfileImg = document.getElementById('header-profile-img');
+    if (headerProfileImg && typeof USER_INFO !== 'undefined') {
+        headerProfileImg.src = USER_INFO.getProfilePhoto();
+        headerProfileImg.onerror = function() {
+            this.style.display = 'none';
+            const icon = this.nextElementSibling;
+            if (icon) icon.style.display = 'flex';
+        };
+    }
+});
+
+document.querySelectorAll('.chip-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        document.querySelectorAll('.chip-btn').forEach(b => {
+            b.classList.remove('bg-primary', 'text-white');
+            b.classList.add('bg-white', 'border', 'border-gray-200', 'text-dark');
+        });
+        this.classList.remove('bg-white', 'border', 'border-gray-200', 'text-dark');
+        this.classList.add('bg-primary', 'text-white');
+    });
+});
+</script>
+
+</body>
+</html>
+

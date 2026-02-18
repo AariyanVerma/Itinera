@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-36">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <button id="back-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-arrow-left text-dark"></i>
+            </button>
+            
+            <div class="flex-1 text-center">
+                <h1 class="font-bold text-base text-dark">Secure Checkout</h1>
+                <p class="text-xs text-gray-400">Step <span id="current-step-display">1</span> of 4</p>
+            </div>
+            
+            <button id="help-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-question text-dark"></i>
+            </button>
+        </div>
+    </header>
+
+    <section id="stepper-section" class="bg-white border-b border-gray-100 px-4 py-4">
+        <div class="flex items-center justify-between relative">
+            <div class="absolute top-1/2 left-0 right-0 h-0.5 bg-gray-200 -translate-y-1/2 z-0"></div>
+            <div id="progress-bar" class="absolute top-1/2 left-0 h-0.5 bg-primary -translate-y-1/2 z-0 transition-all duration-300" style="width: 0%"></div>
+            
+            <div class="step-item flex flex-col items-center gap-1 z-10 relative">
+                <div id="step-1-circle" class="w-10 h-10 rounded-full bg-primary border-2 border-primary flex items-center justify-center transition-all duration-300">
+                    <i class="fa-solid fa-user text-white text-sm"></i>
+                </div>
+                <span class="text-xs font-medium text-dark mt-1">Guest</span>
+            </div>
+            
+            <div class="step-item flex flex-col items-center gap-1 z-10 relative">
+                <div id="step-2-circle" class="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center transition-all duration-300">
+                    <i class="fa-solid fa-sliders text-gray-300 text-sm"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-400 mt-1">Preferences</span>
+            </div>
+            
+            <div class="step-item flex flex-col items-center gap-1 z-10 relative">
+                <div id="step-3-circle" class="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center transition-all duration-300">
+                    <i class="fa-solid fa-credit-card text-gray-300 text-sm"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-400 mt-1">Payment</span>
+            </div>
+            
+            <div class="step-item flex flex-col items-center gap-1 z-10 relative">
+                <div id="step-4-circle" class="w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center transition-all duration-300">
+                    <i class="fa-solid fa-check text-gray-300 text-sm"></i>
+                </div>
+                <span class="text-xs font-medium text-gray-400 mt-1">Review</span>
+            </div>
+        </div>
+    </section>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="step-1-guest-details" class="px-4 py-5">
+            <div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-user text-primary"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-base text-dark">Guest Details</h2>
+                        <p class="text-xs text-gray-400">Who's checking in?</p>
+                    </div>
+                </div>
+                
+                <form id="guest-details-form" class="space-y-4">
+                    <div class="form-group">
+                        <label for="full-name" class="block text-sm font-semibold text-dark mb-2">Full Name *</label>
+                        <input 
+                            type="text" 
+                            id="full-name" 
+                            name="full-name"
+                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                            placeholder="Enter your full name"
+                            required
+                        />
+                        <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>Please enter your full name</span>
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email" class="block text-sm font-semibold text-dark mb-2">Email Address *</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email"
+                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                            placeholder="your.email@example.com"
+                            required
+                        />
+                        <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>Please enter a valid email address</span>
+                        </p>
+                        <p class="text-xs text-gray-400 mt-1.5">Booking confirmation will be sent here</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone" class="block text-sm font-semibold text-dark mb-2">Phone Number *</label>
+                        <div class="flex gap-2">
+                            <select id="phone-country-code" class="px-3 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm bg-white">
+                                <option value="+1">🇺🇸 +1</option>
+                                <option value="+44">🇬🇧 +44</option>
+                                <option value="+33">🇫🇷 +33</option>
+                                <option value="+49">🇩🇪 +49</option>
+                                <option value="+81">🇯🇵 +81</option>
+                                <option value="+86">🇨🇳 +86</option>
+                                <option value="+91">🇮🇳 +91</option>
+                            </select>
+                            <input 
+                                type="tel" 
+                                id="phone" 
+                                name="phone"
+                                class="flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                                placeholder="123-456-7890"
+                                required
+                            />
+                        </div>
+                        <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>Please enter a valid phone number</span>
+                        </p>
+                        <p class="text-xs text-gray-400 mt-1.5">For booking updates and property contact</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="country" class="block text-sm font-semibold text-dark mb-2">Country/Region *</label>
+                        <select 
+                            id="country" 
+                            name="country"
+                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm bg-white"
+                            required
+                        >
+                            <option value="">Select your country</option>
+                            <option value="US">United States</option>
+                            <option value="GB">United Kingdom</option>
+                            <option value="CA">Canada</option>
+                            <option value="AU">Australia</option>
+                            <option value="FR">France</option>
+                            <option value="DE">Germany</option>
+                            <option value="IT">Italy</option>
+                            <option value="ES">Spain</option>
+                            <option value="JP">Japan</option>
+                            <option value="CN">China</option>
+                        </select>
+                        <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>Please select your country</span>
+                        </p>
+                    </div>
+                </form>
+
+                <div class="mt-5 p-4 bg-secondary/5 rounded-xl border border-secondary/20">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-shield-halved text-secondary text-lg mt-0.5"></i>
+                        <div>
+                            <h3 class="font-semibold text-sm text-dark mb-1">Your information is secure</h3>
+                            <p class="text-xs text-gray-400">We use industry-standard encryption to protect your personal data</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-5">
+                <h3 class="font-bold text-sm text-dark mb-3">Special Accommodations</h3>
+                <div class="space-y-3">
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20" />
+                        <span class="text-sm text-dark">Accessible room required</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20" />
+                        <span class="text-sm text-dark">Traveling with pets</span>
+                    </label>
+                    <label class="flex items-center gap-3 cursor-pointer">
+                        <input type="checkbox" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20" />
+                        <span class="text-sm text-dark">Need early check-in</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section id="step-2-preferences" class="px-4 py-5 hidden">
+            <div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-sliders text-secondary"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-base text-dark">Your Preferences</h2>
+                        <p class="text-xs text-gray-400">Help us personalize your stay</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-dark mb-2">Expected Arrival Time</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" class="arrival-time-btn px-4 py-3 rounded-xl border-2 border-gray-200 text-sm font-medium text-dark active:scale-95 transition-all" data-time="morning">
+                                <i class="fa-solid fa-sunrise block text-lg mb-1 text-accent"></i>
+                                Morning<br/>
+                                <span class="text-xs text-gray-400">6AM-12PM</span>
+                            </button>
+                            <button type="button" class="arrival-time-btn px-4 py-3 rounded-xl border-2 border-gray-200 text-sm font-medium text-dark active:scale-95 transition-all" data-time="afternoon">
+                                <i class="fa-solid fa-sun block text-lg mb-1 text-accent"></i>
+                                Afternoon<br/>
+                                <span class="text-xs text-gray-400">12PM-6PM</span>
+                            </button>
+                            <button type="button" class="arrival-time-btn px-4 py-3 rounded-xl border-2 border-gray-200 text-sm font-medium text-dark active:scale-95 transition-all" data-time="evening">
+                                <i class="fa-solid fa-moon block text-lg mb-1 text-accent"></i>
+                                Evening<br/>
+                                <span class="text-xs text-gray-400">6PM-12AM</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-dark mb-2">Room Preference</label>
+                        <select id="room-preference" class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm bg-white">
+                            <option value="">No preference</option>
+                            <option value="high-floor">High floor</option>
+                            <option value="low-floor">Low floor</option>
+                            <option value="quiet">Quiet area</option>
+                            <option value="near-elevator">Near elevator</option>
+                            <option value="away-elevator">Away from elevator</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="block text-sm font-semibold text-dark mb-2">Bed Type</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <button type="button" class="bed-type-btn px-4 py-3 rounded-xl border-2 border-gray-200 text-sm font-medium text-dark active:scale-95 transition-all" data-bed="king">
+                                <i class="fa-solid fa-bed text-lg mb-1 block text-primary"></i>
+                                King Bed
+                            </button>
+                            <button type="button" class="bed-type-btn px-4 py-3 rounded-xl border-2 border-gray-200 text-sm font-medium text-dark active:scale-95 transition-all" data-bed="twin">
+                                <i class="fa-solid fa-bed-pulse text-lg mb-1 block text-primary"></i>
+                                Twin Beds
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="special-requests" class="block text-sm font-semibold text-dark mb-2">Special Requests</label>
+                        <textarea 
+                            id="special-requests" 
+                            rows="4"
+                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm resize-none"
+                            placeholder="Any special requests? (e.g., extra pillows, baby crib, dietary restrictions)"
+                        ></textarea>
+                        <p class="text-xs text-gray-400 mt-1.5">We'll do our best to accommodate your requests</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-5">
+                <h3 class="font-bold text-sm text-dark mb-3">Add-On Services</h3>
+                <div class="space-y-3">
+                    <label class="flex items-center justify-between cursor-pointer p-3 rounded-xl border border-gray-200 active:bg-gray-50">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-utensils text-accent"></i>
+                            <div>
+                                <div class="text-sm font-medium text-dark">Breakfast included</div>
+                                <div class="text-xs text-gray-400">+$25/person/day</div>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="addon-breakfast" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20" />
+                    </label>
+
+                    <label class="flex items-center justify-between cursor-pointer p-3 rounded-xl border border-gray-200 active:bg-gray-50">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-car text-secondary"></i>
+                            <div>
+                                <div class="text-sm font-medium text-dark">Airport transfer</div>
+                                <div class="text-xs text-gray-400">+$45 one-way</div>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="addon-airport" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20" />
+                    </label>
+
+                    <label class="flex items-center justify-between cursor-pointer p-3 rounded-xl border border-gray-200 active:bg-gray-50">
+                        <div class="flex items-center gap-3">
+                            <i class="fa-solid fa-wifi text-primary"></i>
+                            <div>
+                                <div class="text-sm font-medium text-dark">Premium WiFi</div>
+                                <div class="text-xs text-gray-400">+$10/day</div>
+                            </div>
+                        </div>
+                        <input type="checkbox" id="addon-wifi" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20" />
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <section id="step-3-payment" class="px-4 py-5 hidden">
+            <div class="bg-accent/10 border border-accent/30 rounded-xl p-4 mb-4 flex items-start gap-3">
+                <i class="fa-solid fa-circle-info text-accent text-lg mt-0.5"></i>
+                <div>
+                    <h3 class="font-semibold text-sm text-dark mb-1">Payment Simulation Only</h3>
+                    <p class="text-xs text-gray-400">This is a demo interface. No actual payment will be processed. All card details entered here are for demonstration purposes only.</p>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-credit-card text-primary"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-base text-dark">Payment Information</h2>
+                        <p class="text-xs text-gray-400">Secure payment processing</p>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-2 mb-4 pb-4 border-b border-gray-100">
+                    <button class="payment-method-btn flex-1 px-4 py-3 rounded-xl border-2 border-primary bg-primary/5 text-sm font-semibold text-primary active:scale-95 transition-all">
+                        <i class="fa-solid fa-credit-card mr-2"></i>Card
+                    </button>
+                    <button class="payment-method-btn flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 text-sm font-semibold text-dark active:scale-95 transition-all">
+                        <i class="fa-brands fa-paypal mr-2"></i>PayPal
+                    </button>
+                    <button class="payment-method-btn flex-1 px-4 py-3 rounded-xl border-2 border-gray-200 text-sm font-semibold text-dark active:scale-95 transition-all">
+                        <i class="fa-brands fa-apple-pay mr-2"></i>Apple Pay
+                    </button>
+                </div>
+
+                <form id="payment-form" class="space-y-4">
+                    <div class="form-group">
+                        <label for="card-number" class="block text-sm font-semibold text-dark mb-2">Card Number *</label>
+                        <div class="relative">
+                            <input 
+                                type="text" 
+                                id="card-number" 
+                                name="card-number"
+                                class="w-full px-4 py-3 pr-12 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                                placeholder="1234 5678 9012 3456"
+                                maxlength="19"
+                            />
+                            <div class="absolute right-3 top-1/2 -translate-y-1/2 flex gap-1">
+                                <i class="fa-brands fa-cc-visa text-xl text-gray-300"></i>
+                                <i class="fa-brands fa-cc-mastercard text-xl text-gray-300"></i>
+                            </div>
+                        </div>
+                        <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>Please enter a valid card number</span>
+                        </p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="card-name" class="block text-sm font-semibold text-dark mb-2">Cardholder Name *</label>
+                        <input 
+                            type="text" 
+                            id="card-name" 
+                            name="card-name"
+                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                            placeholder="Name as it appears on card"
+                        />
+                        <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span>Please enter cardholder name</span>
+                        </p>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="form-group">
+                            <label for="expiry" class="block text-sm font-semibold text-dark mb-2">Expiry Date *</label>
+                            <input 
+                                type="text" 
+                                id="expiry" 
+                                name="expiry"
+                                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                                placeholder="MM/YY"
+                                maxlength="5"
+                            />
+                            <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Invalid expiry</span>
+                            </p>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="cvv" class="block text-sm font-semibold text-dark mb-2 flex items-center gap-1">
+                                CVV *
+                                <button type="button" class="text-gray-400 hover:text-dark">
+                                    <i class="fa-solid fa-circle-question text-xs"></i>
+                                </button>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="cvv" 
+                                name="cvv"
+                                class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                                placeholder="123"
+                                maxlength="4"
+                            />
+                            <p class="error-message hidden text-xs text-primary mt-1.5 flex items-center gap-1">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>Invalid CVV</span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="billing-address" class="block text-sm font-semibold text-dark mb-2">Billing Address *</label>
+                        <input 
+                            type="text" 
+                            id="billing-address" 
+                            name="billing-address"
+                            class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm mb-2"
+                            placeholder="Street address"
+                        />
+                        <div class="grid grid-cols-2 gap-2">
+                            <input 
+                                type="text" 
+                                placeholder="City"
+                                class="px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                            />
+                            <input 
+                                type="text" 
+                                placeholder="ZIP/Postal code"
+                                class="px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none transition-colors text-sm"
+                            />
+                        </div>
+                    </div>
+                </form>
+
+                <div class="mt-5 p-4 bg-secondary/5 rounded-xl border border-secondary/20">
+                    <div class="flex items-center gap-3">
+                        <i class="fa-solid fa-lock text-secondary text-lg"></i>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Secure Payment</h3>
+                                <i class="fa-brands fa-cc-visa text-lg"></i>
+                                <i class="fa-brands fa-cc-mastercard text-lg"></i>
+                                <i class="fa-brands fa-cc-amex text-lg"></i>
+                            </div>
+                            <p class="text-xs text-gray-400">Your payment information is encrypted and secure</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-5">
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20 mt-0.5" />
+                    <div>
+                        <div class="text-sm font-medium text-dark mb-1">Save card for future bookings</div>
+                        <p class="text-xs text-gray-400">Your card details will be securely stored for faster checkout</p>
+                    </div>
+                </label>
+            </div>
+        </section>
+
+        <section id="step-4-review" class="px-4 py-5 hidden">
+            <div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
+                <div class="flex items-center gap-2 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center">
+                        <i class="fa-solid fa-check text-secondary"></i>
+                    </div>
+                    <div>
+                        <h2 class="font-bold text-base text-dark">Review & Confirm</h2>
+                        <p class="text-xs text-gray-400">Please verify your booking details</p>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="pb-4 border-b border-gray-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-sm text-dark">Guest Information</h3>
+                            <button class="edit-step-btn text-xs text-primary font-medium" data-step="1">Edit</button>
+                        </div>
+                        <div class="space-y-1.5">
+                            <p class="text-sm text-gray-400"><span class="font-medium text-dark">Name:</span> <span id="review-name">-</span></p>
+                            <p class="text-sm text-gray-400"><span class="font-medium text-dark">Email:</span> <span id="review-email">-</span></p>
+                            <p class="text-sm text-gray-400"><span class="font-medium text-dark">Phone:</span> <span id="review-phone">-</span></p>
+                            <p class="text-sm text-gray-400"><span class="font-medium text-dark">Country:</span> <span id="review-country">-</span></p>
+                        </div>
+                    </div>
+
+                    <div class="pb-4 border-b border-gray-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-sm text-dark">Preferences</h3>
+                            <button class="edit-step-btn text-xs text-primary font-medium" data-step="2">Edit</button>
+                        </div>
+                        <div class="space-y-1.5">
+                            <p class="text-sm text-gray-400"><span class="font-medium text-dark">Arrival:</span> <span id="review-arrival">-</span></p>
+                            <p class="text-sm text-gray-400"><span class="font-medium text-dark">Bed Type:</span> <span id="review-bed-type">-</span></p>
+                            <p class="text-sm text-gray-400"><span class="font-medium text-dark">Add-ons:</span> <span id="review-addons">None</span></p>
+                        </div>
+                    </div>
+
+                    <div class="pb-4 border-b border-gray-100">
+                        <div class="flex items-center justify-between mb-2">
+                            <h3 class="font-semibold text-sm text-dark">Payment Method</h3>
+                            <button class="edit-step-btn text-xs text-primary font-medium" data-step="3">Edit</button>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div id="review-payment-icon" class="w-12 h-8 rounded bg-gray-100 flex items-center justify-center">
+                                <i class="fa-brands fa-cc-visa text-2xl text-primary"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-dark"><span id="review-payment-method">-</span> ending in <span id="review-card-last4">-</span></p>
+                                <p class="text-xs text-gray-400">Expires <span id="review-card-expiry">-</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-sm text-dark mb-2">Booking Details</h3>
+                        <div class="flex gap-3 mb-3">
+                            <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0">
+                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Property" class="w-full h-full object-cover" />
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-semibold text-sm text-dark mb-1">Ocean View Villa with Private Pool</h4>
+                                <p class="text-xs text-gray-400 mb-1">Malibu, California</p>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-xs"></i>
+                                    <span class="text-xs font-semibold text-dark">4.95</span>
+                                    <span class="text-xs text-gray-400">(128 reviews)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Check-in</span>
+                                <span class="font-medium text-dark" data-date="check-in">Dec 20, 2024</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Check-out</span>
+                                <span class="font-medium text-dark" data-date="check-out">Dec 27, 2024</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Guests</span>
+                                <span class="font-medium text-dark">2 adults, 1 child</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-gray-400">Nights</span>
+                                <span class="font-medium text-dark" data-date="nights">7 nights</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-5 mb-4">
+                <h3 class="font-bold text-sm text-dark mb-3">Cancellation Policy</h3>
+                <div class="space-y-3">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-check text-secondary mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-dark font-medium">Free cancellation until Dec 13</p>
+                            <p class="text-xs text-gray-400">Get a full refund if you cancel before 11:59 PM on Dec 13</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-info text-accent mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-dark font-medium">Partial refund until Dec 18</p>
+                            <p class="text-xs text-gray-400">50% refund if canceled between Dec 14-18</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-circle-xmark text-primary mt-0.5"></i>
+                        <div>
+                            <p class="text-sm text-dark font-medium">No refund after Dec 18</p>
+                            <p class="text-xs text-gray-400">No refund available for cancellations after Dec 18</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm p-5">
+                <label class="flex items-start gap-3 cursor-pointer">
+                    <input type="checkbox" id="terms-checkbox" class="w-5 h-5 rounded border-2 border-gray-300 text-primary focus:ring-2 focus:ring-primary/20 mt-0.5" required />
+                    <div>
+                        <p class="text-sm text-dark mb-1">I agree to the <a href="#" class="text-primary font-medium">Terms & Conditions</a> and <a href="#" class="text-primary font-medium">Privacy Policy</a></p>
+                        <p class="text-xs text-gray-400">By completing this booking, you agree to the property's house rules and cancellation policy</p>
+                    </div>
+                </label>
+            </div>
+        </section>
+
+        <section id="booking-summary-sidebar" class="px-4 py-5 bg-white border-t border-gray-100">
+            <h3 class="font-bold text-base text-dark mb-3">Booking Summary</h3>
+            
+            <div class="space-y-3 mb-4">
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">$850 × 7 nights</span>
+                    <span class="font-medium text-dark">$5,950</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">Service fee</span>
+                    <span class="font-medium text-dark">$178</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">Taxes</span>
+                    <span class="font-medium text-dark">$595</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">Breakfast (2 guests × 7 days)</span>
+                    <span class="font-medium text-dark">$350</span>
+                </div>
+                <div class="flex items-center justify-between text-sm">
+                    <span class="text-gray-400">Airport transfer</span>
+                    <span class="font-medium text-dark">$45</span>
+                </div>
+            </div>
+
+            <div class="pt-3 border-t border-gray-200 mb-4">
+                <div class="flex items-center justify-between">
+                    <span class="font-bold text-base text-dark">Total</span>
+                    <div class="text-right">
+                        <span class="font-bold text-lg text-dark">$7,118</span>
+                        <p class="text-xs text-gray-400">USD</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-3 bg-secondary/5 rounded-xl border border-secondary/20">
+                <div class="flex items-start gap-2">
+                    <i class="fa-solid fa-tag text-secondary mt-0.5"></i>
+                    <div class="flex-1">
+                        <p class="text-xs font-semibold text-dark mb-1">Have a promo code?</p>
+                        <div class="flex gap-2">
+                            <input 
+                                type="text" 
+                                id="promo-code"
+                                class="flex-1 px-3 py-2 rounded-lg border border-gray-200 focus:border-primary focus:outline-none text-xs"
+                                placeholder="Enter code"
+                            />
+                            <button id="apply-promo-btn" class="px-4 py-2 rounded-lg bg-secondary text-white text-xs font-semibold active:scale-95 transition-transform">
+                                Apply
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="wizard-cta-bar" class="fixed bottom-16 left-0 right-0 z-30 bg-white border-t border-gray-100 px-4 py-3 safe-area-bottom">
+        <button id="continue-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg active:scale-98 transition-transform flex items-center justify-center gap-2">
+            <span>Continue to Preferences</span>
+            <i class="fa-solid fa-arrow-right"></i>
+        </button>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-calendar-days text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="toast-container" class="fixed top-20 left-4 right-4 z-50 space-y-2"></div>
+
+<div id="confirmation-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-dark/50 backdrop-blur-sm hidden">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 transform scale-95 opacity-0 transition-all duration-300" id="modal-content">
+        <div class="text-center mb-4">
+            <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
+                <i class="fa-solid fa-circle-check text-primary text-3xl"></i>
+            </div>
+            <h2 class="font-bold text-xl text-dark mb-2">Confirm Your Booking?</h2>
+            <p class="text-sm text-gray-400">You're about to book Ocean View Villa for 7 nights</p>
+        </div>
+
+        <div class="bg-gray-50 rounded-xl p-4 mb-4">
+            <div class="flex items-center justify-between mb-2">
+                <span class="text-sm text-gray-400">Total Amount</span>
+                <span class="font-bold text-lg text-dark">$7,118</span>
+            </div>
+            <p class="text-xs text-gray-400">Payment will be processed immediately</p>
+        </div>
+
+        <div class="space-y-2">
+            <button id="confirm-booking-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg active:scale-98 transition-transform">
+                Confirm & Pay
+            </button>
+            <button id="cancel-modal-btn" class="w-full bg-gray-100 text-dark font-semibold py-4 rounded-xl active:scale-98 transition-transform">
+                Go Back
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    let currentStep = 1;
+    const totalSteps = 4;
+
+    const step1 = document.getElementById('step-1-guest-details');
+    const step2 = document.getElementById('step-2-preferences');
+    const step3 = document.getElementById('step-3-payment');
+    const step4 = document.getElementById('step-4-review');
+
+    const continueBtn = document.getElementById('continue-btn');
+    const confirmModal = document.getElementById('confirmation-modal');
+    const modalContent = document.getElementById('modal-content');
+    const confirmBookingBtn = document.getElementById('confirm-booking-btn');
+    const cancelModalBtn = document.getElementById('cancel-modal-btn');
+
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        const icons = {
+            success: 'fa-circle-check',
+            error: 'fa-circle-xmark',
+            info: 'fa-circle-info'
+        };
+        const colors = {
+            success: 'bg-secondary',
+            error: 'bg-primary',
+            info: 'bg-accent'
+        };
+        
+        toast.className = `${colors[type]} text-white px-4 py-3 rounded-xl shadow-lg flex items-center gap-3 animate-slide-in`;
+        toast.innerHTML = `
+            <i class="fa-solid ${icons[type]}"></i>
+            <span class="text-sm font-medium flex-1">${message}</span>
+        `;
+        
+        document.getElementById('toast-container').appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateY(-10px)';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    function updateStepper() {
+        const circles = [
+            document.getElementById('step-1-circle'),
+            document.getElementById('step-2-circle'),
+            document.getElementById('step-3-circle'),
+            document.getElementById('step-4-circle')
+        ];
+
+        const progressBar = document.getElementById('progress-bar');
+        const progressWidth = ((currentStep - 1) / (totalSteps - 1)) * 100;
+        progressBar.style.width = progressWidth + '%';
+
+        circles.forEach((circle, index) => {
+            const step = index + 1;
+            const icon = circle.querySelector('i');
+            const label = circle.parentElement.querySelector('span');
+
+            if (step < currentStep) {
+                circle.className = 'w-10 h-10 rounded-full bg-secondary border-2 border-secondary flex items-center justify-center transition-all duration-300';
+                icon.className = 'fa-solid fa-check text-white text-sm';
+                label.className = 'text-xs font-medium text-secondary mt-1';
+            } else if (step === currentStep) {
+                circle.className = 'w-10 h-10 rounded-full bg-primary border-2 border-primary flex items-center justify-center transition-all duration-300';
+                icon.className = getStepIcon(step) + ' text-white text-sm';
+                label.className = 'text-xs font-medium text-dark mt-1';
+            } else {
+                circle.className = 'w-10 h-10 rounded-full bg-white border-2 border-gray-200 flex items-center justify-center transition-all duration-300';
+                icon.className = getStepIcon(step) + ' text-gray-300 text-sm';
+                label.className = 'text-xs font-medium text-gray-400 mt-1';
+            }
+        });
+
+        document.getElementById('current-step-display').textContent = currentStep;
+    }
+
+    function getStepIcon(step) {
+        const icons = ['fa-solid fa-user', 'fa-solid fa-sliders', 'fa-solid fa-credit-card', 'fa-solid fa-check'];
+        return icons[step - 1];
+    }
+
+    function showStep(step) {
+        step1.classList.add('hidden');
+        step2.classList.add('hidden');
+        step3.classList.add('hidden');
+        step4.classList.add('hidden');
+
+        if (step === 1) {
+            step1.classList.remove('hidden');
+            continueBtn.innerHTML = '<span>Continue to Preferences</span><i class="fa-solid fa-arrow-right"></i>';
+        } else if (step === 2) {
+            step2.classList.remove('hidden');
+            continueBtn.innerHTML = '<span>Continue to Payment</span><i class="fa-solid fa-arrow-right"></i>';
+        } else if (step === 3) {
+            step3.classList.remove('hidden');
+            continueBtn.innerHTML = '<span>Continue to Review</span><i class="fa-solid fa-arrow-right"></i>';
+        } else if (step === 4) {
+            step4.classList.remove('hidden');
+            continueBtn.innerHTML = '<span>Confirm Booking</span><i class="fa-solid fa-check"></i>';
+            populateReviewSection();
+        }
+
+        updateStepper();
+    }
+
+    function populateReviewSection() {
+        const fullName = document.getElementById('full-name').value || '-';
+        const email = document.getElementById('email').value || '-';
+        const phoneCountryCode = document.getElementById('phone-country-code').value || '+1';
+        const phone = document.getElementById('phone').value || '-';
+        const country = document.getElementById('country');
+        const countryText = country.options[country.selectedIndex]?.text || country.value || '-';
+
+        document.getElementById('review-name').textContent = fullName;
+        document.getElementById('review-email').textContent = email;
+        document.getElementById('review-phone').textContent = phone ? `${phoneCountryCode} ${phone}` : '-';
+        document.getElementById('review-country').textContent = countryText;
+
+        const arrivalTimeBtn = document.querySelector('.arrival-time-btn.border-primary');
+        let arrivalText = '-';
+        if (arrivalTimeBtn) {
+            const time = arrivalTimeBtn.getAttribute('data-time');
+            if (time === 'morning') arrivalText = 'Morning (6AM-12PM)';
+            else if (time === 'afternoon') arrivalText = 'Afternoon (12PM-6PM)';
+            else if (time === 'evening') arrivalText = 'Evening (6PM-12AM)';
+        }
+        document.getElementById('review-arrival').textContent = arrivalText;
+
+        const bedTypeBtn = document.querySelector('.bed-type-btn.border-primary');
+        let bedTypeText = '-';
+        if (bedTypeBtn) {
+            const bed = bedTypeBtn.getAttribute('data-bed');
+            if (bed === 'king') bedTypeText = 'King Bed';
+            else if (bed === 'twin') bedTypeText = 'Twin Beds';
+        }
+        document.getElementById('review-bed-type').textContent = bedTypeText;
+
+        const addons = [];
+        if (document.getElementById('addon-breakfast').checked) addons.push('Breakfast');
+        if (document.getElementById('addon-airport').checked) addons.push('Airport transfer');
+        if (document.getElementById('addon-wifi').checked) addons.push('Premium WiFi');
+        document.getElementById('review-addons').textContent = addons.length > 0 ? addons.join(', ') : 'None';
+
+        const paymentMethodBtn = document.querySelector('.payment-method-btn.border-primary');
+        let paymentMethod = 'Card';
+        if (paymentMethodBtn) {
+            const btnText = paymentMethodBtn.textContent.trim();
+            if (btnText.includes('PayPal')) paymentMethod = 'PayPal';
+            else if (btnText.includes('Apple Pay')) paymentMethod = 'Apple Pay';
+        }
+
+        if (paymentMethod === 'Card') {
+            const cardNumber = document.getElementById('card-number').value.replace(/\s/g, '') || '';
+            const expiry = document.getElementById('expiry').value || '-';
+            
+            let cardType = 'Card';
+            let cardIcon = 'fa-credit-card';
+            if (cardNumber.length > 0) {
+                const firstDigit = cardNumber.charAt(0);
+                if (firstDigit === '4') {
+                    cardType = 'Visa';
+                    cardIcon = 'fa-cc-visa';
+                } else if (firstDigit === '5') {
+                    cardType = 'Mastercard';
+                    cardIcon = 'fa-cc-mastercard';
+                } else if (firstDigit === '3') {
+                    cardType = 'Amex';
+                    cardIcon = 'fa-cc-amex';
+                }
+            }
+
+            const last4 = cardNumber.length >= 4 ? cardNumber.slice(-4) : '-';
+            document.getElementById('review-payment-method').textContent = cardType;
+            document.getElementById('review-card-last4').textContent = last4;
+            document.getElementById('review-card-expiry').textContent = expiry;
+
+            const paymentIconEl = document.getElementById('review-payment-icon');
+            paymentIconEl.innerHTML = `<i class="fa-brands ${cardIcon} text-2xl text-primary"></i>`;
+        } else {
+            document.getElementById('review-payment-method').textContent = paymentMethod;
+            document.getElementById('review-card-last4').textContent = '-';
+            document.getElementById('review-card-expiry').textContent = '-';
+            
+            const paymentIconEl = document.getElementById('review-payment-icon');
+            if (paymentMethod === 'PayPal') {
+                paymentIconEl.innerHTML = `<i class="fa-brands fa-paypal text-2xl text-primary"></i>`;
+            } else if (paymentMethod === 'Apple Pay') {
+                paymentIconEl.innerHTML = `<i class="fa-brands fa-apple-pay text-2xl text-primary"></i>`;
+            }
+        }
+    }
+
+    function validateStep1() {
+        const fullName = document.getElementById('full-name');
+        const email = document.getElementById('email');
+        const phone = document.getElementById('phone');
+        const country = document.getElementById('country');
+        
+        let isValid = true;
+        const fields = [
+            { input: fullName, error: 'Please enter your full name' },
+            { input: email, error: 'Please enter a valid email address' },
+            { input: phone, error: 'Please enter a valid phone number' },
+            { input: country, error: 'Please select your country' }
+        ];
+
+        fields.forEach(field => {
+            const errorMsg = field.input.closest('.form-group').querySelector('.error-message');
+            if (!field.input.value.trim()) {
+                field.input.classList.add('border-primary');
+                errorMsg.classList.remove('hidden');
+                isValid = false;
+            } else {
+                field.input.classList.remove('border-primary');
+                errorMsg.classList.add('hidden');
+            }
+        });
+
+        if (!isValid) {
+            showToast('Please fill in all required fields', 'error');
+        }
+
+        return isValid;
+    }
+
+    function validateStep3() {
+        const cardNumber = document.getElementById('card-number');
+        const cardName = document.getElementById('card-name');
+        const expiry = document.getElementById('expiry');
+        const cvv = document.getElementById('cvv');
+        
+        let isValid = true;
+        const fields = [
+            { input: cardNumber, error: 'Please enter a valid card number' },
+            { input: cardName, error: 'Please enter cardholder name' },
+            { input: expiry, error: 'Invalid expiry' },
+            { input: cvv, error: 'Invalid CVV' }
+        ];
+
+        fields.forEach(field => {
+            const errorMsg = field.input.closest('.form-group').querySelector('.error-message');
+            if (!field.input.value.trim()) {
+                field.input.classList.add('border-primary');
+                errorMsg.classList.remove('hidden');
+                isValid = false;
+            } else {
+                field.input.classList.remove('border-primary');
+                errorMsg.classList.add('hidden');
+            }
+        });
+
+        if (!isValid) {
+            showToast('Please fill in all payment details', 'error');
+        }
+
+        return isValid;
+    }
+
+    continueBtn.addEventListener('click', function() {
+        if (currentStep === 1) {
+            if (validateStep1()) {
+                currentStep++;
+                showStep(currentStep);
+                showToast('Guest details saved', 'success');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } else if (currentStep === 2) {
+            currentStep++;
+            showStep(currentStep);
+            showToast('Preferences saved', 'success');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        } else if (currentStep === 3) {
+            if (validateStep3()) {
+                currentStep++;
+                showStep(currentStep);
+                showToast('Payment information verified', 'success');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        } else if (currentStep === 4) {
+            const termsCheckbox = document.getElementById('terms-checkbox');
+            if (!termsCheckbox.checked) {
+                showToast('Please agree to the terms and conditions', 'error');
+                return;
+            }
+            confirmModal.classList.remove('hidden');
+            setTimeout(() => {
+                modalContent.style.transform = 'scale(1)';
+                modalContent.style.opacity = '1';
+            }, 10);
+        }
+    });
+
+    cancelModalBtn.addEventListener('click', function() {
+        modalContent.style.transform = 'scale(0.95)';
+        modalContent.style.opacity = '0';
+        setTimeout(() => {
+            confirmModal.classList.add('hidden');
+        }, 300);
+    });
+
+    confirmBookingBtn.addEventListener('click', function() {
+        confirmBookingBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Processing...';
+        confirmBookingBtn.disabled = true;
+        
+        setTimeout(() => {
+            showToast('Booking confirmed successfully!', 'success');
+            setTimeout(() => {
+                window.location.href = 'confirmation.html';
+            }, 1500);
+        }, 2000);
+    });
+
+    document.querySelectorAll('.edit-step-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const targetStep = parseInt(this.getAttribute('data-step'));
+            currentStep = targetStep;
+            showStep(currentStep);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    });
+
+    document.querySelectorAll('.arrival-time-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.arrival-time-btn').forEach(b => {
+                b.classList.remove('border-primary', 'bg-primary/5');
+                b.classList.add('border-gray-200');
+            });
+            this.classList.add('border-primary', 'bg-primary/5');
+            this.classList.remove('border-gray-200');
+        });
+    });
+
+    document.querySelectorAll('.bed-type-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.bed-type-btn').forEach(b => {
+                b.classList.remove('border-primary', 'bg-primary/5');
+                b.classList.add('border-gray-200');
+            });
+            this.classList.add('border-primary', 'bg-primary/5');
+            this.classList.remove('border-gray-200');
+        });
+    });
+
+    document.querySelectorAll('.payment-method-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.payment-method-btn').forEach(b => {
+                b.classList.remove('border-primary', 'bg-primary/5', 'text-primary');
+                b.classList.add('border-gray-200', 'text-dark');
+            });
+            this.classList.add('border-primary', 'bg-primary/5', 'text-primary');
+            this.classList.remove('border-gray-200', 'text-dark');
+        });
+    });
+
+    const cardNumberInput = document.getElementById('card-number');
+    cardNumberInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\s/g, '');
+        let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+        e.target.value = formattedValue;
+    });
+
+    const expiryInput = document.getElementById('expiry');
+    expiryInput.addEventListener('input', function(e) {
+        let value = e.target.value.replace(/\D/g, '');
+        if (value.length >= 2) {
+            value = value.slice(0, 2) + '/' + value.slice(2, 4);
+        }
+        e.target.value = value;
+    });
+
+    const cvvInput = document.getElementById('cvv');
+    cvvInput.addEventListener('input', function(e) {
+        e.target.value = e.target.value.replace(/\D/g, '');
+    });
+
+    document.getElementById('apply-promo-btn').addEventListener('click', function() {
+        const promoCode = document.getElementById('promo-code').value.trim();
+        if (promoCode) {
+            if (promoCode.toUpperCase() === 'SAVE10') {
+                showToast('Promo code applied! $711 discount', 'success');
+            } else {
+                showToast('Invalid promo code', 'error');
+            }
+        }
+    });
+
+    document.getElementById('back-btn').addEventListener('click', function() {
+        if (currentStep > 1) {
+            currentStep--;
+            showStep(currentStep);
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
+
+    showStep(currentStep);
+});
+</script>
+
+<style>
+@keyframes slide-in {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-in {
+    animation: slide-in 0.3s ease-out;
+}
+
+.safe-area-top {
+    padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+input:focus, select:focus, textarea:focus {
+    box-shadow: 0 0 0 4px rgba(255, 56, 92, 0.1);
+}
+
+input[type="checkbox"]:checked {
+    background-color: #FF385C;
+    border-color: #FF385C;
+}
+</style>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        if (typeof SEARCH_DATES !== 'undefined') {
+            SEARCH_DATES.updateAllDateDisplays();
+        }
+    });
+</script>
+</body>
+</html>
