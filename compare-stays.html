@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare Stays</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-40">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <button id="back-btn" class="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-arrow-left text-dark"></i>
+            </button>
+            
+            <div class="flex-1 text-center">
+                <h1 class="font-bold text-lg text-dark">Compare Stays</h1>
+                <p class="text-xs text-gray-400"><span id="header-compare-count">3</span> properties selected</p>
+            </div>
+            
+            <button id="clear-all-btn" class="text-sm font-medium text-primary active:scale-95 transition-transform">
+                Clear all
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="compare-cards-section" class="pt-4">
+            <div id="compare-carousel" class="flex gap-4 overflow-x-auto snap-x snap-mandatory -mx-4 px-4 pb-4">
+                
+                <div id="stay-card-1" class="compare-stay-card snap-center flex-shrink-0 w-[90vw] max-w-[380px] rounded-2xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative">
+                        <div class="image-carousel-container h-56 overflow-hidden relative">
+                            <div class="image-carousel flex transition-transform duration-300">
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/285f1904ae-88f6e9cce57bea168ada.png" alt="Luxury beachfront villa infinity pool ocean view sunset modern architecture" />
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7c71187b34-bfecab2be60a8bb8f3cf.png" alt="Luxury villa interior modern living room ocean view floor to ceiling windows" />
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/3c0c10e80f-824a064370575d7ac141.png" alt="Luxury villa bedroom master suite ocean view balcony contemporary design" />
+                            </div>
+                            <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                                <div class="img-dot w-2 h-2 rounded-full bg-white"></div>
+                                <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                        <button class="remove-stay-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                            <i class="fa-solid fa-xmark text-dark text-lg"></i>
+                        </button>
+                        <div class="absolute top-3 left-3 bg-primary text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                            SUPERHOST
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="mb-4">
+                            <h3 class="font-bold text-lg text-dark mb-1">Ocean View Villa with Private Pool</h3>
+                            <div class="flex items-center gap-2 text-sm text-gray-400">
+                                <i class="fa-solid fa-location-dot text-xs"></i>
+                                <span>Malibu, California</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Price per night</span>
+                                <div class="text-right">
+                                    <div class="font-bold text-lg text-dark">$850</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Guest Rating</span>
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-star text-accent text-base"></i>
+                                    <span class="font-bold text-base text-dark">4.95</span>
+                                    <span class="text-sm text-gray-400">(128)</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Refundable</span>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-secondary text-lg"></i>
+                                    <span class="font-semibold text-sm text-dark">Yes</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Property Type</span>
+                                <span class="font-semibold text-sm text-dark">Entire Villa</span>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Distance to Center</span>
+                                <span class="font-semibold text-sm text-dark">3.2 km</span>
+                            </div>
+
+                            <div class="py-3">
+                                <div class="text-sm text-gray-500 mb-3">Top Amenities</div>
+                                <div class="space-y-2.5">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Private Pool</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Ocean View</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Free WiFi</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Kitchen</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Free Parking</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-xmark text-gray-300 text-base"></i>
+                                        <span class="text-sm text-gray-400">Gym</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="stay-card-2" class="compare-stay-card snap-center flex-shrink-0 w-[90vw] max-w-[380px] rounded-2xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative">
+                        <div class="image-carousel-container h-56 overflow-hidden relative">
+                            <div class="image-carousel flex transition-transform duration-300">
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/7d8b6a97b3-04e60b34b395b04a9680.png" alt="Cozy mountain cabin wooden interior fireplace snow winter retreat" />
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/cec682f854-ce107f11a722a6a5b8e6.png" alt="Mountain cabin exterior snow covered pine trees winter landscape" />
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/e4ca483cc5-82eec4501895df10289e.png" alt="Cabin bedroom rustic interior wooden beams cozy bed mountain view" />
+                            </div>
+                            <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                                <div class="img-dot w-2 h-2 rounded-full bg-white"></div>
+                                <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                        <button class="remove-stay-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                            <i class="fa-solid fa-xmark text-dark text-lg"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="mb-4">
+                            <h3 class="font-bold text-lg text-dark mb-1">Cozy Mountain Cabin Retreat</h3>
+                            <div class="flex items-center gap-2 text-sm text-gray-400">
+                                <i class="fa-solid fa-location-dot text-xs"></i>
+                                <span>Aspen, Colorado</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Price per night</span>
+                                <div class="text-right">
+                                    <div class="font-bold text-lg text-dark">$420</div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Guest Rating</span>
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-star text-accent text-base"></i>
+                                    <span class="font-bold text-base text-dark">4.88</span>
+                                    <span class="text-sm text-gray-400">(94)</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Refundable</span>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-xmark text-gray-300 text-lg"></i>
+                                    <span class="font-semibold text-sm text-gray-400">No</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Property Type</span>
+                                <span class="font-semibold text-sm text-dark">Entire Cabin</span>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Distance to Center</span>
+                                <span class="font-semibold text-sm text-dark">8.5 km</span>
+                            </div>
+
+                            <div class="py-3">
+                                <div class="text-sm text-gray-500 mb-3">Top Amenities</div>
+                                <div class="space-y-2.5">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Fireplace</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Mountain View</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Free WiFi</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Kitchen</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Free Parking</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Gym</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="stay-card-3" class="compare-stay-card snap-center flex-shrink-0 w-[90vw] max-w-[380px] rounded-2xl overflow-hidden shadow-lg bg-white">
+                    <div class="relative">
+                        <div class="image-carousel-container h-56 overflow-hidden relative">
+                            <div class="image-carousel flex transition-transform duration-300">
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/faca805449-f3790499b254798fd55a.png" alt="Modern loft apartment industrial design exposed brick city skyline view" />
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/50bb0114d8-da1ef044d34dd24f6898.png" alt="Loft apartment interior open plan kitchen dining area modern design" />
+                                <img class="w-full h-56 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/1ed52d8781-fa1a950fc646ec6e5597.png" alt="Loft bedroom mezzanine level industrial style urban apartment" />
+                            </div>
+                            <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                                <div class="img-dot w-2 h-2 rounded-full bg-white"></div>
+                                <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                            </div>
+                        </div>
+                        <button class="remove-stay-btn absolute top-3 right-3 w-9 h-9 rounded-full bg-white/95 backdrop-blur-sm flex items-center justify-center shadow-lg active:scale-90 transition-transform">
+                            <i class="fa-solid fa-xmark text-dark text-lg"></i>
+                        </button>
+                        <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-3 py-1.5 rounded-full">
+                            15% OFF
+                        </div>
+                    </div>
+                    
+                    <div class="p-5">
+                        <div class="mb-4">
+                            <h3 class="font-bold text-lg text-dark mb-1">Downtown Loft with Skyline Views</h3>
+                            <div class="flex items-center gap-2 text-sm text-gray-400">
+                                <i class="fa-solid fa-location-dot text-xs"></i>
+                                <span>New York, NY</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Price per night</span>
+                                <div class="text-right">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-sm line-through text-gray-300">$380</span>
+                                        <div class="font-bold text-lg text-dark">$323</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Guest Rating</span>
+                                <div class="flex items-center gap-1.5">
+                                    <i class="fa-solid fa-star text-accent text-base"></i>
+                                    <span class="font-bold text-base text-dark">4.92</span>
+                                    <span class="text-sm text-gray-400">(167)</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Refundable</span>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-check text-secondary text-lg"></i>
+                                    <span class="font-semibold text-sm text-dark">Yes</span>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Property Type</span>
+                                <span class="font-semibold text-sm text-dark">Entire Loft</span>
+                            </div>
+
+                            <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                                <span class="text-sm text-gray-500">Distance to Center</span>
+                                <span class="font-semibold text-sm text-dark">1.8 km</span>
+                            </div>
+
+                            <div class="py-3">
+                                <div class="text-sm text-gray-500 mb-3">Top Amenities</div>
+                                <div class="space-y-2.5">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">City View</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Industrial Design</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Free WiFi</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Kitchen</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-xmark text-gray-300 text-base"></i>
+                                        <span class="text-sm text-gray-400">Free Parking</span>
+                                    </div>
+                                    <div class="flex items-center gap-2">
+                                        <i class="fa-solid fa-circle-check text-secondary text-base"></i>
+                                        <span class="text-sm text-dark">Gym</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="carousel-dots" class="flex justify-center gap-2 mt-4">
+                <div class="carousel-dot w-2 h-2 rounded-full bg-primary"></div>
+                <div class="carousel-dot w-2 h-2 rounded-full bg-gray-200"></div>
+                <div class="carousel-dot w-2 h-2 rounded-full bg-gray-200"></div>
+            </div>
+        </section>
+
+        <section id="comparison-tips" class="px-4 py-6">
+            <div class="bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-2xl p-5">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-lightbulb text-secondary text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-base text-dark mb-1">Comparison Tips</h3>
+                        <p class="text-sm text-gray-500 mb-3">Swipe through cards to compare key features. The best value for money is highlighted with discounts.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <div class="bg-white px-3 py-1.5 rounded-full text-xs font-medium text-dark border border-gray-200">
+                                <i class="fa-solid fa-check text-secondary text-xs mr-1"></i>
+                                Best Rating
+                            </div>
+                            <div class="bg-white px-3 py-1.5 rounded-full text-xs font-medium text-dark border border-gray-200">
+                                <i class="fa-solid fa-dollar-sign text-accent text-xs mr-1"></i>
+                                Best Price
+                            </div>
+                            <div class="bg-white px-3 py-1.5 rounded-full text-xs font-medium text-dark border border-gray-200">
+                                <i class="fa-solid fa-location-dot text-primary text-xs mr-1"></i>
+                                Closest
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quick-comparison-table" class="px-4 pb-6">
+            <h2 class="font-bold text-lg text-dark mb-4">Quick Comparison</h2>
+            <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="text-left p-4 text-sm font-semibold text-gray-500 min-w-[120px]">Feature</th>
+                                <th class="p-4 text-center text-xs font-semibold text-gray-500 min-w-[100px]">Villa</th>
+                                <th class="p-4 text-center text-xs font-semibold text-gray-500 min-w-[100px]">Cabin</th>
+                                <th class="p-4 text-center text-xs font-semibold text-gray-500 min-w-[100px]">Loft</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-t border-gray-100">
+                                <td class="p-4 text-sm text-gray-500">Price</td>
+                                <td class="p-4 text-center text-sm font-bold text-dark">$850</td>
+                                <td class="p-4 text-center text-sm font-bold text-dark">$420</td>
+                                <td class="p-4 text-center text-sm font-bold text-accent">$323</td>
+                            </tr>
+                            <tr class="border-t border-gray-100">
+                                <td class="p-4 text-sm text-gray-500">Rating</td>
+                                <td class="p-4 text-center text-sm font-bold text-dark">4.95</td>
+                                <td class="p-4 text-center text-sm font-bold text-dark">4.88</td>
+                                <td class="p-4 text-center text-sm font-bold text-dark">4.92</td>
+                            </tr>
+                            <tr class="border-t border-gray-100">
+                                <td class="p-4 text-sm text-gray-500">Refundable</td>
+                                <td class="p-4 text-center">
+                                    <i class="fa-solid fa-check text-secondary text-lg"></i>
+                                </td>
+                                <td class="p-4 text-center">
+                                    <i class="fa-solid fa-xmark text-gray-300 text-lg"></i>
+                                </td>
+                                <td class="p-4 text-center">
+                                    <i class="fa-solid fa-check text-secondary text-lg"></i>
+                                </td>
+                            </tr>
+                            <tr class="border-t border-gray-100">
+                                <td class="p-4 text-sm text-gray-500">Distance</td>
+                                <td class="p-4 text-center text-sm font-semibold text-dark">3.2 km</td>
+                                <td class="p-4 text-center text-sm font-semibold text-dark">8.5 km</td>
+                                <td class="p-4 text-center text-sm font-semibold text-primary">1.8 km</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section id="why-choose" class="px-4 pb-6">
+            <h2 class="font-bold text-lg text-dark mb-4">Why Choose Each?</h2>
+            <div class="space-y-3">
+                <div class="bg-white rounded-xl p-4 shadow-md border-l-4 border-primary">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-trophy text-primary text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-dark mb-1">Ocean View Villa</h3>
+                            <p class="text-xs text-gray-500">Best for luxury seekers • Highest rating • Superhost • Private pool</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-md border-l-4 border-secondary">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-mountain text-secondary text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-dark mb-1">Mountain Cabin</h3>
+                            <p class="text-xs text-gray-500">Best for nature lovers • Cozy fireplace • Mountain views • Most amenities</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-4 shadow-md border-l-4 border-accent">
+                    <div class="flex items-start gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-dollar-sign text-accent text-sm"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-sm text-dark mb-1">Downtown Loft</h3>
+                            <p class="text-xs text-gray-500">Best value • Closest to center • 15% discount • Modern design</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="empty-state" class="hidden px-4 py-12 text-center">
+            <div class="max-w-sm mx-auto">
+                <div class="w-24 h-24 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                    <i class="fa-solid fa-code-compare text-gray-300 text-4xl"></i>
+                </div>
+                <h2 class="font-bold text-xl text-dark mb-2">No Stays to Compare</h2>
+                <p class="text-sm text-gray-400 mb-6">Add at least 2 properties to start comparing features, prices, and amenities side by side.</p>
+                <button id="back-to-results-btn" class="bg-primary text-white font-bold px-6 py-3 rounded-xl shadow-lg active:scale-95 transition-transform">
+                    <i class="fa-solid fa-magnifying-glass mr-2"></i>
+                    Browse Stays
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="sticky-action-bar" class="fixed bottom-20 left-0 right-0 z-30 bg-white border-t border-gray-100 shadow-2xl safe-area-bottom">
+        <div class="px-4 py-4">
+            <button id="choose-stay-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg active:scale-98 transition-transform flex items-center justify-center gap-2">
+                <i class="fa-solid fa-check-circle text-xl"></i>
+                <span>Choose This Stay</span>
+            </button>
+            <p class="text-center text-xs text-gray-400 mt-2">Currently viewing: Ocean View Villa</p>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-calendar-days text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map-location-dot text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-chart-pie text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 hidden">
+    <div class="bg-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 animate-slide-down">
+        <i class="fa-solid fa-circle-check text-secondary"></i>
+        <span id="toast-message" class="text-sm font-medium">Stay removed from comparison</span>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    let currentCardIndex = 0;
+    const cards = document.querySelectorAll('.compare-stay-card');
+    const dots = document.querySelectorAll('.carousel-dot');
+    const carousel = document.getElementById('compare-carousel');
+    const chooseBtn = document.getElementById('choose-stay-btn');
+    const removeBtns = document.querySelectorAll('.remove-stay-btn');
+    const toastContainer = document.getElementById('toast-container');
+    const toastMessage = document.getElementById('toast-message');
+    
+    const stayNames = [
+        'Ocean View Villa',
+        'Mountain Cabin',
+        'Downtown Loft'
+    ];
+
+    function updateCarousel() {
+        dots.forEach((dot, index) => {
+            if (index === currentCardIndex) {
+                dot.classList.remove('bg-gray-200');
+                dot.classList.add('bg-primary');
+            } else {
+                dot.classList.remove('bg-primary');
+                dot.classList.add('bg-gray-200');
+            }
+        });
+        
+        const currentStayName = stayNames[currentCardIndex];
+        chooseBtn.querySelector('span').textContent = 'Choose This Stay';
+        chooseBtn.nextElementSibling.textContent = `Currently viewing: ${currentStayName}`;
+    }
+
+    carousel.addEventListener('scroll', function() {
+        const scrollLeft = carousel.scrollLeft;
+        const cardWidth = cards[0].offsetWidth + 16;
+        currentCardIndex = Math.round(scrollLeft / cardWidth);
+        updateCarousel();
+    });
+
+    function showToast(message) {
+        toastMessage.textContent = message;
+        toastContainer.classList.remove('hidden');
+        setTimeout(() => {
+            toastContainer.classList.add('hidden');
+        }, 3000);
+    }
+
+    removeBtns.forEach((btn, index) => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const card = btn.closest('.compare-stay-card');
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.9)';
+            
+            setTimeout(() => {
+                card.remove();
+                showToast(`${stayNames[index]} removed from comparison`);
+                
+                const remainingCards = document.querySelectorAll('.compare-stay-card');
+                const compareCount = remainingCards.length;
+                document.getElementById('header-compare-count').textContent = compareCount;
+                
+                if (compareCount < 2) {
+                    document.getElementById('compare-cards-section').classList.add('hidden');
+                    document.getElementById('comparison-tips').classList.add('hidden');
+                    document.getElementById('quick-comparison-table').classList.add('hidden');
+                    document.getElementById('why-choose').classList.add('hidden');
+                    document.getElementById('sticky-action-bar').classList.add('hidden');
+                    document.getElementById('empty-state').classList.remove('hidden');
+                }
+            }, 300);
+        });
+    });
+
+    document.getElementById('clear-all-btn').addEventListener('click', function() {
+        document.getElementById('compare-cards-section').classList.add('hidden');
+        document.getElementById('comparison-tips').classList.add('hidden');
+        document.getElementById('quick-comparison-table').classList.add('hidden');
+        document.getElementById('why-choose').classList.add('hidden');
+        document.getElementById('sticky-action-bar').classList.add('hidden');
+        document.getElementById('empty-state').classList.remove('hidden');
+        document.getElementById('header-compare-count').textContent = '0';
+        showToast('All stays removed from comparison');
+    });
+
+    document.getElementById('back-btn').addEventListener('click', function() {
+        showToast('Returning to results...');
+    });
+
+    document.getElementById('back-to-results-btn').addEventListener('click', function() {
+        showToast('Opening search results...');
+    });
+
+    chooseBtn.addEventListener('click', function() {
+        showToast(`${stayNames[currentCardIndex]} selected! Redirecting...`);
+    });
+
+    const imageCarousels = document.querySelectorAll('.image-carousel-container');
+    imageCarousels.forEach(container => {
+        const carousel = container.querySelector('.image-carousel');
+        const images = carousel.querySelectorAll('img');
+        const dots = container.querySelectorAll('.img-dot');
+        let currentIndex = 0;
+        let startX = 0;
+        let isDragging = false;
+
+        container.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+        });
+
+        container.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+        });
+
+        container.addEventListener('touchend', function(e) {
+            if (!isDragging) return;
+            isDragging = false;
+            
+            const endX = e.changedTouches[0].clientX;
+            const diff = startX - endX;
+
+            if (Math.abs(diff) > 50) {
+                if (diff > 0 && currentIndex < images.length - 1) {
+                    currentIndex++;
+                } else if (diff < 0 && currentIndex > 0) {
+                    currentIndex--;
+                }
+                
+                carousel.style.transform = `translateX(-${currentIndex * 100}%)`;
+                
+                dots.forEach((dot, index) => {
+                    if (index === currentIndex) {
+                        dot.classList.remove('bg-white/50');
+                        dot.classList.add('bg-white');
+                    } else {
+                        dot.classList.remove('bg-white');
+                        dot.classList.add('bg-white/50');
+                    }
+                });
+            }
+        });
+    });
+
+    updateCarousel();
+});
+</script>
+
+<style>
+@keyframes slide-down {
+    from {
+        transform: translate(-50%, -100%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
+}
+
+.animate-slide-down {
+    animation: slide-down 0.3s ease-out;
+}
+
+.safe-area-top {
+    padding-top: env(safe-area-inset-top);
+}
+
+.safe-area-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.image-carousel {
+    transition: transform 0.3s ease-out;
+}
+
+.compare-stay-card {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+</style>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

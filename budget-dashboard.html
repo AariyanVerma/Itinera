@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Budget Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.plot.ly/plotly-3.1.1.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-20">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3">
+            <div class="flex items-center justify-between gap-3 mb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-wallet text-primary text-2xl"></i>
+                    <span class="font-bold text-xl text-dark">Budget Dashboard</span>
+                </div>
+                
+                <button id="export-btn" class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                    <i class="fa-solid fa-download text-gray-500 text-sm"></i>
+                </button>
+            </div>
+            
+            <div id="trip-selector" class="flex items-center gap-2 mb-3">
+                <button class="flex-1 flex items-center justify-between px-4 py-2.5 rounded-xl bg-gray-50 border border-gray-200 active:scale-98 transition-transform">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-suitcase text-primary text-sm"></i>
+                        <span class="text-sm font-semibold text-dark">Paris Summer Trip</span>
+                    </div>
+                    <i class="fa-solid fa-chevron-down text-gray-400 text-xs"></i>
+                </button>
+            </div>
+            
+            <div id="period-toggle" class="flex gap-2">
+                <button class="period-btn flex-1 py-2 px-4 rounded-lg bg-primary text-white text-sm font-semibold active:scale-95 transition-transform">
+                    Month
+                </button>
+                <button class="period-btn flex-1 py-2 px-4 rounded-lg bg-white border border-gray-200 text-gray-500 text-sm font-semibold active:scale-95 transition-transform">
+                    Week
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        
+        <section id="summary-cards" class="px-4 pt-4 pb-3">
+            <div class="grid grid-cols-1 gap-3">
+                <div class="summary-card bg-gradient-to-br from-primary to-primaryDark rounded-2xl p-5 shadow-lg relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-white/10 rounded-full -mr-12 -mt-12"></div>
+                    <div class="relative z-10">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-white/80 text-xs font-medium">Total Budget</span>
+                            <i class="fa-solid fa-piggy-bank text-white/60 text-xl"></i>
+                        </div>
+                        <div class="text-white font-bold text-3xl mb-1">€3,500</div>
+                        <div class="text-white/70 text-xs">For 14 days in Paris</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="summary-card bg-white rounded-2xl p-4 shadow-md border border-gray-100">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                                <i class="fa-solid fa-arrow-trend-up text-accent text-sm"></i>
+                            </div>
+                            <span class="text-gray-400 text-xs font-medium">Spent</span>
+                        </div>
+                        <div class="text-dark font-bold text-2xl mb-1">€2,145</div>
+                        <div class="flex items-center gap-1">
+                            <div class="flex-1 bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-accent h-full rounded-full" style="width: 61%"></div>
+                            </div>
+                            <span class="text-accent text-xs font-semibold">61%</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-card bg-white rounded-2xl p-4 shadow-md border border-gray-100">
+                        <div class="flex items-center gap-2 mb-2">
+                            <div class="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center">
+                                <i class="fa-solid fa-circle-check text-secondary text-sm"></i>
+                            </div>
+                            <span class="text-gray-400 text-xs font-medium">Remaining</span>
+                        </div>
+                        <div class="text-dark font-bold text-2xl mb-1">€1,355</div>
+                        <div class="flex items-center gap-1">
+                            <div class="flex-1 bg-gray-100 rounded-full h-1.5 overflow-hidden">
+                                <div class="bg-secondary h-full rounded-full" style="width: 39%"></div>
+                            </div>
+                            <span class="text-secondary text-xs font-semibold">39%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="spending-by-category" class="px-4 pb-4">
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-bold text-dark">Spending by Category</h2>
+                    <button class="text-xs text-primary font-medium">Details</button>
+                </div>
+                <div id="donut-chart" style="height: 280px"></div>
+                <div id="category-legend" class="grid grid-cols-2 gap-2 mt-4">
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-[#FF385C]"></div>
+                        <div class="flex-1">
+                            <div class="text-xs font-semibold text-dark">Accommodation</div>
+                            <div class="text-xs text-gray-400">€980 (46%)</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-[#FC642D]"></div>
+                        <div class="flex-1">
+                            <div class="text-xs font-semibold text-dark">Food & Dining</div>
+                            <div class="text-xs text-gray-400">€565 (26%)</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-[#00A699]"></div>
+                        <div class="flex-1">
+                            <div class="text-xs font-semibold text-dark">Transportation</div>
+                            <div class="text-xs text-gray-400">€320 (15%)</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-[#FFB400]"></div>
+                        <div class="flex-1">
+                            <div class="text-xs font-semibold text-dark">Activities</div>
+                            <div class="text-xs text-gray-400">€180 (8%)</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="w-3 h-3 rounded-full bg-[#8B5CF6]"></div>
+                        <div class="flex-1">
+                            <div class="text-xs font-semibold text-dark">Shopping</div>
+                            <div class="text-xs text-gray-400">€100 (5%)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="daily-spending-trend" class="px-4 pb-4">
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-bold text-dark">Daily Spending Trend</h2>
+                    <div class="flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-primary"></div>
+                        <span class="text-xs text-gray-400">Actual</span>
+                        <div class="w-2 h-2 rounded-full bg-gray-300 ml-2"></div>
+                        <span class="text-xs text-gray-400">Budget</span>
+                    </div>
+                </div>
+                <div id="line-chart" style="height: 260px"></div>
+            </div>
+        </section>
+
+        <section id="planned-vs-actual" class="px-4 pb-4">
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-gray-100">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-base font-bold text-dark">Planned vs Actual</h2>
+                    <button class="text-xs text-primary font-medium">Adjust</button>
+                </div>
+                <div id="bar-chart" style="height: 300px"></div>
+            </div>
+        </section>
+
+        <section id="insights-cards" class="px-4 pb-4">
+            <h2 class="text-base font-bold text-dark mb-3">Budget Insights</h2>
+            <div class="space-y-3">
+                <div class="insight-card bg-gradient-to-br from-accent/10 to-accent/5 rounded-xl p-4 border-l-4 border-accent">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-triangle-exclamation text-accent"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-sm text-dark mb-1">Over Budget Warning</h3>
+                            <p class="text-xs text-gray-500 mb-2">You're €145 over budget on Food & Dining this week</p>
+                            <button class="text-xs text-accent font-semibold">View Details</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl p-4 border-l-4 border-primary">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-chart-pie text-primary"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-sm text-dark mb-1">Biggest Category</h3>
+                            <p class="text-xs text-gray-500 mb-2">Accommodation is your largest expense at 46% of total budget</p>
+                            <button class="text-xs text-primary font-semibold">Breakdown</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card bg-gradient-to-br from-secondary/10 to-secondary/5 rounded-xl p-4 border-l-4 border-secondary">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-chart-line text-secondary"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-sm text-dark mb-1">Projected Total</h3>
+                            <p class="text-xs text-gray-500 mb-2">At current rate, you'll spend €3,680 total (€180 over budget)</p>
+                            <button class="text-xs text-secondary font-semibold">Adjust Plan</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="insight-card bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-xl p-4 border-l-4 border-purple-500">
+                    <div class="flex items-start gap-3">
+                        <div class="w-10 h-10 rounded-full bg-purple-500/20 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-calendar-day text-purple-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h3 class="font-semibold text-sm text-dark mb-1">Daily Average</h3>
+                            <p class="text-xs text-gray-500 mb-2">You're spending €153/day on average (target: €125/day)</p>
+                            <button class="text-xs text-purple-500 font-semibold">Tips to Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="recent-expenses" class="px-4 pb-4">
+            <div class="flex items-center justify-between mb-3">
+                <h2 class="text-base font-bold text-dark">Recent Expenses</h2>
+                <button class="text-xs text-primary font-medium">View All</button>
+            </div>
+            <div class="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden">
+                <div class="expense-item flex items-center gap-3 p-4 border-b border-gray-100">
+                    <div class="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-bed text-primary"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-sm text-dark">Hotel Le Marais</h3>
+                        <p class="text-xs text-gray-400">Accommodation • 2 hours ago</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-sm text-dark">€245</div>
+                        <span class="text-xs text-gray-400">3 nights</span>
+                    </div>
+                </div>
+
+                <div class="expense-item flex items-center gap-3 p-4 border-b border-gray-100">
+                    <div class="w-10 h-10 rounded-full bg-accent/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-utensils text-accent"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-sm text-dark">Le Comptoir du Relais</h3>
+                        <p class="text-xs text-gray-400">Food & Dining • 5 hours ago</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-sm text-dark">€78</div>
+                        <span class="text-xs text-gray-400">Dinner</span>
+                    </div>
+                </div>
+
+                <div class="expense-item flex items-center gap-3 p-4 border-b border-gray-100">
+                    <div class="w-10 h-10 rounded-full bg-secondary/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-train text-secondary"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-sm text-dark">Metro Pass</h3>
+                        <p class="text-xs text-gray-400">Transportation • Yesterday</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-sm text-dark">€24</div>
+                        <span class="text-xs text-gray-400">Week pass</span>
+                    </div>
+                </div>
+
+                <div class="expense-item flex items-center gap-3 p-4 border-b border-gray-100">
+                    <div class="w-10 h-10 rounded-full bg-yellow-500/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-ticket text-yellow-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-sm text-dark">Louvre Museum</h3>
+                        <p class="text-xs text-gray-400">Activities • Yesterday</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-sm text-dark">€45</div>
+                        <span class="text-xs text-gray-400">2 tickets</span>
+                    </div>
+                </div>
+
+                <div class="expense-item flex items-center gap-3 p-4">
+                    <div class="w-10 h-10 rounded-full bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-bag-shopping text-purple-500"></i>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-semibold text-sm text-dark">Souvenirs</h3>
+                        <p class="text-xs text-gray-400">Shopping • 2 days ago</p>
+                    </div>
+                    <div class="text-right">
+                        <div class="font-bold text-sm text-dark">€62</div>
+                        <span class="text-xs text-gray-400">Gifts</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="budget-tips" class="px-4 pb-6">
+            <h2 class="text-base font-bold text-dark mb-3">Budget Tips</h2>
+            <div class="bg-gradient-to-br from-blue-500/10 to-blue-600/10 rounded-2xl p-5 border border-blue-200">
+                <div class="flex items-start gap-3 mb-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+                        <i class="fa-solid fa-lightbulb text-blue-600"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold text-sm text-dark mb-1">Save on Dining</h3>
+                        <p class="text-xs text-gray-500">Try lunch menus instead of dinner for the same quality at 40% less cost</p>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <button class="flex-1 py-2 px-3 rounded-lg bg-white text-blue-600 text-xs font-semibold active:scale-95 transition-transform">
+                        More Tips
+                    </button>
+                    <button class="flex-1 py-2 px-3 rounded-lg bg-blue-600 text-white text-xs font-semibold active:scale-95 transition-transform">
+                        Apply Suggestion
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <button id="fab-add-expense" class="fixed bottom-24 right-4 z-30 w-14 h-14 rounded-full bg-gradient-to-br from-primary to-primaryDark shadow-2xl flex items-center justify-center active:scale-90 transition-transform">
+        <i class="fa-solid fa-plus text-white text-xl"></i>
+    </button>
+
+    <div id="add-expense-sheet" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-dark/50 backdrop-blur-sm" id="sheet-overlay"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl transform translate-y-full transition-transform duration-300" id="sheet-content">
+            <div class="sticky top-0 bg-white rounded-t-3xl z-10 pb-2">
+                <div class="w-12 h-1.5 bg-gray-200 rounded-full mx-auto mt-3 mb-4"></div>
+                <div class="px-5 pb-3 border-b border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <h2 class="text-lg font-bold text-dark">Add Expense</h2>
+                        <button id="close-sheet" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-90 transition-transform">
+                            <i class="fa-solid fa-xmark text-gray-500"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="px-5 py-4 max-h-[70vh] overflow-y-auto">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-2">Expense Name</label>
+                        <input type="text" placeholder="e.g., Restaurant dinner" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-2">Amount (€)</label>
+                        <input type="number" placeholder="0.00" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-2">Category</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button class="category-select-btn py-3 px-3 rounded-xl border-2 border-primary bg-primary/10 flex flex-col items-center gap-1 active:scale-95 transition-transform">
+                                <i class="fa-solid fa-bed text-primary text-lg"></i>
+                                <span class="text-xs font-semibold text-primary">Accommodation</span>
+                            </button>
+                            <button class="category-select-btn py-3 px-3 rounded-xl border-2 border-gray-200 bg-white flex flex-col items-center gap-1 active:scale-95 transition-transform">
+                                <i class="fa-solid fa-utensils text-gray-400 text-lg"></i>
+                                <span class="text-xs font-medium text-gray-500">Food</span>
+                            </button>
+                            <button class="category-select-btn py-3 px-3 rounded-xl border-2 border-gray-200 bg-white flex flex-col items-center gap-1 active:scale-95 transition-transform">
+                                <i class="fa-solid fa-car text-gray-400 text-lg"></i>
+                                <span class="text-xs font-medium text-gray-500">Transport</span>
+                            </button>
+                            <button class="category-select-btn py-3 px-3 rounded-xl border-2 border-gray-200 bg-white flex flex-col items-center gap-1 active:scale-95 transition-transform">
+                                <i class="fa-solid fa-ticket text-gray-400 text-lg"></i>
+                                <span class="text-xs font-medium text-gray-500">Activities</span>
+                            </button>
+                            <button class="category-select-btn py-3 px-3 rounded-xl border-2 border-gray-200 bg-white flex flex-col items-center gap-1 active:scale-95 transition-transform">
+                                <i class="fa-solid fa-bag-shopping text-gray-400 text-lg"></i>
+                                <span class="text-xs font-medium text-gray-500">Shopping</span>
+                            </button>
+                            <button class="category-select-btn py-3 px-3 rounded-xl border-2 border-gray-200 bg-white flex flex-col items-center gap-1 active:scale-95 transition-transform">
+                                <i class="fa-solid fa-ellipsis text-gray-400 text-lg"></i>
+                                <span class="text-xs font-medium text-gray-500">Other</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-2">Date</label>
+                        <input type="date" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm text-dark focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-500 mb-2">Notes (Optional)</label>
+                        <textarea placeholder="Add any notes..." rows="3" class="w-full px-4 py-3 rounded-xl bg-gray-50 border border-gray-200 text-sm text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none"></textarea>
+                    </div>
+
+                    <div class="flex items-center justify-between p-4 rounded-xl bg-blue-50 border border-blue-200">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-receipt text-blue-600"></i>
+                            <span class="text-sm font-medium text-blue-900">Attach Receipt</span>
+                        </div>
+                        <button class="text-sm text-blue-600 font-semibold">Upload</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="sticky bottom-0 bg-white border-t border-gray-100 p-4 safe-area-bottom">
+                <button id="save-expense-btn" class="w-full py-4 rounded-xl bg-gradient-to-r from-primary to-primaryDark text-white font-bold shadow-lg active:scale-98 transition-transform">
+                    Save Expense
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="fixed top-20 left-4 right-4 z-50 space-y-2 pointer-events-none">
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform">
+                <i class="fa-solid fa-wallet text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    try {
+        var donutData = [{
+            values: [980, 565, 320, 180, 100],
+            labels: ['Accommodation', 'Food & Dining', 'Transportation', 'Activities', 'Shopping'],
+            type: 'pie',
+            hole: 0.6,
+            marker: {
+                colors: ['#FF385C', '#FC642D', '#00A699', '#FFB400', '#8B5CF6']
+            },
+            textinfo: 'none',
+            hovertemplate: '<b>%{label}</b><br>€%{value}<br>%{percent}<extra></extra>'
+        }];
+
+        var donutLayout = {
+            showlegend: false,
+            margin: { t: 20, r: 20, b: 20, l: 20 },
+            paper_bgcolor: '#FFFFFF',
+            plot_bgcolor: '#FFFFFF',
+            annotations: [{
+                text: '€2,145<br><span style="font-size:12px;color:#717171">Total Spent</span>',
+                x: 0.5,
+                y: 0.5,
+                font: { size: 20, color: '#222222', family: 'Inter' },
+                showarrow: false
+            }]
+        };
+
+        var donutConfig = { responsive: true, displayModeBar: false, displaylogo: false };
+        Plotly.newPlot('donut-chart', donutData, donutLayout, donutConfig);
+    } catch(e) {
+        document.getElementById('donut-chart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-400 text-sm">Chart unavailable</div>';
+    }
+
+    try {
+        var lineData = [
+            {
+                x: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                y: [145, 178, 165, 198, 152, 189, 210],
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Actual',
+                line: { color: '#FF385C', width: 3 },
+                hovertemplate: 'Day %{x}<br>€%{y}<extra></extra>'
+            },
+            {
+                x: ['Day 1', 'Day 2', 'Day 3', 'Day 4', 'Day 5', 'Day 6', 'Day 7'],
+                y: [125, 125, 125, 125, 125, 125, 125],
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Budget',
+                line: { color: '#DDDDDD', width: 2, dash: 'dash' },
+                hovertemplate: 'Target: €%{y}<extra></extra>'
+            }
+        ];
+
+        var lineLayout = {
+            showlegend: false,
+            margin: { t: 20, r: 20, b: 40, l: 50 },
+            paper_bgcolor: '#FFFFFF',
+            plot_bgcolor: '#FFFFFF',
+            xaxis: { 
+                showgrid: false,
+                tickfont: { size: 10, color: '#717171' }
+            },
+            yaxis: { 
+                showgrid: true,
+                gridcolor: '#EBEBEB',
+                tickfont: { size: 10, color: '#717171' },
+                tickprefix: '€'
+            }
+        };
+
+        var lineConfig = { responsive: true, displayModeBar: false, displaylogo: false };
+        Plotly.newPlot('line-chart', lineData, lineLayout, lineConfig);
+    } catch(e) {
+        document.getElementById('line-chart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-400 text-sm">Chart unavailable</div>';
+    }
+
+    try {
+        var barData = [
+            {
+                x: ['Accommodation', 'Food', 'Transport', 'Activities', 'Shopping'],
+                y: [1000, 600, 350, 200, 150],
+                type: 'bar',
+                name: 'Planned',
+                marker: { color: '#DDDDDD' },
+                hovertemplate: 'Planned: €%{y}<extra></extra>'
+            },
+            {
+                x: ['Accommodation', 'Food', 'Transport', 'Activities', 'Shopping'],
+                y: [980, 565, 320, 180, 100],
+                type: 'bar',
+                name: 'Actual',
+                marker: { color: '#FF385C' },
+                hovertemplate: 'Actual: €%{y}<extra></extra>'
+            }
+        ];
+
+        var barLayout = {
+            showlegend: true,
+            legend: {
+                orientation: 'h',
+                x: 0.5,
+                xanchor: 'center',
+                y: 1.1,
+                font: { size: 11 }
+            },
+            margin: { t: 40, r: 20, b: 60, l: 50 },
+            paper_bgcolor: '#FFFFFF',
+            plot_bgcolor: '#FFFFFF',
+            xaxis: { 
+                tickfont: { size: 10, color: '#717171' },
+                tickangle: -20
+            },
+            yaxis: { 
+                showgrid: true,
+                gridcolor: '#EBEBEB',
+                tickfont: { size: 10, color: '#717171' },
+                tickprefix: '€'
+            },
+            barmode: 'group'
+        };
+
+        var barConfig = { responsive: true, displayModeBar: false, displaylogo: false };
+        Plotly.newPlot('bar-chart', barData, barLayout, barConfig);
+    } catch(e) {
+        document.getElementById('bar-chart').innerHTML = '<div class="flex items-center justify-center h-full text-gray-400 text-sm">Chart unavailable</div>';
+    }
+
+    function showToast(message, type = 'success') {
+        var toastContainer = document.getElementById('toast-container');
+        var toast = document.createElement('div');
+        var bgColor = type === 'success' ? 'bg-secondary' : type === 'warning' ? 'bg-accent' : 'bg-primary';
+        var icon = type === 'success' ? 'fa-circle-check' : type === 'warning' ? 'fa-triangle-exclamation' : 'fa-circle-info';
+        
+        toast.className = 'pointer-events-auto transform translate-x-0 transition-all duration-300 ' + bgColor + ' text-white rounded-xl shadow-2xl p-4 flex items-center gap-3';
+        toast.innerHTML = '<i class="fa-solid ' + icon + ' text-xl"></i><span class="font-medium text-sm flex-1">' + message + '</span>';
+        
+        toastContainer.appendChild(toast);
+        
+        setTimeout(function() {
+            toast.style.transform = 'translateX(400px)';
+            toast.style.opacity = '0';
+            setTimeout(function() {
+                toastContainer.removeChild(toast);
+            }, 300);
+        }, 3000);
+    }
+
+    var fabBtn = document.getElementById('fab-add-expense');
+    var addExpenseSheet = document.getElementById('add-expense-sheet');
+    var sheetContent = document.getElementById('sheet-content');
+    var sheetOverlay = document.getElementById('sheet-overlay');
+    var closeSheetBtn = document.getElementById('close-sheet');
+    var saveExpenseBtn = document.getElementById('save-expense-btn');
+
+    function openSheet() {
+        addExpenseSheet.classList.remove('hidden');
+        setTimeout(function() {
+            sheetContent.style.transform = 'translateY(0)';
+        }, 10);
+    }
+
+    function closeSheet() {
+        sheetContent.style.transform = 'translateY(100%)';
+        setTimeout(function() {
+            addExpenseSheet.classList.add('hidden');
+        }, 300);
+    }
+
+    fabBtn.addEventListener('click', openSheet);
+    closeSheetBtn.addEventListener('click', closeSheet);
+    sheetOverlay.addEventListener('click', closeSheet);
+
+    saveExpenseBtn.addEventListener('click', function() {
+        closeSheet();
+        showToast('Expense saved successfully', 'success');
+    });
+
+    var exportBtn = document.getElementById('export-btn');
+    exportBtn.addEventListener('click', function() {
+        showToast('Budget report exported', 'success');
+    });
+
+    var categoryBtns = document.querySelectorAll('.category-select-btn');
+    categoryBtns.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+            categoryBtns.forEach(function(b) {
+                b.classList.remove('border-primary', 'bg-primary/10');
+                b.classList.add('border-gray-200', 'bg-white');
+                var icon = b.querySelector('i');
+                var text = b.querySelector('span');
+                icon.classList.remove('text-primary');
+                icon.classList.add('text-gray-400');
+                text.classList.remove('text-primary', 'font-semibold');
+                text.classList.add('text-gray-500', 'font-medium');
+            });
+            btn.classList.remove('border-gray-200', 'bg-white');
+            btn.classList.add('border-primary', 'bg-primary/10');
+            var icon = btn.querySelector('i');
+            var text = btn.querySelector('span');
+            icon.classList.remove('text-gray-400');
+            icon.classList.add('text-primary');
+            text.classList.remove('text-gray-500', 'font-medium');
+            text.classList.add('text-primary', 'font-semibold');
+        });
+    });
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

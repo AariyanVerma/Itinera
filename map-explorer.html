@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Explorer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        ::-webkit-scrollbar { display: none;}
+        
+        #map {
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        #map-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .leaflet-container {
+            background: #f7f7f7;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .custom-stay-marker,
+        .custom-cluster-marker {
+            background: transparent !important;
+            border: none !important;
+        }
+        
+        .custom-stay-marker div,
+        .custom-cluster-marker div {
+            pointer-events: auto !important;
+            z-index: 1000 !important;
+        }
+        
+        .leaflet-marker-icon {
+            z-index: 1000 !important;
+        }
+        
+        .leaflet-marker-pane {
+            z-index: 600 !important;
+        }
+        
+        .leaflet-popup-content-wrapper {
+            border-radius: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .leaflet-popup-content {
+            margin: 12px 16px;
+            font-size: 14px;
+        }
+        
+        .leaflet-popup-content b {
+            color: #FF385C;
+            font-weight: 600;
+        }
+        
+        .custom-popup .leaflet-popup-content-wrapper {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        .leaflet-interactive {
+            cursor: pointer;
+        }
+        
+        .leaflet-marker-pane {
+            z-index: 600;
+        }
+        
+        .leaflet-overlay-pane {
+            z-index: 400;
+        }
+        
+        #location-btn, #zoom-in-btn, #zoom-out-btn {
+            z-index: 1000;
+        }
+    </style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoGB5M2TYbmXuY="
+          crossorigin=""/>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-white text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative h-screen flex flex-col">
+    
+    <header id="header" class="sticky top-0 z-50 bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center justify-between gap-3">
+            <button id="back-btn" class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-arrow-left text-dark text-sm"></i>
+            </button>
+            
+            <div class="flex-1 text-center">
+                <h1 class="font-bold text-base text-dark">Map Explorer</h1>
+                <p class="text-xs text-gray-400">Paris, France</p>
+            </div>
+            
+            <button id="layers-btn" class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-layer-group text-dark text-sm"></i>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" class="flex-1 relative overflow-hidden">
+        
+        <div id="map-container" class="absolute inset-0 bg-gray-100">
+            <div id="map" class="w-full h-full"></div>
+            
+            <div id="custom-markers-overlay" class="absolute inset-0 pointer-events-none z-[450]">
+            </div>
+
+            <button id="location-btn" class="absolute bottom-32 right-4 w-12 h-12 rounded-full bg-white shadow-lg flex items-center justify-center active:scale-95 transition-transform z-[500]">
+                <i class="fa-solid fa-location-crosshairs text-primary text-lg"></i>
+            </button>
+
+            <button id="zoom-in-btn" class="absolute bottom-48 right-4 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center active:scale-95 transition-transform z-[500]">
+                <i class="fa-solid fa-plus text-dark text-sm"></i>
+            </button>
+
+            <button id="zoom-out-btn" class="absolute bottom-60 right-4 w-10 h-10 rounded-full bg-white shadow-lg flex items-center justify-center active:scale-95 transition-transform z-[500]">
+                <i class="fa-solid fa-minus text-dark text-sm"></i>
+            </button>
+        </div>
+
+        <div id="offline-placeholder" class="absolute inset-0 bg-gray-50 items-center justify-center hidden">
+            <div class="text-center px-6">
+                <div class="w-20 h-20 rounded-full bg-gray-200 mx-auto mb-4 flex items-center justify-center">
+                    <i class="fa-solid fa-map-location-dot text-gray-400 text-3xl"></i>
+                </div>
+                <h3 class="font-bold text-lg text-dark mb-2">Map Unavailable</h3>
+                <p class="text-sm text-gray-400 mb-4">Unable to load map tiles. Check your connection.</p>
+                <button class="retry-btn bg-primary text-white font-semibold px-6 py-3 rounded-xl active:scale-95 transition-transform">
+                    <i class="fa-solid fa-rotate-right mr-2"></i>Retry
+                </button>
+            </div>
+        </div>
+
+        <div id="map-controls-sheet" class="absolute top-4 left-4 right-4 z-40">
+            <div class="bg-white rounded-2xl shadow-xl p-4">
+                <div class="flex items-center gap-2 mb-3">
+                    <button id="show-saved-toggle" class="flex-1 px-3 py-2 rounded-lg bg-gray-50 text-gray-400 text-xs font-medium active:scale-95 transition-all">
+                        <i class="fa-solid fa-heart mr-1.5"></i>Saved
+                    </button>
+                    <button id="show-itinerary-toggle" class="flex-1 px-3 py-2 rounded-lg bg-gray-50 text-gray-400 text-xs font-medium active:scale-95 transition-all">
+                        <i class="fa-solid fa-route mr-1.5"></i>Itinerary
+                    </button>
+                    <button id="categories-filter-btn" class="flex-1 px-3 py-2 rounded-lg bg-gray-50 text-gray-400 text-xs font-medium active:scale-95 transition-all">
+                        <i class="fa-solid fa-filter mr-1.5"></i>Filters
+                    </button>
+                </div>
+                <button id="search-this-area-btn" class="w-full bg-dark text-white font-semibold py-3 rounded-xl active:scale-98 transition-transform">
+                    <i class="fa-solid fa-magnifying-glass mr-2"></i>Search this area
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="place-preview-sheet" class="fixed bottom-20 left-0 right-0 z-40 px-4 safe-area-bottom">
+        <div class="bg-white rounded-t-3xl shadow-2xl overflow-hidden">
+            <div class="h-1 w-12 bg-gray-300 rounded-full mx-auto mt-3 mb-4"></div>
+            
+            <div id="preview-carousel-container" class="relative">
+                <div id="preview-carousel" class="flex gap-3 overflow-x-auto snap-x snap-mandatory px-4 pb-4">
+                    
+                    <div class="preview-card snap-center flex-shrink-0 w-[85vw] max-w-[360px] rounded-2xl overflow-hidden shadow-lg bg-white">
+                        <div class="relative">
+                            <div class="image-carousel-container h-48 overflow-hidden relative">
+                                <div class="image-carousel flex transition-transform duration-300">
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d384fe0771-8e6e1235180c127dee7c.png" alt="Paris apartment Eiffel Tower view balcony elegant French interior" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/9de77d85ab-10dd49d350979f042024.png" alt="Parisian apartment living room classic French design chandeliers" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/efb2b29ddf-2189d70b52ce185c24e7.png" alt="Paris apartment bedroom elegant French style city view windows" />
+                                </div>
+                                <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                </div>
+                            </div>
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-regular fa-heart text-dark text-sm"></i>
+                                </button>
+                                <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                                </button>
+                            </div>
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">
+                                0.3 mi
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-base text-dark mb-1">Elegant Apartment Near Eiffel Tower</h3>
+                                    <p class="text-xs text-gray-400">7th Arrondissement • 2 beds • 1 bath</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.91</span>
+                                </div>
+                                <span class="text-xs text-gray-300">•</span>
+                                <span class="text-xs text-gray-400">142 reviews</span>
+                                <span class="text-xs text-gray-300">•</span>
+                                <span class="text-xs text-secondary font-medium">Superhost</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <span class="text-lg font-bold text-dark">$255</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                                <div class="text-xs text-gray-400">
+                                    <i class="fa-solid fa-calendar-days mr-1"></i>Available: Mar 15-20
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="add-to-itinerary-btn flex-1 bg-primary text-white font-semibold py-3 rounded-xl active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-plus mr-2"></i>Add to Itinerary
+                                </button>
+                                <button class="view-details-btn px-4 py-3 rounded-xl bg-gray-100 text-dark font-semibold active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-card snap-center flex-shrink-0 w-[85vw] max-w-[360px] rounded-2xl overflow-hidden shadow-lg bg-white">
+                        <div class="relative">
+                            <div class="image-carousel-container h-48 overflow-hidden relative">
+                                <div class="image-carousel flex transition-transform duration-300">
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/431f669cce-9d0d11f9a9d58754a1f7.png" alt="Parisian boutique hotel room luxury design Louvre museum view" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/accd08cb5b-58cdd354991015cc5d67.png" alt="Paris hotel suite marble bathroom luxury amenities elegant design" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/6d98b5aa3d-d55c801c5f206d731261.png" alt="Paris hotel rooftop terrace city view sunset dining area" />
+                                </div>
+                                <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                </div>
+                            </div>
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-solid fa-heart text-primary text-sm"></i>
+                                </button>
+                                <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                                </button>
+                            </div>
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">
+                                0.5 mi
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-base text-dark mb-1">Boutique Hotel Suite with Louvre View</h3>
+                                    <p class="text-xs text-gray-400">1st Arrondissement • Suite • Rooftop access</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.89</span>
+                                </div>
+                                <span class="text-xs text-gray-300">•</span>
+                                <span class="text-xs text-gray-400">89 reviews</span>
+                                <span class="text-xs text-gray-300">•</span>
+                                <span class="text-xs text-primary font-medium">Luxury</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <span class="text-lg font-bold text-dark">$315</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                                <div class="text-xs text-gray-400">
+                                    <i class="fa-solid fa-calendar-days mr-1"></i>Available: Mar 18-22
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="add-to-itinerary-btn flex-1 bg-primary text-white font-semibold py-3 rounded-xl active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-plus mr-2"></i>Add to Itinerary
+                                </button>
+                                <button class="view-details-btn px-4 py-3 rounded-xl bg-gray-100 text-dark font-semibold active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-card snap-center flex-shrink-0 w-[85vw] max-w-[360px] rounded-2xl overflow-hidden shadow-lg bg-white">
+                        <div class="relative">
+                            <div class="image-carousel-container h-48 overflow-hidden relative">
+                                <div class="image-carousel flex transition-transform duration-300">
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/b8a60b07ea-87d1988497ac6512e186.png" alt="Paris Marais district studio apartment modern design exposed beams" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/2247bf93eb-0d494d9a9ed0d50a2975.png" alt="Paris studio apartment kitchen dining area compact design modern" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/927a0fa2d6-d8ade6845f3ea47498fc.png" alt="Paris apartment bedroom cozy design city rooftops view window" />
+                                </div>
+                                <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                </div>
+                            </div>
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-regular fa-heart text-dark text-sm"></i>
+                                </button>
+                                <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                                </button>
+                            </div>
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">
+                                0.7 mi
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-base text-dark mb-1">Charming Studio in Le Marais</h3>
+                                    <p class="text-xs text-gray-400">4th Arrondissement • Studio • WiFi</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.94</span>
+                                </div>
+                                <span class="text-xs text-gray-300">•</span>
+                                <span class="text-xs text-gray-400">176 reviews</span>
+                                <span class="text-xs text-gray-300">•</span>
+                                <span class="text-xs text-secondary font-medium">Superhost</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <span class="text-lg font-bold text-dark">$185</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                                <div class="text-xs text-gray-400">
+                                    <i class="fa-solid fa-calendar-days mr-1"></i>Available: Mar 12-16
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="add-to-itinerary-btn flex-1 bg-primary text-white font-semibold py-3 rounded-xl active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-plus mr-2"></i>Add to Itinerary
+                                </button>
+                                <button class="view-details-btn px-4 py-3 rounded-xl bg-gray-100 text-dark font-semibold active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="preview-card snap-center flex-shrink-0 w-[85vw] max-w-[360px] rounded-2xl overflow-hidden shadow-lg bg-white">
+                        <div class="relative">
+                            <div class="image-carousel-container h-48 overflow-hidden relative">
+                                <div class="image-carousel flex transition-transform duration-300">
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/faca805449-f3790499b254798fd55a.png" alt="Modern loft apartment industrial design exposed brick city skyline view" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/50bb0114d8-da1ef044d34dd24f6898.png" alt="Loft apartment interior open plan kitchen dining area modern design" />
+                                    <img class="w-full h-48 object-cover flex-shrink-0" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/1ed52d8781-fa1a950fc646ec6e5597.png" alt="Loft bedroom mezzanine level industrial style urban apartment" />
+                                </div>
+                                <div class="absolute bottom-3 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                    <div class="img-dot w-2 h-2 rounded-full bg-white/50"></div>
+                                </div>
+                            </div>
+                            <div class="absolute top-3 right-3 flex gap-2">
+                                <button class="save-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-regular fa-heart text-dark text-sm"></i>
+                                </button>
+                                <button class="compare-btn w-9 h-9 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center shadow-md active:scale-90 transition-transform">
+                                    <i class="fa-solid fa-code-compare text-dark text-sm"></i>
+                                </button>
+                            </div>
+                            <div class="absolute top-3 left-3 bg-accent text-white text-xs font-bold px-2 py-1 rounded-md">
+                                1.1 mi
+                            </div>
+                        </div>
+                        <div class="p-4">
+                            <div class="flex items-start justify-between mb-2">
+                                <div class="flex-1">
+                                    <h3 class="font-bold text-base text-dark mb-1">Industrial Loft with City Views</h3>
+                                    <p class="text-xs text-gray-400">11th Arrondissement • 3 beds • 2 baths</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-sm"></i>
+                                    <span class="text-sm font-semibold text-dark">4.86</span>
+                                </div>
+                                <span class="text-xs text-gray-300">•</span>
+                                <span class="text-xs text-gray-400">67 reviews</span>
+                            </div>
+                            <div class="flex items-center justify-between mb-3">
+                                <div>
+                                    <span class="text-lg font-bold text-dark">$298</span>
+                                    <span class="text-xs text-gray-400">/night</span>
+                                </div>
+                                <div class="text-xs text-gray-400">
+                                    <i class="fa-solid fa-calendar-days mr-1"></i>Available: Mar 20-24
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="add-to-itinerary-btn flex-1 bg-primary text-white font-semibold py-3 rounded-xl active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-plus mr-2"></i>Add to Itinerary
+                                </button>
+                                <button class="view-details-btn px-4 py-3 rounded-xl bg-gray-100 text-dark font-semibold active:scale-98 transition-transform">
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                
+                <div class="flex justify-center gap-1.5 pb-3">
+                    <div class="preview-dot w-2 h-2 rounded-full bg-primary"></div>
+                    <div class="preview-dot w-2 h-2 rounded-full bg-gray-200"></div>
+                    <div class="preview-dot w-2 h-2 rounded-full bg-gray-200"></div>
+                    <div class="preview-dot w-2 h-2 rounded-full bg-gray-200"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="compare-tray" class="fixed bottom-20 left-0 right-0 z-30 px-4 hidden safe-area-bottom">
+        <div class="bg-dark text-white rounded-2xl shadow-2xl p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <i class="fa-solid fa-code-compare text-white"></i>
+                </div>
+                <div>
+                    <div class="font-bold text-sm">Compare Stays</div>
+                    <div class="text-xs text-white/70"><span id="compare-count">0</span>/3 selected</div>
+                </div>
+            </div>
+            <button id="compare-btn" class="bg-white text-dark font-bold px-5 py-2.5 rounded-xl active:scale-95 transition-transform">
+                Compare
+            </button>
+        </div>
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-50 safe-area-bottom">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform">
+                <i class="fa-solid fa-map-location-dot text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-chart-pie text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<div id="add-to-itinerary-overlay" class="fixed inset-0 bg-dark/50 backdrop-blur-sm z-50 hidden items-end">
+    <div class="bg-white rounded-t-3xl w-full max-h-[85vh] overflow-y-auto animate-slide-up">
+        <div class="sticky top-0 bg-white border-b border-gray-100 px-4 py-4 flex items-center justify-between z-10">
+            <h2 class="font-bold text-lg text-dark">Add to Itinerary</h2>
+            <button id="close-itinerary-overlay" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-xmark text-dark"></i>
+            </button>
+        </div>
+        
+        <div class="p-4">
+            <div class="bg-gray-50 rounded-2xl p-4 mb-4">
+                <div class="flex items-start gap-3">
+                    <div class="w-20 h-20 rounded-xl overflow-hidden flex-shrink-0">
+                        <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d384fe0771-8e6e1235180c127dee7c.png" alt="Selected property thumbnail" />
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="font-bold text-sm text-dark mb-1">Elegant Apartment Near Eiffel Tower</h3>
+                        <p class="text-xs text-gray-400 mb-2">7th Arrondissement, Paris</p>
+                        <div class="flex items-center gap-1">
+                            <i class="fa-solid fa-star text-accent text-xs"></i>
+                            <span class="text-xs font-semibold text-dark">4.91</span>
+                            <span class="text-xs text-gray-400">(142)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-dark mb-2">Select Trip</label>
+                <div class="space-y-2">
+                    <button class="trip-option w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-200 active:border-primary transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                                <i class="fa-solid fa-route text-primary"></i>
+                            </div>
+                            <div class="text-left">
+                                <h4 class="font-semibold text-sm text-dark">Paris Adventure 2024</h4>
+                                <p class="text-xs text-gray-400">Mar 15-22 • 8 days</p>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-circle text-gray-300 text-lg"></i>
+                    </button>
+
+                    <button class="trip-option w-full flex items-center justify-between p-4 rounded-xl border-2 border-gray-200 active:border-primary transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center">
+                                <i class="fa-solid fa-route text-secondary"></i>
+                            </div>
+                            <div class="text-left">
+                                <h4 class="font-semibold text-sm text-dark">European Summer Tour</h4>
+                                <p class="text-xs text-gray-400">Jun 1-30 • 30 days</p>
+                            </div>
+                        </div>
+                        <i class="fa-regular fa-circle text-gray-300 text-lg"></i>
+                    </button>
+
+                    <button class="create-trip-btn w-full flex items-center gap-3 p-4 rounded-xl border-2 border-dashed border-gray-300 active:border-primary transition-colors">
+                        <div class="w-10 h-10 rounded-lg bg-gray-100 flex items-center justify-center">
+                            <i class="fa-solid fa-plus text-gray-400"></i>
+                        </div>
+                        <span class="font-semibold text-sm text-gray-400">Create New Trip</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label class="block text-sm font-semibold text-dark mb-2">Date & Time</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Date</label>
+                        <input type="date" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary" value="2024-03-15" />
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Time</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary">
+                            <option>Morning</option>
+                            <option>Afternoon</option>
+                            <option>Evening</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-dark mb-2">Notes (Optional)</label>
+                <textarea class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary resize-none" rows="3" placeholder="Add notes about this place..."></textarea>
+            </div>
+
+            <button id="save-to-itinerary-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg active:scale-98 transition-transform">
+                <i class="fa-solid fa-check mr-2"></i>Add to Itinerary
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="categories-filter-overlay" class="fixed inset-0 bg-dark/50 backdrop-blur-sm z-50 hidden items-end">
+    <div class="bg-white rounded-t-3xl w-full max-h-[75vh] overflow-y-auto animate-slide-up">
+        <div class="sticky top-0 bg-white border-b border-gray-100 px-4 py-4 flex items-center justify-between z-10">
+            <h2 class="font-bold text-lg text-dark">Categories & Filters</h2>
+            <button id="close-categories-overlay" class="w-9 h-9 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                <i class="fa-solid fa-xmark text-dark"></i>
+            </button>
+        </div>
+        
+        <div class="p-4">
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-dark mb-3">Property Type</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <button class="category-filter-btn p-4 rounded-xl border-2 border-gray-200 active:border-primary transition-colors">
+                        <i class="fa-solid fa-building text-2xl text-gray-400 mb-2"></i>
+                        <div class="text-sm font-semibold text-dark">Apartments</div>
+                    </button>
+                    <button class="category-filter-btn p-4 rounded-xl border-2 border-gray-200 active:border-primary transition-colors">
+                        <i class="fa-solid fa-hotel text-2xl text-gray-400 mb-2"></i>
+                        <div class="text-sm font-semibold text-dark">Hotels</div>
+                    </button>
+                    <button class="category-filter-btn p-4 rounded-xl border-2 border-gray-200 active:border-primary transition-colors">
+                        <i class="fa-solid fa-house text-2xl text-gray-400 mb-2"></i>
+                        <div class="text-sm font-semibold text-dark">Houses</div>
+                    </button>
+                    <button class="category-filter-btn p-4 rounded-xl border-2 border-gray-200 active:border-primary transition-colors">
+                        <i class="fa-solid fa-tree text-2xl text-gray-400 mb-2"></i>
+                        <div class="text-sm font-semibold text-dark">Unique</div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-dark mb-3">Price Range</h3>
+                <div class="flex gap-3 mb-3">
+                    <input type="number" placeholder="Min" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary" value="0" />
+                    <input type="number" placeholder="Max" class="flex-1 px-4 py-3 rounded-xl border border-gray-200 text-sm focus:outline-none focus:border-primary" value="500" />
+                </div>
+                <input type="range" min="0" max="1000" value="500" class="w-full" />
+            </div>
+
+            <div class="mb-6">
+                <h3 class="text-sm font-semibold text-dark mb-3">Amenities</h3>
+                <div class="space-y-2">
+                    <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 active:bg-gray-100 transition-colors">
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <span class="text-sm text-dark">WiFi</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 active:bg-gray-100 transition-colors">
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <span class="text-sm text-dark">Kitchen</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 active:bg-gray-100 transition-colors">
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <span class="text-sm text-dark">Parking</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 active:bg-gray-100 transition-colors">
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <span class="text-sm text-dark">Air Conditioning</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-3 rounded-xl bg-gray-50 active:bg-gray-100 transition-colors">
+                        <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <span class="text-sm text-dark">Pet Friendly</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="flex gap-3">
+                <button id="reset-filters-btn" class="flex-1 bg-gray-100 text-dark font-semibold py-4 rounded-xl active:scale-98 transition-transform">
+                    Reset
+                </button>
+                <button id="apply-filters-btn" class="flex-1 bg-primary text-white font-semibold py-4 rounded-xl active:scale-98 transition-transform">
+                    Apply Filters
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 hidden">
+    <div class="bg-dark text-white px-6 py-3 rounded-full shadow-2xl flex items-center gap-2 animate-fade-in">
+        <i class="fa-solid fa-check-circle text-secondary"></i>
+        <span class="text-sm font-medium" id="toast-message">Added to itinerary</span>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    const addToItineraryBtns = document.querySelectorAll('.add-to-itinerary-btn');
+    const addToItineraryOverlay = document.getElementById('add-to-itinerary-overlay');
+    const closeItineraryOverlay = document.getElementById('close-itinerary-overlay');
+    const saveToItineraryBtn = document.getElementById('save-to-itinerary-btn');
+    const toastContainer = document.getElementById('toast-container');
+    const toastMessage = document.getElementById('toast-message');
+    
+    const categoriesFilterBtn = document.getElementById('categories-filter-btn');
+    const categoriesFilterOverlay = document.getElementById('categories-filter-overlay');
+    const closeCategoriesOverlay = document.getElementById('close-categories-overlay');
+    const applyFiltersBtn = document.getElementById('apply-filters-btn');
+    const resetFiltersBtn = document.getElementById('reset-filters-btn');
+    
+    const saveBtns = document.querySelectorAll('.save-btn');
+    const compareBtns = document.querySelectorAll('.compare-btn');
+    const compareTray = document.getElementById('compare-tray');
+    const compareCount = document.getElementById('compare-count');
+    
+    const showSavedToggle = document.getElementById('show-saved-toggle');
+    const showItineraryToggle = document.getElementById('show-itinerary-toggle');
+    
+    let compareSelection = 0;
+
+    addToItineraryBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            addToItineraryOverlay.classList.remove('hidden');
+            addToItineraryOverlay.classList.add('flex');
+        });
+    });
+
+    closeItineraryOverlay.addEventListener('click', function() {
+        addToItineraryOverlay.classList.add('hidden');
+        addToItineraryOverlay.classList.remove('flex');
+    });
+
+    saveToItineraryBtn.addEventListener('click', function() {
+        addToItineraryOverlay.classList.add('hidden');
+        addToItineraryOverlay.classList.remove('flex');
+        showToast('Added to itinerary');
+    });
+
+    categoriesFilterBtn.addEventListener('click', function() {
+        categoriesFilterOverlay.classList.remove('hidden');
+        categoriesFilterOverlay.classList.add('flex');
+    });
+
+    closeCategoriesOverlay.addEventListener('click', function() {
+        categoriesFilterOverlay.classList.add('hidden');
+        categoriesFilterOverlay.classList.remove('flex');
+    });
+
+    applyFiltersBtn.addEventListener('click', function() {
+        categoriesFilterOverlay.classList.add('hidden');
+        categoriesFilterOverlay.classList.remove('flex');
+        showToast('Filters applied');
+    });
+
+    resetFiltersBtn.addEventListener('click', function() {
+        showToast('Filters reset');
+    });
+
+    saveBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-regular')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+                icon.classList.add('text-primary');
+                showToast('Saved to favorites');
+            } else {
+                icon.classList.remove('fa-solid', 'text-primary');
+                icon.classList.add('fa-regular');
+                showToast('Removed from favorites');
+            }
+        });
+    });
+
+    compareBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            if (compareSelection < 3) {
+                compareSelection++;
+                compareCount.textContent = compareSelection;
+                compareTray.classList.remove('hidden');
+                showToast('Added to compare');
+            } else {
+                showToast('Compare limit reached (3 max)');
+            }
+        });
+    });
+
+    showSavedToggle.addEventListener('click', function() {
+        this.classList.toggle('bg-primary');
+        this.classList.toggle('text-white');
+        this.classList.toggle('bg-gray-50');
+        this.classList.toggle('text-gray-400');
+    });
+
+    showItineraryToggle.addEventListener('click', function() {
+        this.classList.toggle('bg-primary');
+        this.classList.toggle('text-white');
+        this.classList.toggle('bg-gray-50');
+        this.classList.toggle('text-gray-400');
+    });
+
+    function showToast(message) {
+        toastMessage.textContent = message;
+        toastContainer.classList.remove('hidden');
+        setTimeout(() => {
+            toastContainer.classList.add('hidden');
+        }, 3000);
+    }
+
+    const previewCarousel = document.getElementById('preview-carousel');
+    const previewDots = document.querySelectorAll('.preview-dot');
+    
+    previewCarousel.addEventListener('scroll', function() {
+        const scrollLeft = this.scrollLeft;
+        const cardWidth = this.querySelector('.preview-card').offsetWidth + 12;
+        const activeIndex = Math.round(scrollLeft / cardWidth);
+        
+        previewDots.forEach((dot, index) => {
+            if (index === activeIndex) {
+                dot.classList.add('bg-primary');
+                dot.classList.remove('bg-gray-200');
+            } else {
+                dot.classList.remove('bg-primary');
+                dot.classList.add('bg-gray-200');
+            }
+        });
+    });
+});
+</script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+<script>
+let map;
+let markers = [];
+let clusters = [];
+
+const parisCenter = [48.8566, 2.3522];
+
+function initMap() {
+    if (map) {
+        map.remove();
+    }
+    
+    map = L.map('map', {
+        center: parisCenter,
+        zoom: 13,
+        zoomControl: false,
+        attributionControl: false
+    });
+
+    const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© OpenStreetMap contributors',
+        maxZoom: 19
+    }).addTo(map);
+    
+    tiles.on('load', function() {
+        addMarkersToMap();
+    });
+    
+    setTimeout(() => {
+        addMarkersToMap();
+    }, 500);
+}
+
+function addMarkersToMap() {
+    if (!map) {
+        console.error('Map not initialized');
+        return;
+    }
+    
+    markers.forEach(m => {
+        if (map.hasLayer(m)) {
+            map.removeLayer(m);
+        }
+    });
+    clusters.forEach(c => {
+        if (map.hasLayer(c)) {
+            map.removeLayer(c);
+        }
+    });
+    markers = [];
+    clusters = [];
+
+    const stayLocations = [
+        { lat: 48.8584, lng: 2.2945, name: 'Elegant Apartment Near Eiffel Tower', id: 1 },
+        { lat: 48.8606, lng: 2.3376, name: 'Boutique Hotel Suite with Louvre View', id: 2 },
+        { lat: 48.8556, lng: 2.3622, name: 'Charming Studio in Le Marais', id: 3 },
+        { lat: 48.8630, lng: 2.3444, name: 'Industrial Loft with City Views', id: 4 },
+        { lat: 48.8522, lng: 2.2897, name: 'Luxury Apartment', id: 5 }
+    ];
+    
+    console.log('Adding markers to map...', stayLocations.length);
+
+    const createCustomIcon = (isCluster = false, count = null) => {
+        if (isCluster) {
+            return L.divIcon({
+                html: `<div style="width: 40px; height: 40px; border-radius: 50%; background: #E31C5F; border: 3px solid white; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative; z-index: 1000;"><span style="color: white; font-size: 12px; font-weight: bold;">${count}</span></div>`,
+                className: 'custom-cluster-marker',
+                iconSize: [40, 40],
+                iconAnchor: [20, 20]
+            });
+        } else {
+            return L.divIcon({
+                html: `<div style="width: 32px; height: 32px; border-radius: 50%; background: #FF385C; border: 2px solid white; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.3); position: relative; z-index: 1000; cursor: pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M7 14c1.66 0 3-1.34 3-3S8.66 8 7 8s-3 1.34-3 3 1.34 3 3 3zm12-6h-8v7H9V9H1v14h22V8z"/>
+                    </svg>
+                </div>`,
+                className: 'custom-stay-marker',
+                iconSize: [32, 32],
+                iconAnchor: [16, 16]
+            });
+        }
+    };
+
+    stayLocations.forEach((location, index) => {
+        try {
+            const customIcon = createCustomIcon(false);
+            const marker = L.marker([location.lat, location.lng], {
+                icon: customIcon,
+                zIndexOffset: 1000 + index,
+                riseOnHover: true,
+                interactive: true,
+                keyboard: true
+            });
+            
+            marker.addTo(map);
+            
+            setTimeout(() => {
+                const markerElement = marker.getElement();
+                if (markerElement) {
+                    markerElement.style.display = 'block';
+                    markerElement.style.visibility = 'visible';
+                    markerElement.style.opacity = '1';
+                    console.log(`Marker ${index + 1} element found in DOM`);
+                } else {
+                    console.warn(`Marker ${index + 1} element not found in DOM`);
+                }
+            }, 100);
+            
+            marker.bindPopup(`<b>${location.name}</b><br>Click to view details`, {
+                className: 'custom-popup',
+                closeButton: true,
+                autoClose: false,
+                closeOnClick: false
+            });
+            markers.push(marker);
+            
+            marker.on('click', function() {
+                const carousel = document.getElementById('preview-carousel');
+                if (carousel) {
+                    const cards = carousel.querySelectorAll('.preview-card');
+                    if (cards[index]) {
+                        cards[index].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    }
+                }
+            });
+            
+            marker.on('mouseover', function() {
+                this.openPopup();
+            });
+            
+            marker.setOpacity(1);
+            
+            if (map.hasLayer(marker)) {
+                console.log(`✓ Added marker ${index + 1}: ${location.name} at [${location.lat}, ${location.lng}]`);
+            } else {
+                console.error(`✗ Failed to add marker ${index + 1}: ${location.name}`);
+            }
+        } catch (error) {
+            console.error(`Error adding marker ${index + 1}:`, error);
+        }
+    });
+
+    const clusterLocations = [
+        { lat: 48.8500, lng: 2.3300, count: 8 },
+        { lat: 48.8700, lng: 2.3000, count: 5 }
+    ];
+
+    clusterLocations.forEach((cluster, index) => {
+        const clusterMarker = L.marker([cluster.lat, cluster.lng], {
+            icon: createCustomIcon(true, cluster.count),
+            zIndexOffset: 2000 + index,
+            riseOnHover: true
+        }).addTo(map);
+        
+        clusterMarker.bindPopup(`<b>${cluster.count} properties</b><br>Zoom in to see individual listings`, {
+            className: 'custom-popup',
+            closeButton: true,
+            autoClose: false,
+            closeOnClick: false
+        });
+        clusters.push(clusterMarker);
+        
+        clusterMarker.on('mouseover', function() {
+            this.openPopup();
+        });
+        
+        clusterMarker.setOpacity(1);
+    });
+    
+    console.log(`Successfully added ${markers.length} stay markers and ${clusters.length} cluster markers to map`);
+    console.log('Map bounds:', map.getBounds());
+    console.log('Map center:', map.getCenter());
+    
+    map.invalidateSize();
+
+    const zoomInBtn = document.getElementById('zoom-in-btn');
+    const zoomOutBtn = document.getElementById('zoom-out-btn');
+    const locationBtn = document.getElementById('location-btn');
+
+    if (zoomInBtn) {
+        zoomInBtn.addEventListener('click', () => {
+            map.zoomIn();
+        });
+    }
+
+    if (zoomOutBtn) {
+        zoomOutBtn.addEventListener('click', () => {
+            map.zoomOut();
+        });
+    }
+
+    if (locationBtn) {
+        locationBtn.addEventListener('click', () => {
+            map.setView(parisCenter, 13);
+            showToast('Centered on Paris');
+        });
+    }
+
+    map.on('tileerror', function() {
+        const offlinePlaceholder = document.getElementById('offline-placeholder');
+        if (offlinePlaceholder) {
+            offlinePlaceholder.classList.remove('hidden');
+            offlinePlaceholder.classList.add('flex');
+        }
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const retryBtn = document.querySelector('.retry-btn');
+    if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+            const offlinePlaceholder = document.getElementById('offline-placeholder');
+            if (offlinePlaceholder) {
+                offlinePlaceholder.classList.add('hidden');
+                offlinePlaceholder.classList.remove('flex');
+            }
+            if (map) {
+                map.invalidateSize();
+                map.eachLayer(function(layer) {
+                    if (layer instanceof L.TileLayer) {
+                        layer.redraw();
+                    }
+                });
+            } else {
+                initMap();
+            }
+        });
+    }
+});
+
+window.addEventListener('load', function() {
+    console.log('Page loaded, initializing map...');
+    setTimeout(() => {
+        const mapElement = document.getElementById('map');
+        if (mapElement) {
+            console.log('Map element found, initializing...');
+            initMap();
+        } else {
+            console.error('Map element not found!');
+        }
+    }, 100);
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>

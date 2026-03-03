@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - Itinera</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none; }</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#FF385C',
+                        secondary: '#00A699',
+                        dark: '#222222',
+                        gray: { 50: '#F7F7F7', 100: '#EBEBEB', 200: '#DDDDDD', 400: '#717171', 500: '#484848' }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark min-h-screen flex flex-col">
+    <header class="bg-white border-b border-gray-100 safe-area-top">
+        <div class="px-4 py-3 flex items-center gap-3">
+            <a href="index.html" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+                <i class="fa-solid fa-arrow-left text-dark"></i>
+            </a>
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-route text-primary text-xl"></i>
+                <span class="font-bold text-lg text-dark">Itinera</span>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-1 px-4 py-8 max-w-md mx-auto w-full">
+        <h1 class="text-2xl font-bold text-dark mb-1">Welcome back</h1>
+        <p class="text-gray-400 text-sm mb-6">Sign in to book stays and manage your trips</p>
+
+        <form id="login-form" class="space-y-4">
+            <div>
+                <label for="email" class="block text-sm font-semibold text-dark mb-2">Email</label>
+                <input type="email" id="email" name="email" required
+                    class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none text-sm"
+                    placeholder="you@example.com" autocomplete="email" />
+                <p id="email-error" class="hidden text-xs text-primary mt-1"></p>
+            </div>
+            <div>
+                <label for="password" class="block text-sm font-semibold text-dark mb-2">Password</label>
+                <input type="password" id="password" name="password" required
+                    class="w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-primary focus:outline-none text-sm"
+                    placeholder="••••••••" autocomplete="current-password" />
+                <p id="password-error" class="hidden text-xs text-primary mt-1"></p>
+            </div>
+            <button type="submit" id="submit-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg active:scale-[0.98] transition-transform">
+                Sign in
+            </button>
+        </form>
+
+        <p class="text-center text-sm text-gray-400 mt-6">
+            Don't have an account? <a href="signup.html" class="text-primary font-semibold">Sign up</a>
+        </p>
+    </main>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Auth.init();
+            const form = document.getElementById('login-form');
+            const submitBtn = document.getElementById('submit-btn');
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+                document.getElementById('email-error').classList.add('hidden');
+                document.getElementById('password-error').classList.add('hidden');
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i>Signing in...';
+                try {
+                    const data = await ItineraAPI.login(email, password);
+                    Auth.setSession(data.token, data.user);
+                    const params = new URLSearchParams(window.location.search);
+                    window.location.replace(params.get('returnUrl') || 'index.html');
+                } catch (err) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Sign in';
+                    const msg = err.error || 'Sign in failed. Check your email and password.';
+                    document.getElementById('password-error').textContent = msg;
+                    document.getElementById('password-error').classList.remove('hidden');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

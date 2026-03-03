@@ -1,0 +1,21 @@
+{
+  "name": "itinera",
+  "version": "1.0.0",
+  "description": "Mobile-first travel & stays app with Neon DB",
+  "packageManager": "npm@10.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "npx serve . -l 3000",
+    "build": "echo 'Static site'",
+    "schema": "node scripts/run-schema.js",
+    "seed": "node scripts/seed.js"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^0.9.4",
+    "dotenv": "^16.3.1",
+    "jose": "^5.2.0"
+  },
+  "devDependencies": {
+    "pg": "^8.11.3"
+  }
+}

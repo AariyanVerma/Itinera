@@ -1,0 +1,935 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>::-webkit-scrollbar { display: none;}</style>
+    <link rel="stylesheet" href="css/responsive.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#FF385C',
+                        primaryDark: '#E31C5F',
+                        secondary: '#00A699',
+                        accent: '#FC642D',
+                        dark: '#222222',
+                        gray: {
+                            50: '#F7F7F7',
+                            100: '#EBEBEB',
+                            200: '#DDDDDD',
+                            300: '#B0B0B0',
+                            400: '#717171',
+                            500: '#484848',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans bg-gray-50 text-dark overflow-x-hidden">
+
+<div id="app-container" class="relative pb-20">
+    
+    <header id="header" class="sticky top-0 z-40 bg-white border-b border-gray-100 safe-area-top shadow-sm">
+        <div class="px-4 py-3">
+            <div class="flex items-center justify-between mb-3">
+                <button id="back-btn" class="w-9 h-9 rounded-full bg-gray-50 flex items-center justify-center active:scale-95 transition-transform">
+                    <i class="fa-solid fa-chevron-left text-dark"></i>
+                </button>
+                
+                <div class="flex-1 mx-3 text-center">
+                    <h1 class="font-bold text-base text-dark">Tokyo Adventure 2024</h1>
+                    <p class="text-xs text-gray-400 mt-0.5">Mar 15 - Mar 22 • 7 days</p>
+                </div>
+                
+                <button id="add-item-btn" class="w-9 h-9 rounded-full bg-primary flex items-center justify-center shadow-md active:scale-95 transition-transform">
+                    <i class="fa-solid fa-plus text-white text-sm"></i>
+                </button>
+            </div>
+            
+            <div id="trip-completeness" class="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-3">
+                <div class="flex items-center justify-between mb-2">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-primary text-sm"></i>
+                        <span class="text-xs font-semibold text-dark">Trip Completeness</span>
+                    </div>
+                    <span class="text-sm font-bold text-primary">68%</span>
+                </div>
+                <div class="bg-white/50 rounded-full h-2 overflow-hidden">
+                    <div class="bg-gradient-to-r from-primary to-accent h-full rounded-full transition-all duration-500" style="width: 68%"></div>
+                </div>
+                <div class="flex items-center gap-4 mt-2">
+                    <div class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-check-circle text-secondary text-xs"></i>
+                        <span class="text-xs text-gray-500">12 activities</span>
+                    </div>
+                    <div class="flex items-center gap-1.5">
+                        <i class="fa-solid fa-circle-exclamation text-accent text-xs"></i>
+                        <span class="text-xs text-gray-500">3 gaps</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content" class="pb-4">
+        
+        <section id="day-tabs" class="sticky top-[140px] z-30 bg-white border-b border-gray-100 shadow-sm">
+            <div class="flex gap-2 overflow-x-auto snap-x snap-mandatory px-4 py-3 -mx-4">
+                <button class="day-tab snap-start flex-shrink-0 px-4 py-2.5 rounded-xl bg-primary text-white font-semibold text-sm shadow-md active:scale-95 transition-transform min-w-[90px]">
+                    Day 1
+                    <span class="block text-xs font-normal mt-0.5 opacity-90">Mar 15</span>
+                </button>
+                <button class="day-tab snap-start flex-shrink-0 px-4 py-2.5 rounded-xl bg-white border-2 border-gray-200 text-dark font-semibold text-sm active:scale-95 transition-transform min-w-[90px]">
+                    Day 2
+                    <span class="block text-xs font-normal mt-0.5 text-gray-400">Mar 16</span>
+                </button>
+                <button class="day-tab snap-start flex-shrink-0 px-4 py-2.5 rounded-xl bg-white border-2 border-gray-200 text-dark font-semibold text-sm active:scale-95 transition-transform min-w-[90px]">
+                    Day 3
+                    <span class="block text-xs font-normal mt-0.5 text-gray-400">Mar 17</span>
+                </button>
+                <button class="day-tab snap-start flex-shrink-0 px-4 py-2.5 rounded-xl bg-white border-2 border-gray-200 text-dark font-semibold text-sm active:scale-95 transition-transform min-w-[90px]">
+                    Day 4
+                    <span class="block text-xs font-normal mt-0.5 text-gray-400">Mar 18</span>
+                </button>
+                <button class="day-tab snap-start flex-shrink-0 px-4 py-2.5 rounded-xl bg-white border-2 border-gray-200 text-dark font-semibold text-sm active:scale-95 transition-transform min-w-[90px]">
+                    Day 5
+                    <span class="block text-xs font-normal mt-0.5 text-gray-400">Mar 19</span>
+                </button>
+                <button class="day-tab snap-start flex-shrink-0 px-4 py-2.5 rounded-xl bg-white border-2 border-gray-200 text-dark font-semibold text-sm active:scale-95 transition-transform min-w-[90px]">
+                    Day 6
+                    <span class="block text-xs font-normal mt-0.5 text-gray-400">Mar 20</span>
+                </button>
+                <button class="day-tab snap-start flex-shrink-0 px-4 py-2.5 rounded-xl bg-white border-2 border-gray-200 text-dark font-semibold text-sm active:scale-95 transition-transform min-w-[90px]">
+                    Day 7
+                    <span class="block text-xs font-normal mt-0.5 text-gray-400">Mar 21</span>
+                </button>
+            </div>
+        </section>
+
+        <section id="timeline-morning" class="px-4 pt-4 pb-3">
+            <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-accent to-orange-400 flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-sun text-white text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-sm text-dark">Morning</h2>
+                    <p class="text-xs text-gray-400">6:00 AM - 12:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="space-y-3 ml-4 border-l-2 border-gray-200 pl-4">
+                <div id="itinerary-card-1" class="itinerary-card bg-white rounded-xl shadow-md p-4 border-l-4 border-primary active:scale-98 transition-transform cursor-move">
+                    <div class="flex items-start gap-3">
+                        <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d9b5e7a3c2-f1e8d7c6b5a4938271.png" alt="Tsukiji Fish Market fresh sushi seafood Tokyo morning market" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Tsukiji Outer Market</h3>
+                                <button class="drag-handle text-gray-300 active:text-primary">
+                                    <i class="fa-solid fa-grip-vertical text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Fresh seafood breakfast & market tour</p>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-clock text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">7:00 AM</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">2 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-yen-sign text-primary text-xs"></i>
+                                    <span class="text-xs text-gray-500">¥3,000</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <button class="edit-item-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20">
+                                    <i class="fa-solid fa-pencil mr-1"></i>Edit
+                                </button>
+                                <button class="delete-item-btn text-xs text-gray-400 font-medium px-3 py-1.5 rounded-lg bg-gray-50 active:bg-gray-100">
+                                    <i class="fa-solid fa-trash mr-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-note-sticky text-gray-300 text-xs"></i>
+                            <input type="text" placeholder="Add a note..." class="flex-1 text-xs text-gray-500 bg-transparent border-none outline-none placeholder-gray-300" />
+                        </div>
+                    </div>
+                </div>
+
+                <div id="itinerary-card-2" class="itinerary-card bg-white rounded-xl shadow-md p-4 border-l-4 border-secondary active:scale-98 transition-transform cursor-move">
+                    <div class="flex items-start gap-3">
+                        <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/a8f6e5d4c3-b2a1908f7e6d5c4b3a.png" alt="Senso-ji Temple Asakusa Tokyo traditional Japanese temple red lantern" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Senso-ji Temple</h3>
+                                <button class="drag-handle text-gray-300 active:text-primary">
+                                    <i class="fa-solid fa-grip-vertical text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Ancient Buddhist temple in Asakusa</p>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-clock text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">9:30 AM</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">1.5 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-ticket text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">Free</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <button class="edit-item-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20">
+                                    <i class="fa-solid fa-pencil mr-1"></i>Edit
+                                </button>
+                                <button class="delete-item-btn text-xs text-gray-400 font-medium px-3 py-1.5 rounded-lg bg-gray-50 active:bg-gray-100">
+                                    <i class="fa-solid fa-trash mr-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-note-sticky text-accent text-xs"></i>
+                            <span class="text-xs text-gray-500">Don't forget to buy omamori charm</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="add-activity-btn w-full py-3 rounded-xl border-2 border-dashed border-gray-200 text-gray-400 text-sm font-medium active:border-primary active:text-primary active:bg-primary/5 transition-all">
+                    <i class="fa-solid fa-plus mr-2"></i>Add Morning Activity
+                </button>
+            </div>
+        </section>
+
+        <section id="timeline-afternoon" class="px-4 pb-3">
+            <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-secondary to-teal-400 flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-cloud-sun text-white text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-sm text-dark">Afternoon</h2>
+                    <p class="text-xs text-gray-400">12:00 PM - 6:00 PM</p>
+                </div>
+            </div>
+            
+            <div class="space-y-3 ml-4 border-l-2 border-gray-200 pl-4">
+                <div id="itinerary-card-3" class="itinerary-card bg-white rounded-xl shadow-md p-4 border-l-4 border-accent active:scale-98 transition-transform cursor-move">
+                    <div class="flex items-start gap-3">
+                        <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/c7d6e5f4a3-b2a1908f7e6d5c4b3a.png" alt="Ramen restaurant Tokyo authentic Japanese noodles bowl steaming hot" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Ichiran Ramen Shibuya</h3>
+                                <button class="drag-handle text-gray-300 active:text-primary">
+                                    <i class="fa-solid fa-grip-vertical text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Famous tonkotsu ramen experience</p>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-clock text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">12:30 PM</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">1 hour</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-yen-sign text-primary text-xs"></i>
+                                    <span class="text-xs text-gray-500">¥1,200</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <button class="edit-item-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20">
+                                    <i class="fa-solid fa-pencil mr-1"></i>Edit
+                                </button>
+                                <button class="delete-item-btn text-xs text-gray-400 font-medium px-3 py-1.5 rounded-lg bg-gray-50 active:bg-gray-100">
+                                    <i class="fa-solid fa-trash mr-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="itinerary-card-4" class="itinerary-card bg-white rounded-xl shadow-md p-4 border-l-4 border-primary active:scale-98 transition-transform cursor-move">
+                    <div class="flex items-start gap-3">
+                        <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/b9c8d7e6f5-a4b3c2d1e0f9a8b7c6.png" alt="Shibuya Crossing Tokyo crowded intersection neon lights urban city" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Shibuya Crossing & Shopping</h3>
+                                <button class="drag-handle text-gray-300 active:text-primary">
+                                    <i class="fa-solid fa-grip-vertical text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Explore iconic scramble & shopping district</p>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-clock text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">2:00 PM</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">3 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-ticket text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">Free</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <button class="edit-item-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20">
+                                    <i class="fa-solid fa-pencil mr-1"></i>Edit
+                                </button>
+                                <button class="delete-item-btn text-xs text-gray-400 font-medium px-3 py-1.5 rounded-lg bg-gray-50 active:bg-gray-100">
+                                    <i class="fa-solid fa-trash mr-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-note-sticky text-accent text-xs"></i>
+                            <span class="text-xs text-gray-500">Visit Hachiko statue & Shibuya Sky observation deck</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-accent/10 to-orange-100 rounded-xl p-4 border-l-4 border-accent">
+                    <div class="flex items-start gap-3">
+                        <i class="fa-solid fa-lightbulb text-accent text-xl"></i>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-sm text-dark mb-1">Suggested Gap Filler</h4>
+                            <p class="text-xs text-gray-500 mb-3">You have 30 minutes free time around 5:00 PM</p>
+                            <button class="text-xs text-accent font-medium px-3 py-1.5 rounded-lg bg-white shadow-sm active:scale-95 transition-transform">
+                                <i class="fa-solid fa-plus mr-1"></i>Browse Suggestions
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="add-activity-btn w-full py-3 rounded-xl border-2 border-dashed border-gray-200 text-gray-400 text-sm font-medium active:border-primary active:text-primary active:bg-primary/5 transition-all">
+                    <i class="fa-solid fa-plus mr-2"></i>Add Afternoon Activity
+                </button>
+            </div>
+        </section>
+
+        <section id="timeline-evening" class="px-4 pb-3">
+            <div class="flex items-center gap-2 mb-3">
+                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-indigo-500 to-purple-500 flex items-center justify-center shadow-md">
+                    <i class="fa-solid fa-moon text-white text-sm"></i>
+                </div>
+                <div>
+                    <h2 class="font-bold text-sm text-dark">Evening</h2>
+                    <p class="text-xs text-gray-400">6:00 PM - 12:00 AM</p>
+                </div>
+            </div>
+            
+            <div class="space-y-3 ml-4 border-l-2 border-gray-200 pl-4">
+                <div id="itinerary-card-5" class="itinerary-card bg-white rounded-xl shadow-md p-4 border-l-4 border-secondary active:scale-98 transition-transform cursor-move">
+                    <div class="flex items-start gap-3">
+                        <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/f8e7d6c5b4-a3b2c1d0e9f8a7b6c5.png" alt="Tokyo Tower illuminated night view cityscape lights observation deck" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Tokyo Tower Night View</h3>
+                                <button class="drag-handle text-gray-300 active:text-primary">
+                                    <i class="fa-solid fa-grip-vertical text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Observation deck with panoramic city views</p>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-clock text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">6:30 PM</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">1.5 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-yen-sign text-primary text-xs"></i>
+                                    <span class="text-xs text-gray-500">¥1,800</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <button class="edit-item-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20">
+                                    <i class="fa-solid fa-pencil mr-1"></i>Edit
+                                </button>
+                                <button class="delete-item-btn text-xs text-gray-400 font-medium px-3 py-1.5 rounded-lg bg-gray-50 active:bg-gray-100">
+                                    <i class="fa-solid fa-trash mr-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="itinerary-card-6" class="itinerary-card bg-white rounded-xl shadow-md p-4 border-l-4 border-accent active:scale-98 transition-transform cursor-move">
+                    <div class="flex items-start gap-3">
+                        <div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/d9c8b7a6f5-e4d3c2b1a0f9e8d7c6.png" alt="Izakaya Japanese pub food yakitori grilled skewers sake beer dining" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Izakaya Dinner in Roppongi</h3>
+                                <button class="drag-handle text-gray-300 active:text-primary">
+                                    <i class="fa-solid fa-grip-vertical text-sm"></i>
+                                </button>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Traditional pub-style dining experience</p>
+                            <div class="flex items-center gap-3 flex-wrap">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-clock text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">8:30 PM</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">2 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-yen-sign text-primary text-xs"></i>
+                                    <span class="text-xs text-gray-500">¥5,000</span>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <button class="edit-item-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20">
+                                    <i class="fa-solid fa-pencil mr-1"></i>Edit
+                                </button>
+                                <button class="delete-item-btn text-xs text-gray-400 font-medium px-3 py-1.5 rounded-lg bg-gray-50 active:bg-gray-100">
+                                    <i class="fa-solid fa-trash mr-1"></i>Remove
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-gray-100">
+                        <div class="flex items-center gap-2">
+                            <i class="fa-solid fa-note-sticky text-accent text-xs"></i>
+                            <span class="text-xs text-gray-500">Reservation confirmed for 2 people</span>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="add-activity-btn w-full py-3 rounded-xl border-2 border-dashed border-gray-200 text-gray-400 text-sm font-medium active:border-primary active:text-primary active:bg-primary/5 transition-all">
+                    <i class="fa-solid fa-plus mr-2"></i>Add Evening Activity
+                </button>
+            </div>
+        </section>
+
+        <section id="smart-suggestions" class="px-4 pb-6">
+            <div class="flex items-center justify-between mb-3">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-sparkles text-accent"></i>
+                    <h2 class="font-bold text-sm text-dark">Smart Suggestions</h2>
+                </div>
+                <button class="text-xs text-primary font-medium">See all</button>
+            </div>
+            
+            <div class="space-y-3">
+                <div class="suggestion-card bg-white rounded-xl shadow-md p-4 border border-gray-100">
+                    <div class="flex items-start gap-3">
+                        <div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/e7f6d5c4b3-a2b1c0d9e8f7a6b5c4.png" alt="Meiji Shrine Tokyo peaceful forest traditional Shinto shrine" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Meiji Shrine</h3>
+                                <span class="text-xs font-bold text-secondary bg-secondary/10 px-2 py-1 rounded-full">92% Match</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Peaceful Shinto shrine in forest setting</p>
+                            <div class="flex items-center gap-3 flex-wrap mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">1-2 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-ticket text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">Free</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">4.7</span>
+                                </div>
+                            </div>
+                            <button class="add-suggestion-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20 w-full">
+                                <i class="fa-solid fa-plus mr-1"></i>Add to Itinerary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="suggestion-card bg-white rounded-xl shadow-md p-4 border border-gray-100">
+                    <div class="flex items-start gap-3">
+                        <div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/c6d5e4f3a2-b1c0d9e8f7a6b5c4d3.png" alt="teamLab Borderless digital art museum Tokyo interactive immersive" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">teamLab Borderless</h3>
+                                <span class="text-xs font-bold text-secondary bg-secondary/10 px-2 py-1 rounded-full">88% Match</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Immersive digital art museum experience</p>
+                            <div class="flex items-center gap-3 flex-wrap mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">2-3 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-yen-sign text-primary text-xs"></i>
+                                    <span class="text-xs text-gray-500">¥3,200</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">4.8</span>
+                                </div>
+                            </div>
+                            <button class="add-suggestion-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20 w-full">
+                                <i class="fa-solid fa-plus mr-1"></i>Add to Itinerary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="suggestion-card bg-white rounded-xl shadow-md p-4 border border-gray-100">
+                    <div class="flex items-start gap-3">
+                        <div class="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover" src="https://storage.googleapis.com/uxpilot-auth.appspot.com/b5c4d3e2f1-a0b9c8d7e6f5a4b3c2.png" alt="Akihabara Tokyo electric town anime manga electronics district neon" />
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-start justify-between mb-1">
+                                <h3 class="font-semibold text-sm text-dark">Akihabara Electric Town</h3>
+                                <span class="text-xs font-bold text-secondary bg-secondary/10 px-2 py-1 rounded-full">85% Match</span>
+                            </div>
+                            <p class="text-xs text-gray-400 mb-2">Anime, manga & electronics shopping district</p>
+                            <div class="flex items-center gap-3 flex-wrap mb-3">
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-hourglass-half text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">2-4 hours</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-ticket text-secondary text-xs"></i>
+                                    <span class="text-xs text-gray-500">Free</span>
+                                </div>
+                                <div class="flex items-center gap-1">
+                                    <i class="fa-solid fa-star text-accent text-xs"></i>
+                                    <span class="text-xs text-gray-500">4.6</span>
+                                </div>
+                            </div>
+                            <button class="add-suggestion-btn text-xs text-primary font-medium px-3 py-1.5 rounded-lg bg-primary/10 active:bg-primary/20 w-full">
+                                <i class="fa-solid fa-plus mr-1"></i>Add to Itinerary
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="day-summary" class="mx-4 mb-6 rounded-2xl overflow-hidden shadow-lg bg-gradient-to-br from-primary/10 to-accent/10 p-5">
+            <h3 class="font-bold text-sm text-dark mb-3 flex items-center gap-2">
+                <i class="fa-solid fa-chart-pie text-primary"></i>
+                Day 1 Summary
+            </h3>
+            <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="bg-white/70 backdrop-blur-sm rounded-xl p-3">
+                    <div class="text-xs text-gray-500 mb-1">Total Activities</div>
+                    <div class="text-xl font-bold text-dark">6</div>
+                </div>
+                <div class="bg-white/70 backdrop-blur-sm rounded-xl p-3">
+                    <div class="text-xs text-gray-500 mb-1">Total Duration</div>
+                    <div class="text-xl font-bold text-dark">11h</div>
+                </div>
+                <div class="bg-white/70 backdrop-blur-sm rounded-xl p-3">
+                    <div class="text-xs text-gray-500 mb-1">Estimated Cost</div>
+                    <div class="text-xl font-bold text-dark">¥14,200</div>
+                </div>
+                <div class="bg-white/70 backdrop-blur-sm rounded-xl p-3">
+                    <div class="text-xs text-gray-500 mb-1">Free Time</div>
+                    <div class="text-xl font-bold text-dark">30min</div>
+                </div>
+            </div>
+            <button class="w-full bg-white text-primary font-semibold py-3 rounded-xl shadow-md active:scale-98 transition-transform">
+                <i class="fa-solid fa-map-location-dot mr-2"></i>View on Map
+            </button>
+        </section>
+
+        <section id="quick-actions" class="px-4 pb-6">
+            <h3 class="font-bold text-sm text-dark mb-3">Quick Actions</h3>
+            <div class="grid grid-cols-2 gap-3">
+                <button class="quick-action-btn bg-white rounded-xl p-4 shadow-md border border-gray-100 active:scale-98 transition-transform">
+                    <i class="fa-solid fa-copy text-primary text-2xl mb-2"></i>
+                    <div class="font-semibold text-xs text-dark">Duplicate Day</div>
+                </button>
+                <button class="quick-action-btn bg-white rounded-xl p-4 shadow-md border border-gray-100 active:scale-98 transition-transform">
+                    <i class="fa-solid fa-share-nodes text-secondary text-2xl mb-2"></i>
+                    <div class="font-semibold text-xs text-dark">Share Itinerary</div>
+                </button>
+                <button class="quick-action-btn bg-white rounded-xl p-4 shadow-md border border-gray-100 active:scale-98 transition-transform">
+                    <i class="fa-solid fa-file-export text-accent text-2xl mb-2"></i>
+                    <div class="font-semibold text-xs text-dark">Export PDF</div>
+                </button>
+                <button class="quick-action-btn bg-white rounded-xl p-4 shadow-md border border-gray-100 active:scale-98 transition-transform">
+                    <i class="fa-solid fa-calendar-plus text-primary text-2xl mb-2"></i>
+                    <div class="font-semibold text-xs text-dark">Sync Calendar</div>
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="add-to-itinerary-sheet" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-dark/50 backdrop-blur-sm" id="sheet-overlay"></div>
+        <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl shadow-2xl transform translate-y-full transition-transform duration-300" id="sheet-content" style="max-height: 85vh;">
+            <div class="sticky top-0 bg-white rounded-t-3xl z-10 border-b border-gray-100">
+                <div class="w-12 h-1.5 bg-gray-300 rounded-full mx-auto mt-3 mb-4"></div>
+                <div class="px-4 pb-4 flex items-center justify-between">
+                    <h2 class="font-bold text-lg text-dark">Add to Itinerary</h2>
+                    <button id="close-sheet-btn" class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center active:scale-95 transition-transform">
+                        <i class="fa-solid fa-xmark text-gray-500"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="overflow-y-auto px-4 py-4" style="max-height: calc(85vh - 80px);">
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-dark mb-2">Activity Name</label>
+                    <input type="text" placeholder="e.g. Visit Fushimi Inari Shrine" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-dark mb-2">Category</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button class="category-select-btn px-3 py-2 rounded-lg bg-primary/10 text-primary border-2 border-primary text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-utensils mr-1"></i>Food
+                        </button>
+                        <button class="category-select-btn px-3 py-2 rounded-lg bg-white text-gray-500 border-2 border-gray-200 text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-landmark mr-1"></i>Culture
+                        </button>
+                        <button class="category-select-btn px-3 py-2 rounded-lg bg-white text-gray-500 border-2 border-gray-200 text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-cart-shopping mr-1"></i>Shopping
+                        </button>
+                        <button class="category-select-btn px-3 py-2 rounded-lg bg-white text-gray-500 border-2 border-gray-200 text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-tree mr-1"></i>Nature
+                        </button>
+                        <button class="category-select-btn px-3 py-2 rounded-lg bg-white text-gray-500 border-2 border-gray-200 text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-palette mr-1"></i>Art
+                        </button>
+                        <button class="category-select-btn px-3 py-2 rounded-lg bg-white text-gray-500 border-2 border-gray-200 text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-ellipsis mr-1"></i>Other
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-dark mb-2">Day</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-dark focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <option>Day 1 - Mar 15</option>
+                            <option>Day 2 - Mar 16</option>
+                            <option>Day 3 - Mar 17</option>
+                            <option>Day 4 - Mar 18</option>
+                            <option>Day 5 - Mar 19</option>
+                            <option>Day 6 - Mar 20</option>
+                            <option>Day 7 - Mar 21</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-dark mb-2">Time Slot</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-dark focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <option>Morning</option>
+                            <option>Afternoon</option>
+                            <option>Evening</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-dark mb-2">Start Time</label>
+                        <input type="time" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-dark focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-dark mb-2">Duration</label>
+                        <select class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-dark focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary">
+                            <option>30 min</option>
+                            <option>1 hour</option>
+                            <option>1.5 hours</option>
+                            <option>2 hours</option>
+                            <option>3 hours</option>
+                            <option>4+ hours</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-dark mb-2">Location</label>
+                    <input type="text" placeholder="Address or place name" class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-dark mb-2">Estimated Cost</label>
+                    <div class="relative">
+                        <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">¥</span>
+                        <input type="number" placeholder="0" class="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-200 text-sm text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary" />
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-dark mb-2">Notes (Optional)</label>
+                    <textarea rows="3" placeholder="Add any notes, tips, or reminders..." class="w-full px-4 py-3 rounded-xl border border-gray-200 text-sm text-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary resize-none"></textarea>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-xs font-semibold text-dark mb-2">Booking Status</label>
+                    <div class="flex gap-2">
+                        <button class="booking-status-btn flex-1 px-4 py-2.5 rounded-xl bg-secondary/10 text-secondary border-2 border-secondary text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-check-circle mr-1"></i>Confirmed
+                        </button>
+                        <button class="booking-status-btn flex-1 px-4 py-2.5 rounded-xl bg-white text-gray-500 border-2 border-gray-200 text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-clock mr-1"></i>Pending
+                        </button>
+                        <button class="booking-status-btn flex-1 px-4 py-2.5 rounded-xl bg-white text-gray-500 border-2 border-gray-200 text-xs font-medium active:scale-95 transition-transform">
+                            <i class="fa-solid fa-circle mr-1"></i>None
+                        </button>
+                    </div>
+                </div>
+
+                <button id="save-itinerary-btn" class="w-full bg-primary text-white font-bold py-4 rounded-xl shadow-lg active:scale-98 transition-transform mb-4">
+                    <i class="fa-solid fa-check mr-2"></i>Add to Itinerary
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container" class="fixed top-20 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none">
+    </div>
+
+    <nav id="bottom-nav" class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 z-40 safe-area-bottom shadow-lg">
+        <div class="flex items-center justify-around px-2 py-2">
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-compass text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Discover</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-bed text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Stays</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl bg-primary/10 active:scale-95 transition-transform">
+                <i class="fa-solid fa-suitcase-rolling text-primary text-xl"></i>
+                <span class="text-xs font-semibold text-primary">Trips</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-map-location-dot text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Map</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-wallet text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Budget</span>
+            </button>
+            
+            <button class="nav-item flex flex-col items-center gap-1 py-2 px-4 rounded-xl active:scale-95 transition-transform">
+                <i class="fa-solid fa-user text-gray-400 text-xl"></i>
+                <span class="text-xs font-medium text-gray-400">Profile</span>
+            </button>
+        </div>
+    </nav>
+
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    const addItemBtn = document.getElementById('add-item-btn');
+    const addToItinerarySheet = document.getElementById('add-to-itinerary-sheet');
+    const sheetContent = document.getElementById('sheet-content');
+    const sheetOverlay = document.getElementById('sheet-overlay');
+    const closeSheetBtn = document.getElementById('close-sheet-btn');
+    const saveItineraryBtn = document.getElementById('save-itinerary-btn');
+    const toastContainer = document.getElementById('toast-container');
+    
+    function showToast(message, type = 'success') {
+        const toast = document.createElement('div');
+        const bgColor = type === 'success' ? 'bg-secondary' : type === 'error' ? 'bg-primary' : 'bg-dark';
+        toast.className = `${bgColor} text-white px-6 py-3 rounded-full shadow-2xl mb-2 pointer-events-auto transform translate-y-0 transition-all duration-300 flex items-center gap-2`;
+        
+        const icon = type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle';
+        toast.innerHTML = `<i class="fa-solid ${icon}"></i><span class="text-sm font-medium">${message}</span>`;
+        
+        toast.style.transform = 'translateY(-20px)';
+        toast.style.opacity = '0';
+        
+        toastContainer.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.style.transform = 'translateY(0)';
+            toast.style.opacity = '1';
+        }, 10);
+        
+        setTimeout(() => {
+            toast.style.transform = 'translateY(-20px)';
+            toast.style.opacity = '0';
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+    
+    function openSheet() {
+        addToItinerarySheet.classList.remove('hidden');
+        setTimeout(() => {
+            sheetContent.style.transform = 'translateY(0)';
+        }, 10);
+    }
+    
+    function closeSheet() {
+        sheetContent.style.transform = 'translateY(100%)';
+        setTimeout(() => {
+            addToItinerarySheet.classList.add('hidden');
+        }, 300);
+    }
+    
+    addItemBtn.addEventListener('click', openSheet);
+    closeSheetBtn.addEventListener('click', closeSheet);
+    sheetOverlay.addEventListener('click', closeSheet);
+    
+    document.querySelectorAll('.add-activity-btn').forEach(btn => {
+        btn.addEventListener('click', openSheet);
+    });
+    
+    document.querySelectorAll('.add-suggestion-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            openSheet();
+            showToast('Activity details prefilled', 'info');
+        });
+    });
+    
+    saveItineraryBtn.addEventListener('click', () => {
+        closeSheet();
+        showToast('Added to itinerary!', 'success');
+        
+        const progressBar = document.querySelector('#trip-completeness .bg-gradient-to-r');
+        const percentage = document.querySelector('#trip-completeness .text-sm.font-bold');
+        setTimeout(() => {
+            progressBar.style.width = '72%';
+            percentage.textContent = '72%';
+        }, 400);
+    });
+    
+    document.querySelectorAll('.delete-item-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            const card = e.target.closest('.itinerary-card');
+            card.style.transform = 'translateX(-100%)';
+            card.style.opacity = '0';
+            setTimeout(() => {
+                card.remove();
+                showToast('Item removed from itinerary', 'info');
+            }, 300);
+        });
+    });
+    
+    document.querySelectorAll('.edit-item-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            openSheet();
+            showToast('Edit mode activated', 'info');
+        });
+    });
+    
+    document.querySelectorAll('.category-select-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.category-select-btn').forEach(b => {
+                b.classList.remove('bg-primary/10', 'text-primary', 'border-primary');
+                b.classList.add('bg-white', 'text-gray-500', 'border-gray-200');
+            });
+            this.classList.remove('bg-white', 'text-gray-500', 'border-gray-200');
+            this.classList.add('bg-primary/10', 'text-primary', 'border-primary');
+        });
+    });
+    
+    document.querySelectorAll('.booking-status-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.booking-status-btn').forEach(b => {
+                b.classList.remove('bg-secondary/10', 'text-secondary', 'border-secondary');
+                b.classList.add('bg-white', 'text-gray-500', 'border-gray-200');
+            });
+            this.classList.remove('bg-white', 'text-gray-500', 'border-gray-200');
+            this.classList.add('bg-secondary/10', 'text-secondary', 'border-secondary');
+        });
+    });
+    
+    document.querySelectorAll('.day-tab').forEach((tab, index) => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.day-tab').forEach(t => {
+                t.classList.remove('bg-primary', 'text-white', 'shadow-md');
+                t.classList.add('bg-white', 'border-2', 'border-gray-200', 'text-dark');
+                const span = t.querySelector('span');
+                if (span) span.classList.remove('opacity-90');
+                if (span) span.classList.add('text-gray-400');
+            });
+            this.classList.remove('bg-white', 'border-2', 'border-gray-200', 'text-dark');
+            this.classList.add('bg-primary', 'text-white', 'shadow-md');
+            const span = this.querySelector('span');
+            if (span) span.classList.remove('text-gray-400');
+            if (span) span.classList.add('opacity-90');
+            
+            showToast(`Switched to Day ${index + 1}`, 'info');
+        });
+    });
+    
+    let draggedElement = null;
+    
+    document.querySelectorAll('.itinerary-card').forEach(card => {
+        card.addEventListener('touchstart', function(e) {
+            if (e.target.closest('.drag-handle')) {
+                draggedElement = this;
+                this.style.opacity = '0.5';
+            }
+        });
+        
+        card.addEventListener('touchend', function() {
+            if (draggedElement === this) {
+                this.style.opacity = '1';
+                draggedElement = null;
+                showToast('Item position saved', 'success');
+            }
+        });
+    });
+    
+    document.getElementById('back-btn').addEventListener('click', () => {
+        showToast('Returning to Trips Hub', 'info');
+    });
+});
+</script>
+<script src="js/app.js"></script>
+<script src="js/navigation.js"></script>
+</body>
+</html>
